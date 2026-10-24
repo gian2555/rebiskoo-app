@@ -1,6 +1,6 @@
 {
-  "name": "ReceiptSafe",
-  "short_name": "ReceiptSafe",
+  "name": "ReBiskoo",
+  "short_name": "ReBiskoo",
   "description": "Digital copies of your school payment receipts, always within reach.",
   "start_url": "./",
   "scope": "./",
