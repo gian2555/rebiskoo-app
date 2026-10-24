@@ -8,20 +8,29 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <title>ReBiskoo</title>
+  <title>ReceiptSafe</title>
+  <script>
+    /* apply the saved theme before the page paints */
+    try { var th = localStorage.getItem('rs-theme'); if (th === 'light' || th === 'dark') document.documentElement.setAttribute('data-theme', th); } catch (e) {}
+  </script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
       <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M6 2h12a1 1 0 0 1 1 1v18.2a.5.5 0 0 1-.8.4L16 20l-2.2 1.6a.5.5 0 0 1-.6 0L11 20l-2.2 1.6a.5.5 0 0 1-.6 0L6 20l-.2 1.6a.5.5 0 0 1-.8-.4V3a1 1 0 0 1 1-1Zm2 5v2h8V7H8Zm0 4v2h8v-2H8Z"/></svg>
-      <div><h1>ReBiskoo</h1><p class="tag">Your payments, always within reach.</p></div>
+      <div><h1>ReceiptSafe</h1><p class="tag" id="tag"></p></div>
     </div>
-    <div id="chip" class="chip" hidden></div>
+    <div class="hdr-right">
+      <div id="chip" class="chip" hidden></div>
+      <button id="btnLang" class="hbtn" type="button">EN</button>
+      <button id="btnTheme" class="hbtn" type="button"></button>
+    </div>
   </header>
+  <div id="netbar" class="netbar" role="status" hidden></div>
 
-  <main id="view" tabindex="-1"><div class="spin">Loading…</div></main>
-  <button id="fab" class="fab" aria-label="Add receipt" hidden>+ Add Receipt</button>
+  <main id="view" tabindex="-1"><div class="spin">…</div></main>
+  <button id="fab" class="fab" hidden></button>
   <nav id="tabbar" class="tabbar" aria-label="Main" hidden></nav>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <dialog id="dlg"></dialog>
