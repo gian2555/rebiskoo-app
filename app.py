@@ -1,6 +1,6 @@
 """ReceiptSafe server.
 
-- Serves the web app (static/).
+- Serves the web app (public/).
 - /api/config      -> public Supabase URL + anon key for the browser.
 - /api/admin/export.csv -> CSV report for admins. Uses the service-role key, which stays on this server.
 """
@@ -8,6 +8,7 @@ import csv
 import io
 import os
 from datetime import datetime
+from urllib.parse import urlparse
 
 import requests
 from dotenv import load_dotenv
@@ -15,11 +16,14 @@ from flask import Flask, Response, abort, jsonify, request, send_from_directory
 
 load_dotenv()
 
-SUPABASE_URL = os.environ["SUPABASE_URL"].rstrip("/")
-ANON_KEY = os.environ["SUPABASE_ANON_KEY"]
-SERVICE_KEY = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
+# Keep only https://<project>.supabase.co, even if extra path or quotes were pasted into the setting.
+_u = urlparse(os.environ["SUPABASE_URL"].strip().strip('"').strip("'"))
+SUPABASE_URL = f"{_u.scheme}://{_u.netloc}"
+ANON_KEY = os.environ["SUPABASE_ANON_KEY"].strip().strip('"').strip("'")
+SERVICE_KEY = os.environ["SUPABASE_SERVICE_ROLE_KEY"].strip().strip('"').strip("'")
 
-app = Flask(__name__, static_folder="static", static_url_path="")
+# Vercel serves the public/ folder itself. Locally, Flask serves it from the same folder.
+app = Flask(__name__, static_folder="public", static_url_path="")
 SERVICE_HEADERS = {"apikey": SERVICE_KEY, "Authorization": f"Bearer {SERVICE_KEY}"}
 
 
