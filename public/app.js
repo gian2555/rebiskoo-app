@@ -162,7 +162,7 @@ function authView(mode = 'login') {
         <label for="fn">Full name</label><input id="fn" autocomplete="name" required maxlength="80">
         <label for="sid">Student ID number</label><input id="sid" autocomplete="off" required maxlength="30" placeholder="e.g. 2022-01234">` : ''}
       <label for="em">Email</label><input id="em" type="email" autocomplete="email" required>
-      <label for="pw">Password</label><input id="pw" type="password" autocomplete="${mode === 'login' ? 'current-password' : 'new-password'}" required minlength="8">
+      <label for="pw">Password</label>${pwField('pw', mode === 'login' ? 'current-password' : 'new-password')}
       ${mode === 'register' ? '<div class="note">At least 8 characters.</div>' : ''}
       <div id="err" class="err" role="alert"></div>
       <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${mode === 'login' ? 'Log in' : 'Create account'}</button></div>
@@ -171,6 +171,7 @@ function authView(mode = 'login') {
     <p class="note" style="text-align:center">Your receipts are private. Only you and school cashier staff can see them.</p>
   </div>`;
   view.querySelectorAll('.seg button').forEach(b => b.onclick = () => authView(b.dataset.m));
+  bindPw();
   const err = t => $('#err').textContent = t;
   const busy = v => { $('#go').disabled = v; };
   if (mode === 'login') $('#forgot').onclick = async () => {
@@ -204,9 +205,10 @@ function recoveryView() {
   bareShell();
   view.innerHTML = `<div class="auth"><form id="rf" class="card" novalidate>
     <h2 style="margin-top:0">Choose a new password</h2>
-    <label for="np">New password</label><input id="np" type="password" autocomplete="new-password" minlength="8" required>
+    <label for="np">New password</label>${pwField('np', 'new-password')}
     <div id="err" class="err" role="alert"></div>
     <div class="row" style="margin-top:14px"><button class="btn" type="submit">Save password</button></div></form></div>`;
+  bindPw();
   $('#rf').addEventListener('submit', async e => {
     e.preventDefault();
     const pw = $('#np').value;
@@ -218,6 +220,40 @@ function recoveryView() {
 }
 
 /* ---------- shared pieces ---------- */
+const EYE = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5ZM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>';
+const EYE_OFF = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7ZM2 4.27l2.28 2.28.46.46A11.8 11.8 0 0 0 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27ZM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2Zm4.31-.78 3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01Z"/></svg>';
+
+/* password box with a show/hide eye */
+function pwField(id, autocomplete) {
+  return `<div class="pwwrap"><input id="${id}" type="password" autocomplete="${autocomplete}" required minlength="8">
+    <button type="button" class="pweye" data-for="${id}" aria-label="Show password" aria-pressed="false">${EYE}</button></div>`;
+}
+function bindPw() {
+  view.querySelectorAll('.pweye').forEach(b => b.onclick = () => {
+    const input = $('#' + b.dataset.for), show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    b.innerHTML = show ? EYE_OFF : EYE;
+    b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    b.setAttribute('aria-pressed', String(show));
+    input.focus();
+  });
+}
+
+/* big photo viewer: the page behind it is blurred */
+function openPhoto(src) {
+  let d = $('#lightbox');
+  if (!d) { d = document.createElement('dialog'); d.id = 'lightbox'; d.className = 'lightbox'; document.body.appendChild(d); }
+  d.innerHTML = `<button type="button" class="lb-close" aria-label="Close photo"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></button><img alt="Receipt photo, enlarged" src="${esc(src)}">`;
+  d.onclick = e => { if (e.target.tagName !== 'IMG') d.close(); };
+  d.onclose = () => { d.innerHTML = ''; };
+  d.showModal();
+}
+function bindPhoto() {
+  const img = $('#pimg'), btn = $('#view');
+  if (img) img.onclick = () => openPhoto(img.src);
+  if (btn) btn.onclick = () => openPhoto(img.src);
+}
+
 const statusOf = r => STATUS[String(r.status || '').toLowerCase()] || STATUS.pending;
 const pill = r => `<span class="pill ${statusOf(r).cls}">${statusOf(r).label}</span>`;
 function itemHTML(r, who) {
@@ -311,7 +347,7 @@ function details(r, showWho) {
     </dl>
     ${r.status === 'rejected' && r.review_note ? `<div class="note-box"><b>Reason:</b> ${esc(r.review_note)}</div>` : ''}
     ${r.status === 'verified' ? `<p class="note">Verified ${r.reviewed_at ? fmtDate(r.reviewed_at.slice(0, 10)) : ''}${r.review_note ? ': ' + esc(r.review_note) : ''}</p>` : ''}
-    ${r.image_path && urlCache.get(r.image_path) ? `<img class="preview" id="pimg" alt="Receipt photo" src="${esc(urlCache.get(r.image_path))}">` : '<p class="note">No photo attached.</p>'}`;
+    ${r.image_path && urlCache.get(r.image_path) ? `<div class="photo"><img class="preview" id="pimg" alt="Receipt photo" src="${esc(urlCache.get(r.image_path))}"><button type="button" class="eye" id="view" aria-label="View photo large">${EYE}</button></div>` : '<p class="note">No photo attached.</p>'}`;
 }
 async function downloadPhoto(r) {
   const resp = await fetch(urlCache.get(r.image_path));
@@ -335,6 +371,7 @@ student['receipt'] = async id => {
       ${locked ? '<p class="note">Verified receipts are locked. Ask the cashier\'s office if something is wrong.</p>' : r.status === 'rejected' ? '<p class="note">Fix the problem and tap Edit. It goes back to the cashier for review.</p>' : ''}
     </div>`;
   $('#back').onclick = () => history.length > 1 ? history.back() : (location.hash = '#/receipts');
+  bindPhoto();
   if (r.image_path) {
     $('#dl').onclick = () => downloadPhoto(r).catch(() => toast('Could not download the photo'));
     $('#pr').onclick = () => window.print();
@@ -499,6 +536,7 @@ admin['receipt'] = async id => {
       </div>
     </div>`;
   $('#back').onclick = () => history.length > 1 ? history.back() : (location.hash = '#/review');
+  bindPhoto();
   const set = async status => {
     const note = $('#rn').value.trim();
     if (status === 'rejected' && !note) return $('#err').textContent = 'Write a short reason so the student knows what to fix.';

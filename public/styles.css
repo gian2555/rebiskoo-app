@@ -93,3 +93,20 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .chip b{display:block;font-size:.8rem}
 .spin{text-align:center;color:var(--muted);padding:40px 10px}
 .note-box{border-left:4px solid var(--bad);padding:6px 10px;background:var(--brand-l);border-radius:6px;margin:10px 0;font-size:.9rem}
+
+/* ---- photo viewer + password eye ---- */
+.photo{position:relative;margin-top:8px}
+.photo .preview{display:block;margin-top:0;cursor:zoom-in}
+.eye{position:absolute;top:10px;right:10px;width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;
+  background:rgba(0,0,0,.55);color:#fff;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.eye:hover{background:rgba(0,0,0,.75)}
+.lightbox{border:0;padding:0;background:transparent;width:100%;height:100%;max-width:none;max-height:none;overflow:hidden}
+.lightbox[open]{display:grid;place-items:center}
+.lightbox::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.lightbox img{max-width:min(96vw,1200px);max-height:88vh;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.lb-close{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:44px;height:44px;display:grid;place-items:center;
+  border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;cursor:pointer}
+.pwwrap{position:relative}
+.pwwrap input{padding-right:48px}
+.pweye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:40px;height:40px;display:grid;place-items:center;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:8px}
+.pweye:hover{color:var(--ink)}
