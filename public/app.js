@@ -669,7 +669,7 @@ async function render() {
     const fn = student[path] || student[''];
     view.innerHTML = `<div class="spin">${esc(t('loading'))}</div>`;
     await fn(decodeURIComponent(arg));
-    window.scrollTo(0, 0);
+    view.scrollTop = 0;
   } catch (e) {
     console.error(e);
     const msg = isNetErr(e) ? t('net.needNet') : t('wrong', { m: errText(e) });
