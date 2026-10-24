@@ -291,7 +291,7 @@ student['receipts'] = async () => {
 };
 
 async function getReceipt(id) {
-  const { data, error } = await sb.from('receipts').select('*, profiles(student_id, full_name)').eq('id', id).maybeSingle();
+  const { data, error } = await sb.from('receipts').select('*, profiles!receipts_user_id_fkey(student_id, full_name)').eq('id', id).maybeSingle();
   if (error) throw error;
   if (data) await signed([data.image_path]);
   return data;
@@ -444,7 +444,7 @@ admin['review'] = async () => {
     </div>
     <div class="row" style="margin-bottom:10px"><button class="btn small sec" id="csv">Export CSV</button><span class="note" id="count"></span></div>
     <div id="out" class="list"><div class="spin">Loading…</div></div>`;
-  const { data, error } = await sb.from('receipts').select('*, profiles(student_id, full_name)').order('created_at', { ascending: false }).limit(1000);
+  const { data, error } = await sb.from('receipts').select('*, profiles!receipts_user_id_fkey(student_id, full_name)').order('created_at', { ascending: false }).limit(1000);
   if (error) throw error;
   await signed(data.slice(0, 200).map(r => r.image_path));
   const n = s => data.filter(r => r.status === s).length;

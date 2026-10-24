@@ -67,7 +67,7 @@ def require_admin():
 
 def fetch_receipts(status=None, date_from=None, date_to=None):
     params = {
-        "select": "*,profiles(student_id,full_name)",
+        "select": "*,profiles!receipts_user_id_fkey(student_id,full_name)",
         "order": "paid_on.desc,created_at.desc",
     }
     if status in ("pending", "verified", "rejected"):
