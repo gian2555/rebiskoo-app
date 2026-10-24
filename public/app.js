@@ -59,7 +59,7 @@ const DICT = {
     'rec.download': 'Download', 'rec.print': 'Print', 'rec.edit': 'Edit', 'rec.delete': 'Delete',
    
    
-    'rec.confirmDelete': 'Delete this receipt? This cannot be undone.', 'rec.deleted': 'Receipt deleted',
+    'rec.confirmDelete': 'Delete this receipt? This cannot be undone.', 'rec.deleted': 'Receipt deleted', 'rec.deleteFail': 'Could not delete. Your account has no permission to delete this receipt.',
     'rec.notFound': 'Receipt not found.', 'rec.downloadFail': 'Could not download the photo', 'rec.viewLarge': 'View photo large',
     'rec.close': 'Close photo', 'rec.enlarged': 'Receipt photo, enlarged', 'rec.alt': 'Receipt photo',
     'form.add': 'Add receipt', 'form.edit': 'Edit receipt', 'form.desc': 'Payment description', 'form.descPh': 'e.g. Sports Fest Fee',
@@ -139,7 +139,7 @@ const DICT = {
     'rec.download': 'I-download', 'rec.print': 'I-print', 'rec.edit': 'I-edit', 'rec.delete': 'Burahin',
    
    
-    'rec.confirmDelete': 'Buburahin ang resibong ito? Hindi na ito maibabalik.', 'rec.deleted': 'Nabura ang resibo',
+    'rec.confirmDelete': 'Buburahin ang resibong ito? Hindi na ito maibabalik.', 'rec.deleted': 'Nabura ang resibo', 'rec.deleteFail': 'Hindi nabura. Walang pahintulot ang account mo na burahin ang resibong ito.',
     'rec.notFound': 'Hindi nahanap ang resibo.', 'rec.downloadFail': 'Hindi ma-download ang litrato', 'rec.viewLarge': 'Tingnan ang litrato nang malaki',
     'rec.close': 'Isara ang litrato', 'rec.enlarged': 'Pinalaking litrato ng resibo', 'rec.alt': 'Litrato ng resibo',
     'form.add': 'Magdagdag ng resibo', 'form.edit': 'I-edit ang resibo', 'form.desc': 'Description ng bayad', 'form.descPh': 'hal. Sports Fest Fee',
@@ -945,9 +945,13 @@ student['receipt'] = async id => {
     $('#ed').onclick = () => { location.hash = '#/edit/' + r.id; };
     $('#rm').onclick = async () => {
       if (!await ask(t('rec.confirmDelete'), t('rec.delete'))) return;
-      const { error } = await sb.from('receipts').delete().eq('id', r.id);
+      const { data: gone, error } = await sb.from('receipts').delete().eq('id', r.id).select('id');
       if (error) return toast(errText(error));
-      if (r.image_path) await sb.storage.from(BUCKET).remove([r.image_path]);
+      /* RLS can block a delete without an error: it just removes 0 rows */
+      if (!gone || !gone.length) return toast(t('rec.deleteFail'));
+      if (r.image_path) { try { await sb.storage.from(BUCKET).remove([r.image_path]); } catch { /* photo cleanup is best effort */ } }
+      const ck = 'rs-cache-' + curUser().id, c = lsJSON(ck);
+      if (c) lsSet(ck, JSON.stringify(c.filter(x => x.id !== r.id)));
       toast(t('rec.deleted')); location.hash = '#/receipts';
     };
   }
