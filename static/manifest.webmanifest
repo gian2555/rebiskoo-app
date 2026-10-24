@@ -1,0 +1,22 @@
+{
+  "name": "ReceiptSafe",
+  "short_name": "ReceiptSafe",
+  "description": "Digital copies of your school payment receipts, always within reach.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f7f6",
+  "theme_color": "#0f766e",
+  "categories": ["education", "finance", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "shortcuts": [
+    { "name": "Add Receipt", "url": "./#/add" },
+    { "name": "Search Receipts", "url": "./#/receipts" }
+  ]
+}
