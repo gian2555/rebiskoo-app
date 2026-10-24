@@ -1,15 +1,9 @@
-/* ReceiptSafe (cloud). Students sign in, admins review. Data lives in Supabase. */
+/* ReceiptSafe (cloud). Students sign in and keep their own receipts. Data lives in Supabase. */
 (() => {
 'use strict';
 
 const BUCKET = 'receipts';
 const CATEGORIES = ['Tuition', 'Laboratory Fee', 'School Activity', 'Organization Fee', 'Books & Uniform', 'Exam Fee', 'Other'];
-const STATUS = {
-  pending: { key: 'status.pending', cls: 'unverified' },
-  verified: { key: 'status.verified', cls: 'ok' },
-  rejected: { key: 'status.rejected', cls: 'bad' },
-  queued: { key: 'status.queued', cls: 'queued' }
-};
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -32,39 +26,39 @@ const isNetErr = e => !navigator.onLine ||
 const DICT = {
   en: {
     tagline: 'Your payments, always within reach.', loading: 'Loading…', addReceipt: '+ Add Receipt',
-    'tab.dashboard': 'Dashboard', 'tab.receipts': 'Receipts', 'tab.account': 'Account', 'tab.review': 'Review',
-    'auth.login': 'Log in', 'auth.register': 'Register', 'auth.fullName': 'Full name', 'auth.studentId': 'Student ID number',
-    'auth.studentIdPh': 'e.g. 2022-01234', 'auth.email': 'Email', 'auth.password': 'Password', 'auth.pwHint': 'At least 8 characters.',
+    'tab.dashboard': 'Dashboard', 'tab.receipts': 'Receipts', 'tab.account': 'Account',
+    'auth.login': 'Log in', 'auth.register': 'Register', 'auth.fullName': 'Full name',
+    'auth.email': 'Email', 'auth.password': 'Password', 'auth.pwHint': 'At least 8 characters.',
     'auth.create': 'Create account', 'auth.forgot': 'Forgot password?',
-    'auth.privacy': 'Your receipts are private. Only you and school cashier staff can see them.',
+    'auth.privacy': 'Your receipts are private. Only you can see them.',
     'auth.needEmail': 'Enter your email first, then tap "Forgot password?".',
     'auth.resetSent': 'If that email has an account, a reset link is on its way.',
     'auth.enterBoth': 'Enter your email and password.', 'auth.wrong': 'Wrong email or password.',
     'auth.confirm': 'Confirm your email first. Check your inbox for the link.',
-    'auth.needNameId': 'Enter your full name and student ID.', 'auth.pwShort': 'Use a password with at least 8 characters.',
-    'auth.idTaken': 'That student ID is already registered.',
+    'auth.needNameId': 'Enter your full name.', 'auth.pwShort': 'Use a password with at least 8 characters.',
+   
     'auth.created': 'Account created. Check your email to confirm it, then log in.',
     'auth.showPw': 'Show password', 'auth.hidePw': 'Hide password', 'auth.newPwTitle': 'Choose a new password',
     'auth.newPw': 'New password', 'auth.savePw': 'Save password', 'auth.pwUpdated': 'Password updated',
     'auth.offline': "You're offline. Connect to the internet to log in.",
-    'status.pending': 'Pending review', 'status.verified': 'Verified', 'status.rejected': 'Rejected', 'status.queued': 'Waiting to upload',
+    'status.queued': 'Waiting to upload',
     'cat.Tuition': 'Tuition', 'cat.Laboratory Fee': 'Laboratory Fee', 'cat.School Activity': 'School Activity',
     'cat.Organization Fee': 'Organization Fee', 'cat.Books & Uniform': 'Books & Uniform', 'cat.Exam Fee': 'Exam Fee', 'cat.Other': 'Other',
     'dash.welcome': 'Welcome back, {name}', 'dash.welcome0': 'Welcome back',
-    'stat.total': 'Total recorded', 'stat.month': 'This month', 'stat.verified': 'Verified', 'stat.pending': 'Pending review',
-    'dash.rejected.1': '{n} receipt was rejected. Tap to see why and fix it.',
-    'dash.rejected.n': '{n} receipts were rejected. Tap to see why and fix them.',
+    'stat.total': 'Total recorded', 'stat.month': 'This month', 'stat.count': 'Receipts',
+   
+   
     'chart.byMonth': 'Spending by month', 'chart.m6': '6 months', 'chart.m12': '12 months', 'chart.byCat': 'By category',
-    'chart.note': 'Rejected receipts are not counted.', 'chart.empty': 'Add a receipt to see your spending chart.',
+    'chart.empty': 'Add a receipt to see your spending chart.',
     'dash.recent': 'Recent receipts', 'dash.none': 'No receipts yet.', 'dash.noneHint': 'Tap + Add Receipt after your next payment.',
     'list.title': 'Receipts', 'list.search': 'Search description or receipt no.', 'list.allCats': 'All categories',
-    'list.anyStatus': 'Any status', 'list.from': 'From', 'list.to': 'To', 'list.new': 'Newest first', 'list.old': 'Oldest first',
+    'list.from': 'From', 'list.to': 'To', 'list.new': 'Newest first', 'list.old': 'Oldest first',
     'list.hi': 'Highest amount', 'list.none': 'No matching receipts.',
-    'rec.back': '← Back', 'rec.student': 'Student', 'rec.date': 'Date paid', 'rec.cat': 'Category', 'rec.no': 'Receipt no.',
-    'rec.status': 'Status', 'rec.notes': 'Notes', 'rec.reason': 'Reason:', 'rec.verifiedOn': 'Verified {d}', 'rec.noPhoto': 'No photo attached.', 'rec.noPhotoShort': 'No photo',
+    'rec.back': '← Back', 'rec.date': 'Date paid', 'rec.cat': 'Category', 'rec.no': 'Receipt no.',
+    'rec.status': 'Status', 'rec.notes': 'Notes', 'rec.noPhoto': 'No photo attached.', 'rec.noPhotoShort': 'No photo',
     'rec.download': 'Download', 'rec.print': 'Print', 'rec.edit': 'Edit', 'rec.delete': 'Delete',
-    'rec.locked': "Verified receipts are locked. Ask the cashier's office if something is wrong.",
-    'rec.rejectedHint': 'Fix the problem and tap Edit. It goes back to the cashier for review.',
+   
+   
     'rec.confirmDelete': 'Delete this receipt? This cannot be undone.', 'rec.deleted': 'Receipt deleted',
     'rec.notFound': 'Receipt not found.', 'rec.downloadFail': 'Could not download the photo', 'rec.viewLarge': 'View photo large',
     'rec.close': 'Close photo', 'rec.enlarged': 'Receipt photo, enlarged', 'rec.alt': 'Receipt photo',
@@ -74,11 +68,11 @@ const DICT = {
     'form.take': 'Take a photo', 'form.choose': 'Choose from phone', 'form.editPhoto': 'Edit photo', 'form.autofill': 'Auto-fill from photo',
     'form.noPhoto': 'No photo chosen yet.', 'form.photoKept': 'Current photo kept. Pick another to replace it.',
     'form.submit': 'Submit receipt', 'form.saveResubmit': 'Save and resubmit', 'form.cancel': 'Cancel',
-    'form.reviewNote': 'The cashier\'s office reviews every receipt. Your receipt stays "Pending review" until then.',
+   
     'form.errDesc': 'Please enter a description.', 'form.errAmount': 'Please enter an amount greater than zero.',
     'form.errDate': 'Please choose the payment date.', 'form.errPhoto': 'Please add a photo of the receipt.',
     'form.similar': 'A similar receipt already exists ("{d}", {a}). Save anyway?', 'form.saveAnyway': 'Save anyway',
-    'form.submitted': 'Receipt submitted for review', 'form.resubmitted': 'Receipt resubmitted', 'form.couldNot': 'Could not save: {m}',
+    'form.submitted': 'Receipt saved', 'form.resubmitted': 'Receipt updated', 'form.couldNot': 'Could not save: {m}',
     'err.notImage': 'That file is not a readable image', 'err.process': 'Could not process the image', 'err.generic': 'Something went wrong. Please try again.',
     'ed.title': 'Edit photo', 'ed.hint': 'Drag the box to crop it, and the corners to resize. Crop close to the receipt for the clearest text.', 'ed.left': 'Rotate left', 'ed.right': 'Rotate right',
     'ed.reset': 'Reset crop', 'ed.original': 'Original', 'ed.doc': 'Document (clearer text)', 'ed.bright': 'Brightness', 'ed.contrast': 'Contrast',
@@ -96,55 +90,55 @@ const DICT = {
     'net.showingSaved': "You're offline. Showing your last saved list.", 'net.needNet': "This needs internet. Try again when you're online.",
     'net.editNeedsNet': 'Editing needs internet.', 'net.cantReach': 'Cannot reach the server. Check your internet connection and reload.',
     'net.queueFail': 'Could not upload: {m}',
-    'admin.title': 'Review receipts', 'admin.pending': 'Pending review', 'admin.verified': 'Verified', 'admin.rejected': 'Rejected',
-    'admin.verifiedTotal': 'Verified total', 'admin.search': 'Search student ID, name, or receipt no.', 'admin.csv': 'Export CSV',
-    'admin.count.1': '{n} receipt', 'admin.count.n': '{n} receipts', 'admin.first100': 'Showing the first 100. Narrow the filters or export the CSV.',
-    'admin.nothing': 'Nothing to review here.', 'admin.noteLabel': 'Note to student', 'admin.noteReq': '(required when rejecting)',
-    'admin.notePh': 'e.g. Receipt number is not readable. Please retake the photo.', 'admin.verify': 'Verify', 'admin.reject': 'Reject',
-    'admin.backPending': 'Back to pending', 'admin.needReason': 'Write a short reason so the student knows what to fix.',
-    'admin.okV': 'Receipt verified', 'admin.okR': 'Receipt rejected', 'admin.okP': 'Moved back to pending',
-    'admin.onlyAdmin': 'Only admins can export.', 'admin.exportFail': 'Export failed. Try again.',
-    'acct.title': 'Account', 'acct.email': 'Email', 'acct.sid': 'Student ID', 'acct.role': 'Role', 'acct.roleAdmin': 'Admin (cashier office)',
-    'acct.roleStudent': 'Student', 'acct.fullName': 'Full name', 'acct.saveName': 'Save name', 'acct.saved': 'Name saved', 'acct.logout': 'Log out',
+   
+   
+   
+   
+   
+   
+   
+   
+    'acct.title': 'Account', 'acct.email': 'Email',
+    'acct.fullName': 'Full name', 'acct.saveName': 'Save name', 'acct.saved': 'Name saved', 'acct.logout': 'Log out',
     'acct.prefs': 'Preferences', 'acct.lang': 'Language', 'acct.theme': 'Appearance', 'acct.auto': 'Auto', 'acct.light': 'Light', 'acct.dark': 'Dark',
     wrong: 'Something went wrong: {m}', retry: 'Try again', cancel: 'Cancel',
     'theme.toLight': 'Switch to light mode', 'theme.toDark': 'Switch to dark mode', 'lang.switch': 'Change language'
   },
   fil: {
     tagline: 'Ang mga bayad mo, laging abot-kamay.', loading: 'Naglo-load…', addReceipt: '+ Magdagdag ng Resibo',
-    'tab.dashboard': 'Dashboard', 'tab.receipts': 'Mga Resibo', 'tab.account': 'Account', 'tab.review': 'Review',
-    'auth.login': 'Mag-log in', 'auth.register': 'Magparehistro', 'auth.fullName': 'Buong pangalan', 'auth.studentId': 'Student ID number',
-    'auth.studentIdPh': 'hal. 2022-01234', 'auth.email': 'Email', 'auth.password': 'Password', 'auth.pwHint': 'Hindi bababa sa 8 character.',
+    'tab.dashboard': 'Dashboard', 'tab.receipts': 'Mga Resibo', 'tab.account': 'Account',
+    'auth.login': 'Mag-log in', 'auth.register': 'Magparehistro', 'auth.fullName': 'Buong pangalan',
+    'auth.email': 'Email', 'auth.password': 'Password', 'auth.pwHint': 'Hindi bababa sa 8 character.',
     'auth.create': 'Gumawa ng account', 'auth.forgot': 'Nakalimutan ang password?',
-    'auth.privacy': 'Pribado ang mga resibo mo. Ikaw at ang cashier ng school lang ang makakakita.',
+    'auth.privacy': 'Pribado ang mga resibo mo. Ikaw lang ang makakakita.',
     'auth.needEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Nakalimutan ang password?".',
     'auth.resetSent': 'Kung may account ang email na iyon, may ipapadala kaming link para i-reset ang password.',
     'auth.enterBoth': 'Ilagay ang email at password mo.', 'auth.wrong': 'Mali ang email o password.',
     'auth.confirm': 'Kumpirmahin muna ang email mo. Tingnan ang inbox para sa link.',
-    'auth.needNameId': 'Ilagay ang buong pangalan at student ID mo.', 'auth.pwShort': 'Gumamit ng password na may hindi bababa sa 8 character.',
-    'auth.idTaken': 'Nakarehistro na ang student ID na iyon.',
+    'auth.needNameId': 'Ilagay ang buong pangalan mo.', 'auth.pwShort': 'Gumamit ng password na may hindi bababa sa 8 character.',
+   
     'auth.created': 'Nagawa na ang account. Kumpirmahin ang email mo, tapos mag-log in.',
     'auth.showPw': 'Ipakita ang password', 'auth.hidePw': 'Itago ang password', 'auth.newPwTitle': 'Pumili ng bagong password',
     'auth.newPw': 'Bagong password', 'auth.savePw': 'I-save ang password', 'auth.pwUpdated': 'Na-update ang password',
     'auth.offline': 'Offline ka. Kailangan ng internet para mag-log in.',
-    'status.pending': 'Naghihintay ng review', 'status.verified': 'Na-verify', 'status.rejected': 'Na-reject', 'status.queued': 'Naghihintay ma-upload',
+    'status.queued': 'Naghihintay ma-upload',
     'cat.Tuition': 'Matrikula', 'cat.Laboratory Fee': 'Bayad sa Laboratoryo', 'cat.School Activity': 'Aktibidad sa Paaralan',
     'cat.Organization Fee': 'Bayad sa Organisasyon', 'cat.Books & Uniform': 'Libro at Uniporme', 'cat.Exam Fee': 'Bayad sa Pagsusulit', 'cat.Other': 'Iba pa',
     'dash.welcome': 'Kumusta, {name}', 'dash.welcome0': 'Kumusta',
-    'stat.total': 'Kabuuang naitala', 'stat.month': 'Ngayong buwan', 'stat.verified': 'Na-verify', 'stat.pending': 'Naghihintay ng review',
-    'dash.rejected.1': '{n} resibo ang na-reject. Pindutin para makita kung bakit at maayos ito.',
-    'dash.rejected.n': '{n} resibo ang na-reject. Pindutin para makita kung bakit at maayos ang mga ito.',
+    'stat.total': 'Kabuuang naitala', 'stat.month': 'Ngayong buwan', 'stat.count': 'Mga resibo',
+   
+   
     'chart.byMonth': 'Gastos kada buwan', 'chart.m6': '6 na buwan', 'chart.m12': '12 buwan', 'chart.byCat': 'Ayon sa category',
-    'chart.note': 'Hindi kasama ang mga na-reject na resibo.', 'chart.empty': 'Magdagdag ng resibo para makita ang chart ng gastos mo.',
+    'chart.empty': 'Magdagdag ng resibo para makita ang chart ng gastos mo.',
     'dash.recent': 'Mga huling resibo', 'dash.none': 'Wala ka pang resibo.', 'dash.noneHint': 'Pindutin ang + Magdagdag ng Resibo pagkatapos ng susunod mong bayad.',
     'list.title': 'Mga Resibo', 'list.search': 'Hanapin ang description o receipt no.', 'list.allCats': 'Lahat ng category',
-    'list.anyStatus': 'Anumang status', 'list.from': 'Mula', 'list.to': 'Hanggang', 'list.new': 'Pinakabago muna', 'list.old': 'Pinakaluma muna',
+    'list.from': 'Mula', 'list.to': 'Hanggang', 'list.new': 'Pinakabago muna', 'list.old': 'Pinakaluma muna',
     'list.hi': 'Pinakamataas na halaga', 'list.none': 'Walang tugmang resibo.',
-    'rec.back': '← Bumalik', 'rec.student': 'Student', 'rec.date': 'Petsa ng bayad', 'rec.cat': 'Category', 'rec.no': 'Receipt no.',
-    'rec.status': 'Status', 'rec.notes': 'Mga tala', 'rec.reason': 'Dahilan:', 'rec.verifiedOn': 'Na-verify noong {d}', 'rec.noPhoto': 'Walang nakalakip na litrato.', 'rec.noPhotoShort': 'Walang litrato',
+    'rec.back': '← Bumalik', 'rec.date': 'Petsa ng bayad', 'rec.cat': 'Category', 'rec.no': 'Receipt no.',
+    'rec.status': 'Status', 'rec.notes': 'Mga tala', 'rec.noPhoto': 'Walang nakalakip na litrato.', 'rec.noPhotoShort': 'Walang litrato',
     'rec.download': 'I-download', 'rec.print': 'I-print', 'rec.edit': 'I-edit', 'rec.delete': 'Burahin',
-    'rec.locked': 'Naka-lock na ang mga na-verify na resibo. Magtanong sa cashier kung may mali.',
-    'rec.rejectedHint': 'Ayusin ang problema at pindutin ang I-edit. Babalik ito sa cashier para ma-review.',
+   
+   
     'rec.confirmDelete': 'Buburahin ang resibong ito? Hindi na ito maibabalik.', 'rec.deleted': 'Nabura ang resibo',
     'rec.notFound': 'Hindi nahanap ang resibo.', 'rec.downloadFail': 'Hindi ma-download ang litrato', 'rec.viewLarge': 'Tingnan ang litrato nang malaki',
     'rec.close': 'Isara ang litrato', 'rec.enlarged': 'Pinalaking litrato ng resibo', 'rec.alt': 'Litrato ng resibo',
@@ -154,11 +148,11 @@ const DICT = {
     'form.take': 'Kumuha ng litrato', 'form.choose': 'Pumili sa phone', 'form.editPhoto': 'I-edit ang litrato', 'form.autofill': 'Auto-fill mula sa litrato',
     'form.noPhoto': 'Wala pang napiling litrato.', 'form.photoKept': 'Pinanatili ang kasalukuyang litrato. Pumili ng bago kung papalitan.',
     'form.submit': 'Isumite ang resibo', 'form.saveResubmit': 'I-save at isumite ulit', 'form.cancel': 'Kanselahin',
-    'form.reviewNote': 'Ire-review ng cashier ang bawat resibo. "Naghihintay ng review" ito hanggang doon.',
+   
     'form.errDesc': 'Maglagay ng description.', 'form.errAmount': 'Maglagay ng halagang higit sa zero.',
     'form.errDate': 'Piliin ang petsa ng bayad.', 'form.errPhoto': 'Magdagdag ng litrato ng resibo.',
     'form.similar': 'May kahawig nang resibo ("{d}", {a}). I-save pa rin?', 'form.saveAnyway': 'I-save pa rin',
-    'form.submitted': 'Naisumite ang resibo para ma-review', 'form.resubmitted': 'Naisumite ulit ang resibo', 'form.couldNot': 'Hindi ma-save: {m}',
+    'form.submitted': 'Na-save ang resibo', 'form.resubmitted': 'Na-update ang resibo', 'form.couldNot': 'Hindi ma-save: {m}',
     'err.notImage': 'Hindi mabasa ang file na iyon bilang litrato', 'err.process': 'Hindi maproseso ang litrato', 'err.generic': 'May nangyaring mali. Subukan ulit.',
     'ed.title': 'I-edit ang litrato', 'ed.hint': 'I-drag ang kahon para i-crop at ang mga sulok para palitan ang laki. I-crop nang malapit sa resibo para mas malinaw ang teksto.', 'ed.left': 'I-ikot pakaliwa', 'ed.right': 'I-ikot pakanan',
     'ed.reset': 'I-reset ang crop', 'ed.original': 'Orihinal', 'ed.doc': 'Dokumento (mas malinaw)', 'ed.bright': 'Liwanag', 'ed.contrast': 'Contrast',
@@ -176,16 +170,16 @@ const DICT = {
     'net.showingSaved': 'Offline ka. Ipinapakita ang huling naka-save na listahan.', 'net.needNet': 'Kailangan ng internet nito. Subukan ulit kapag online ka na.',
     'net.editNeedsNet': 'Kailangan ng internet para mag-edit.', 'net.cantReach': 'Hindi maabot ang server. Tingnan ang internet at i-reload.',
     'net.queueFail': 'Hindi ma-upload: {m}',
-    'admin.title': 'I-review ang mga resibo', 'admin.pending': 'Naghihintay ng review', 'admin.verified': 'Na-verify', 'admin.rejected': 'Na-reject',
-    'admin.verifiedTotal': 'Kabuuang na-verify', 'admin.search': 'Hanapin ang student ID, pangalan, o receipt no.', 'admin.csv': 'I-export ang CSV',
-    'admin.count.1': '{n} resibo', 'admin.count.n': '{n} resibo', 'admin.first100': 'Ipinapakita ang unang 100. Paliitin ang filter o i-export ang CSV.',
-    'admin.nothing': 'Walang ire-review dito.', 'admin.noteLabel': 'Mensahe sa student', 'admin.noteReq': '(kailangan kapag magre-reject)',
-    'admin.notePh': 'hal. Hindi mabasa ang receipt number. Pakikuhaan ulit ng litrato.', 'admin.verify': 'I-verify', 'admin.reject': 'I-reject',
-    'admin.backPending': 'Ibalik sa pending', 'admin.needReason': 'Magsulat ng maikling dahilan para malaman ng student kung ano ang aayusin.',
-    'admin.okV': 'Na-verify ang resibo', 'admin.okR': 'Na-reject ang resibo', 'admin.okP': 'Naibalik sa pending',
-    'admin.onlyAdmin': 'Admin lang ang puwedeng mag-export.', 'admin.exportFail': 'Hindi na-export. Subukan ulit.',
-    'acct.title': 'Account', 'acct.email': 'Email', 'acct.sid': 'Student ID', 'acct.role': 'Role', 'acct.roleAdmin': 'Admin (cashier office)',
-    'acct.roleStudent': 'Student', 'acct.fullName': 'Buong pangalan', 'acct.saveName': 'I-save ang pangalan', 'acct.saved': 'Na-save ang pangalan', 'acct.logout': 'Mag-log out',
+   
+   
+   
+   
+   
+   
+   
+   
+    'acct.title': 'Account', 'acct.email': 'Email',
+    'acct.fullName': 'Buong pangalan', 'acct.saveName': 'I-save ang pangalan', 'acct.saved': 'Na-save ang pangalan', 'acct.logout': 'Mag-log out',
     'acct.prefs': 'Mga setting', 'acct.lang': 'Wika', 'acct.theme': 'Itsura', 'acct.auto': 'Auto', 'acct.light': 'Maliwanag', 'acct.dark': 'Madilim',
     wrong: 'May nangyaring mali: {m}', retry: 'Subukan ulit', cancel: 'Kanselahin',
     'theme.toLight': 'Lumipat sa maliwanag na itsura', 'theme.toDark': 'Lumipat sa madilim na itsura', 'lang.switch': 'Palitan ang wika'
@@ -553,7 +547,7 @@ async function loadProfile() {
   try {
     const { data, error } = await sb.from('profiles').select('*').eq('id', u.id).maybeSingle();
     if (error) throw error;
-    profile = data || { id: u.id, role: 'student', student_id: '', full_name: '' };
+    profile = data || { id: u.id, full_name: '' };
     lsSet('rs-profile-' + u.id, JSON.stringify(profile));
   } catch (e) {
     const c = lsJSON('rs-profile-' + u.id);
@@ -645,27 +639,24 @@ const ICONS = {
 };
 const tabIcon = p => `<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="${p}"/></svg>`;
 function shell(path) {
-  const isAdmin = profile && profile.role === 'admin';
-  const tabs = isAdmin
-    ? [['#/review', t('tab.review'), ICONS.check, 'review'], ['#/account', t('tab.account'), ICONS.user, 'account']]
-    : [['#/', t('tab.dashboard'), ICONS.home, ''], ['#/receipts', t('tab.receipts'), ICONS.list, 'receipts'], ['#/account', t('tab.account'), ICONS.user, 'account']];
+  const tabs = [['#/', t('tab.dashboard'), ICONS.home, ''], ['#/receipts', t('tab.receipts'), ICONS.list, 'receipts'], ['#/account', t('tab.account'), ICONS.user, 'account']];
   const bar = $('#tabbar'); bar.hidden = false;
   bar.innerHTML = tabs.map(([h, l, i]) => `<button class="tab" data-route="${h}">${tabIcon(i)}${esc(l)}</button>`).join('');
   bar.querySelectorAll('.tab').forEach(b => {
     const key = tabs.find(x => x[0] === b.dataset.route)[3];
-    const on = key === path || ((path === 'receipt' || path === 'queued') && key === (isAdmin ? 'review' : 'receipts')) || (path === 'edit' && key === 'receipts');
+    const on = key === path || ((path === 'receipt' || path === 'queued') && key === 'receipts') || (path === 'edit' && key === 'receipts');
     b.classList.toggle('on', on);
     b.onclick = () => { location.hash = b.dataset.route; };
   });
-  $('#fab').hidden = isAdmin || ['add', 'edit', 'account', 'queued'].includes(path);
+  $('#fab').hidden = ['add', 'edit', 'account', 'queued'].includes(path);
   const chip = $('#chip'); chip.hidden = false;
   const u = curUser();
-  chip.innerHTML = `<b>${esc(profile.full_name || (u && u.email) || '')}</b>${isAdmin ? 'Admin' : esc(profile.student_id || 'Student')}`;
+  chip.innerHTML = `<b>${esc(profile.full_name || (u && u.email) || '')}</b>${esc((u && u.email) || '')}`;
 }
 function bareShell() { $('#tabbar').hidden = true; $('#fab').hidden = true; $('#chip').hidden = true; }
 $('#fab').addEventListener('click', () => { location.hash = '#/add'; });
 
-const student = {}, admin = {};
+const student = {};
 async function render() {
   freeUrls();
   if (!sb) return;
@@ -673,12 +664,9 @@ async function render() {
     if (recovery) return recoveryView();
     if (!curUser()) { bareShell(); return authView(); }
     if (!profile) await loadProfile();
-    const isAdmin = profile.role === 'admin';
     const [, path, arg] = (location.hash || '').split('?')[0].match(/^#\/([^/]*)\/?(.*)$/) || [, '', ''];
-    const routes = isAdmin ? admin : student;
-    const key = path === '' && isAdmin ? 'review' : path;
-    shell(key);
-    const fn = routes[key] || (isAdmin ? admin.review : student['']);
+    shell(path);
+    const fn = student[path] || student[''];
     view.innerHTML = `<div class="spin">${esc(t('loading'))}</div>`;
     await fn(decodeURIComponent(arg));
     window.scrollTo(0, 0);
@@ -701,8 +689,7 @@ function authView(mode = 'login') {
     </div>
     <form id="af" class="card" novalidate>
       ${mode === 'register' ? `
-        <label for="fn">${esc(t('auth.fullName'))}</label><input id="fn" autocomplete="name" required maxlength="80">
-        <label for="sid">${esc(t('auth.studentId'))}</label><input id="sid" autocomplete="off" required maxlength="30" placeholder="${esc(t('auth.studentIdPh'))}">` : ''}
+        <label for="fn">${esc(t('auth.fullName'))}</label><input id="fn" autocomplete="name" required maxlength="80">` : ''}
       <label for="em">${esc(t('auth.email'))}</label><input id="em" type="email" autocomplete="email" required>
       <label for="pw">${esc(t('auth.password'))}</label>${pwField('pw', mode === 'login' ? 'current-password' : 'new-password')}
       ${mode === 'register' ? `<div class="note">${esc(t('auth.pwHint'))}</div>` : ''}
@@ -732,11 +719,11 @@ function authView(mode = 'login') {
         const { error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw new Error(isNetErr(error) ? t('auth.offline') : /confirm/i.test(error.message) ? t('auth.confirm') : t('auth.wrong'));
       } else {
-        const full_name = $('#fn').value.trim(), student_id = $('#sid').value.trim();
-        if (!full_name || !student_id) throw new Error(t('auth.needNameId'));
+        const full_name = $('#fn').value.trim();
+        if (!full_name) throw new Error(t('auth.needNameId'));
         if (password.length < 8) throw new Error(t('auth.pwShort'));
-        const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name, student_id }, emailRedirectTo: location.origin + '/' } });
-        if (error) throw new Error(/database error/i.test(error.message) ? t('auth.idTaken') : error.message);
+        const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name }, emailRedirectTo: location.origin + '/' } });
+        if (error) throw new Error(error.message);
         if (!data.session) { authView('login'); toast(t('auth.created')); return; }
       }
     } catch (x) { err(errText(x)); busy(false); }
@@ -761,8 +748,7 @@ function recoveryView() {
 }
 
 /* ---------- shared pieces ---------- */
-const statusOf = r => (r._queued ? STATUS.queued : STATUS[String(r.status || '').toLowerCase()] || STATUS.pending);
-const pill = r => `<span class="pill ${statusOf(r).cls}">${esc(t(statusOf(r).key))}</span>`;
+const pill = r => (r._queued ? `<span class="pill queued">${esc(t('status.queued'))}</span>` : '');
 const photoSrc = r => (r._blob ? localUrl(r._blob) : r.image_path ? urlCache.get(r.image_path) : null);
 function itemHTML(r, who) {
   const src = photoSrc(r);
@@ -850,35 +836,31 @@ let chartRange = 6;
 
 /* ---------- student screens ---------- */
 student[''] = async () => {
-  const rs = await myReceipts(), live = rs.filter(r => r.status !== 'rejected');
+  const rs = await myReceipts(), live = rs;
   const total = live.reduce((s, r) => s + Number(r.amount), 0), thisKey = monthKey(new Date());
   const month = live.filter(r => String(r.paid_on).startsWith(thisKey)).reduce((s, r) => s + Number(r.amount), 0);
-  const nVer = rs.filter(r => r.status === 'verified').length, nPend = rs.filter(r => r.status === 'pending').length;
-  const nRej = rs.filter(r => r.status === 'rejected').length, nQ = rs.filter(r => r._queued).length;
+  const nQ = rs.filter(r => r._queued).length;
   const first = (profile.full_name || '').split(' ')[0];
   view.innerHTML = `
     <h2 style="margin-top:4px">${first ? tH('dash.welcome', { name: first }) : esc(t('dash.welcome0'))}</h2>
     ${showingCache ? `<div class="banner info">${esc(t('net.showingSaved'))}</div>` : ''}
     ${queueBanner(nQ)}
-    ${nRej ? `<button class="banner" id="rej">${esc(tn('dash.rejected', nRej))}</button>` : ''}
     <div class="grid four">
       <div class="card stat"><div class="n">${peso(total)}</div><div class="l">${esc(t('stat.total'))}</div></div>
       <div class="card stat"><div class="n">${peso(month)}</div><div class="l">${esc(t('stat.month'))}</div></div>
-      <div class="card stat"><div class="n">${nVer}</div><div class="l">${esc(t('stat.verified'))}</div></div>
-      <div class="card stat"><div class="n">${nPend}</div><div class="l">${esc(t('stat.pending'))}</div></div>
+      <div class="card stat"><div class="n">${rs.length}</div><div class="l">${esc(t('stat.count'))}</div></div>
+      <div class="card stat"><div class="n">${nQ}</div><div class="l">${esc(t('status.queued'))}</div></div>
     </div>
     <div class="card" style="margin-top:12px">
       <div class="chart-head"><b>${esc(t('chart.byMonth'))}</b>
         <div class="seg" id="range"><button type="button" data-n="6" class="${chartRange === 6 ? 'on' : ''}">${esc(t('chart.m6'))}</button><button type="button" data-n="12" class="${chartRange === 12 ? 'on' : ''}">${esc(t('chart.m12'))}</button></div></div>
       <div id="chartbox">${chartHTML(live, chartRange)}</div>
-      <div class="note">${esc(t('chart.note'))}</div>
     </div>
     <div class="card"><div class="chart-head"><b>${esc(t('chart.byCat'))}</b></div>${catHTML(live)}</div>
     <h2>${esc(t('dash.recent'))}</h2>
     ${rs.length ? `<div class="list">${rs.slice(0, 5).map(r => itemHTML(r)).join('')}</div>`
       : `<div class="card empty">${esc(t('dash.none'))}<br>${esc(t('dash.noneHint'))}</div>`}`;
   bindItems(); bindQueueBanner();
-  const rj = $('#rej'); if (rj) rj.onclick = () => { location.hash = '#/receipts?rejected'; };
   view.querySelectorAll('#range button').forEach(b => b.onclick = () => {
     chartRange = +b.dataset.n;
     view.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b));
@@ -888,15 +870,13 @@ student[''] = async () => {
 
 student['receipts'] = async () => {
   const rs = await myReceipts(), nQ = rs.filter(r => r._queued).length;
-  const preset = location.hash.includes('?rejected') ? 'rejected' : '';
   view.innerHTML = `
     <h2 style="margin-top:4px">${esc(t('list.title'))}</h2>
     ${showingCache ? `<div class="banner info">${esc(t('net.showingSaved'))}</div>` : ''}
     ${queueBanner(nQ)}
     <div class="filters">
       <input id="q" class="full" type="search" placeholder="${esc(t('list.search'))}" aria-label="${esc(t('list.search'))}">
-      <select id="fc" aria-label="${esc(t('form.cat'))}"><option value="">${esc(t('list.allCats'))}</option>${CATEGORIES.map(c => `<option value="${esc(c)}">${esc(catName(c))}</option>`).join('')}</select>
-      <select id="fst" aria-label="Status"><option value="">${esc(t('list.anyStatus'))}</option>${Object.keys(STATUS).map(k => `<option value="${k}" ${k === preset ? 'selected' : ''}>${esc(t(STATUS[k].key))}</option>`).join('')}</select>
+      <select id="fc" class="full" aria-label="${esc(t('form.cat'))}"><option value="">${esc(t('list.allCats'))}</option>${CATEGORIES.map(c => `<option value="${esc(c)}">${esc(catName(c))}</option>`).join('')}</select>
       <div><label for="fd1" style="margin-top:0">${esc(t('list.from'))}</label><input id="fd1" type="date"></div>
       <div><label for="fd2" style="margin-top:0">${esc(t('list.to'))}</label><input id="fd2" type="date"></div>
       <select id="fs" class="full" aria-label="Sort"><option value="new">${esc(t('list.new'))}</option><option value="old">${esc(t('list.old'))}</option><option value="hi">${esc(t('list.hi'))}</option></select>
@@ -904,40 +884,36 @@ student['receipts'] = async () => {
     <div id="out" class="list"></div>`;
   bindQueueBanner();
   const draw = () => {
-    const q = $('#q').value.trim().toLowerCase(), c = $('#fc').value, st = $('#fst').value, d1 = $('#fd1').value, d2 = $('#fd2').value, s = $('#fs').value;
+    const q = $('#q').value.trim().toLowerCase(), c = $('#fc').value, d1 = $('#fd1').value, d2 = $('#fd2').value, s = $('#fs').value;
     const list = rs.filter(r =>
       (!q || (r.description + ' ' + (r.receipt_no || '') + ' ' + r.category).toLowerCase().includes(q)) &&
-      (!c || r.category === c) && (!st || statusKey(r) === st) && (!d1 || r.paid_on >= d1) && (!d2 || r.paid_on <= d2));
+      (!c || r.category === c) && (!d1 || r.paid_on >= d1) && (!d2 || r.paid_on <= d2));
     if (s === 'old') list.reverse(); else if (s === 'hi') list.sort((a, b) => b.amount - a.amount);
     $('#out').innerHTML = list.length ? list.map(r => itemHTML(r)).join('') : `<div class="card empty">${esc(t('list.none'))}</div>`;
     bindItems($('#out'));
   };
-  const statusKey = r => (r._queued ? 'queued' : String(r.status || 'pending').toLowerCase());
   $('.filters').addEventListener('input', draw); $('.filters').addEventListener('change', draw);
   draw();
 };
 
 async function getReceipt(id) {
-  const { data, error } = await sb.from('receipts').select('*, profiles!receipts_user_id_fkey(student_id, full_name)').eq('id', id).maybeSingle();
+  const { data, error } = await sb.from('receipts').select('*').eq('id', id).maybeSingle();
   if (error) throw error;
   if (data) await signed([data.image_path]);
   return data;
 }
-function details(r, showWho) {
-  const p = r.profiles || {}, src = photoSrc(r);
+function details(r) {
+  const src = photoSrc(r);
   return `
     <h2 style="margin:0 0 4px">${esc(r.description)}</h2>
     <div style="font-size:1.6rem;font-weight:800;color:var(--brand)">${peso(r.amount)}</div>
     <dl class="kv">
-      ${showWho ? `<dt>${esc(t('rec.student'))}</dt><dd>${esc(p.full_name || '—')}<br><span class="note">${esc(p.student_id || '')}</span></dd>` : ''}
       <dt>${esc(t('rec.date'))}</dt><dd>${fmtDate(r.paid_on)}</dd>
       <dt>${esc(t('rec.cat'))}</dt><dd>${esc(catName(r.category))}</dd>
       <dt>${esc(t('rec.no'))}</dt><dd>${esc(r.receipt_no) || '—'}</dd>
-      <dt>${esc(t('rec.status'))}</dt><dd>${pill(r)}</dd>
+      ${r._queued ? `<dt>${esc(t('rec.status'))}</dt><dd>${pill(r)}</dd>` : ''}
       ${r.notes ? `<dt>${esc(t('rec.notes'))}</dt><dd>${esc(r.notes)}</dd>` : ''}
     </dl>
-    ${r.status === 'rejected' && r.review_note ? `<div class="note-box"><b>${esc(t('rec.reason'))}</b> ${esc(r.review_note)}</div>` : ''}
-    ${r.status === 'verified' ? `<p class="note">${tH('rec.verifiedOn', { d: r.reviewed_at ? fmtDate(r.reviewed_at.slice(0, 10)) : '' })}${r.review_note ? ': ' + esc(r.review_note) : ''}</p>` : ''}
     ${src ? `<div class="photo"><img class="preview" id="pimg" alt="${esc(t('rec.alt'))}" src="${esc(src)}"><button type="button" class="eye" id="viewphoto" aria-label="${esc(t('rec.viewLarge'))}">${EYE}</button></div>` : `<p class="note">${esc(t('rec.noPhoto'))}</p>`}`;
 }
 async function downloadPhoto(r) {
@@ -951,15 +927,13 @@ const goBack = fallback => () => (history.length > 1 ? history.back() : (locatio
 student['receipt'] = async id => {
   const r = await getReceipt(id);
   if (!r) { view.innerHTML = `<div class="card empty">${esc(t('rec.notFound'))}</div>`; return; }
-  const locked = r.status === 'verified';
   view.innerHTML = `
     <div class="row noprint" style="margin-bottom:8px"><button class="btn small ghost" id="back">${esc(t('rec.back'))}</button></div>
-    <div class="card">${details(r, false)}
+    <div class="card">${details(r)}
       <div class="row noprint" style="margin-top:14px">
         ${r.image_path ? `<button class="btn" id="dl">${esc(t('rec.download'))}</button><button class="btn sec" id="pr">${esc(t('rec.print'))}</button>` : ''}
-        ${locked ? '' : `<button class="btn sec" id="ed">${esc(t('rec.edit'))}</button><button class="btn danger" id="rm">${esc(t('rec.delete'))}</button>`}
+        <button class="btn sec" id="ed">${esc(t('rec.edit'))}</button><button class="btn danger" id="rm">${esc(t('rec.delete'))}</button>
       </div>
-      ${locked ? `<p class="note">${esc(t('rec.locked'))}</p>` : r.status === 'rejected' ? `<p class="note">${esc(t('rec.rejectedHint'))}</p>` : ''}
     </div>`;
   $('#back').onclick = goBack('#/receipts');
   bindPhoto();
@@ -967,7 +941,7 @@ student['receipt'] = async id => {
     $('#dl').onclick = () => downloadPhoto(r).catch(() => toast(t('rec.downloadFail')));
     $('#pr').onclick = () => window.print();
   }
-  if (!locked) {
+  {
     $('#ed').onclick = () => { location.hash = '#/edit/' + r.id; };
     $('#rm').onclick = async () => {
       if (!await ask(t('rec.confirmDelete'), t('rec.delete'))) return;
@@ -986,7 +960,7 @@ student['queued'] = async qid => {
   const r = toPseudo(it);
   view.innerHTML = `
     <div class="row" style="margin-bottom:8px"><button class="btn small ghost" id="back">${esc(t('rec.back'))}</button></div>
-    <div class="card">${details(r, false)}
+    <div class="card">${details(r)}
       <p class="note">${esc(t('net.queuedNote'))}</p>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="up">${esc(t('net.uploadNow'))}</button>
@@ -1038,7 +1012,7 @@ function form(existing) {
       <div class="row" style="margin-top:16px"><button class="btn" type="submit" id="save">${esc(existing ? t('form.saveResubmit') : t('form.submit'))}</button>
         <button class="btn ghost" type="button" id="cancel">${esc(t('form.cancel'))}</button></div>
     </form>
-    <p class="note">${esc(t('form.reviewNote'))}</p>`;
+`;
   let pending = null, srcCanvas = null;
   const dirty = { date: false, cat: false };
   $('#date').addEventListener('input', () => { dirty.date = true; });
@@ -1145,104 +1119,19 @@ student['add'] = async () => form(null);
 student['edit'] = async id => {
   if (!navigator.onLine) { toast(t('net.editNeedsNet')); location.hash = '#/receipts'; return; }
   const r = await getReceipt(id);
-  if (!r || r.status === 'verified') { location.hash = '#/receipts'; return; }
+  if (!r) { location.hash = '#/receipts'; return; }
   form(r);
 };
 
-/* ---------- admin screens ---------- */
-admin['review'] = async () => {
-  view.innerHTML = `
-    <h2 style="margin-top:4px">${esc(t('admin.title'))}</h2>
-    <div class="grid four" id="stats"></div>
-    <div class="filters">
-      <input id="q" class="full" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}">
-      <select id="fst" aria-label="Status"><option value="pending">${esc(t('admin.pending'))}</option><option value="">${esc(t('list.anyStatus'))}</option><option value="verified">${esc(t('admin.verified'))}</option><option value="rejected">${esc(t('admin.rejected'))}</option></select>
-      <select id="fc" aria-label="${esc(t('form.cat'))}"><option value="">${esc(t('list.allCats'))}</option>${CATEGORIES.map(c => `<option value="${esc(c)}">${esc(catName(c))}</option>`).join('')}</select>
-      <div><label for="fd1" style="margin-top:0">${esc(t('list.from'))}</label><input id="fd1" type="date"></div>
-      <div><label for="fd2" style="margin-top:0">${esc(t('list.to'))}</label><input id="fd2" type="date"></div>
-    </div>
-    <div class="row" style="margin-bottom:10px"><button class="btn small sec" id="csv">${esc(t('admin.csv'))}</button><span class="note" id="count"></span></div>
-    <div id="out" class="list"><div class="spin">${esc(t('loading'))}</div></div>`;
-  const { data, error } = await sb.from('receipts').select('*, profiles!receipts_user_id_fkey(student_id, full_name)').order('created_at', { ascending: false }).limit(1000);
-  if (error) throw error;
-  await signed(data.slice(0, 200).map(r => r.image_path));
-  const n = s => data.filter(r => r.status === s).length;
-  $('#stats').innerHTML = `
-    <div class="card stat"><div class="n">${n('pending')}</div><div class="l">${esc(t('admin.pending'))}</div></div>
-    <div class="card stat"><div class="n">${n('verified')}</div><div class="l">${esc(t('admin.verified'))}</div></div>
-    <div class="card stat"><div class="n">${n('rejected')}</div><div class="l">${esc(t('admin.rejected'))}</div></div>
-    <div class="card stat"><div class="n">${peso(data.filter(r => r.status === 'verified').reduce((s, r) => s + Number(r.amount), 0))}</div><div class="l">${esc(t('admin.verifiedTotal'))}</div></div>`;
-  const draw = async () => {
-    const q = $('#q').value.trim().toLowerCase(), st = $('#fst').value, c = $('#fc').value, d1 = $('#fd1').value, d2 = $('#fd2').value;
-    const shown = data.filter(r => {
-      const p = r.profiles || {};
-      return (!st || r.status === st) && (!c || r.category === c) && (!d1 || r.paid_on >= d1) && (!d2 || r.paid_on <= d2) &&
-        (!q || ((p.student_id || '') + ' ' + (p.full_name || '') + ' ' + (r.receipt_no || '') + ' ' + r.description).toLowerCase().includes(q));
-    });
-    await signed(shown.slice(0, 100).map(r => r.image_path));
-    $('#count').textContent = tn('admin.count', shown.length);
-    $('#out').innerHTML = shown.length
-      ? shown.slice(0, 100).map(r => itemHTML(r, (r.profiles?.student_id || '?') + ' ' + (r.profiles?.full_name || ''))).join('') + (shown.length > 100 ? `<p class="note">${esc(t('admin.first100'))}</p>` : '')
-      : `<div class="card empty">${esc(t('admin.nothing'))}</div>`;
-    bindItems($('#out'));
-  };
-  $('.filters').addEventListener('input', draw); $('.filters').addEventListener('change', draw);
-  $('#csv').onclick = async () => {
-    const qs = new URLSearchParams();
-    if ($('#fst').value) qs.set('status', $('#fst').value);
-    if ($('#fd1').value) qs.set('from', $('#fd1').value);
-    if ($('#fd2').value) qs.set('to', $('#fd2').value);
-    try {
-      const resp = await fetch('/api/admin/export.csv?' + qs, { headers: { Authorization: 'Bearer ' + session.access_token } });
-      if (!resp.ok) throw new Error(resp.status === 403 ? t('admin.onlyAdmin') : t('admin.exportFail'));
-      const b = await resp.blob(), a = document.createElement('a');
-      a.href = URL.createObjectURL(b); a.download = `receipts-${todayISO()}.csv`; a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    } catch (x) { toast(errText(x)); }
-  };
-  draw();
-};
-admin['receipt'] = async id => {
-  const r = await getReceipt(id);
-  if (!r) { view.innerHTML = `<div class="card empty">${esc(t('rec.notFound'))}</div>`; return; }
-  view.innerHTML = `
-    <div class="row" style="margin-bottom:8px"><button class="btn small ghost" id="back">${esc(t('rec.back'))}</button></div>
-    <div class="card">${details(r, true)}
-      <label for="rn">${esc(t('admin.noteLabel'))} <span class="note">${esc(t('admin.noteReq'))}</span></label>
-      <textarea id="rn" rows="2" maxlength="300" placeholder="${esc(t('admin.notePh'))}">${esc(r.review_note)}</textarea>
-      <div id="err" class="err" role="alert"></div>
-      <div class="row" style="margin-top:14px">
-        <button class="btn" id="ok">${esc(t('admin.verify'))}</button>
-        <button class="btn danger" id="no">${esc(t('admin.reject'))}</button>
-        ${r.status !== 'pending' ? `<button class="btn ghost" id="re">${esc(t('admin.backPending'))}</button>` : ''}
-      </div>
-    </div>`;
-  $('#back').onclick = goBack('#/review');
-  bindPhoto();
-  const set = async status => {
-    const note = $('#rn').value.trim();
-    if (status === 'rejected' && !note) return ($('#err').textContent = t('admin.needReason'));
-    const { error } = await sb.from('receipts').update({ status, review_note: note || null, reviewed_by: curUser().id, reviewed_at: new Date().toISOString() }).eq('id', r.id);
-    if (error) return ($('#err').textContent = errText(error));
-    toast(t(status === 'verified' ? 'admin.okV' : status === 'rejected' ? 'admin.okR' : 'admin.okP'));
-    location.hash = '#/review';
-  };
-  $('#ok').onclick = () => set('verified');
-  $('#no').onclick = () => set('rejected');
-  if ($('#re')) $('#re').onclick = () => set('pending');
-};
-
-/* ---------- account (both roles) ---------- */
-student['account'] = admin['account'] = async () => {
-  const u = curUser(), isAdmin = profile.role === 'admin';
+/* ---------- account ---------- */
+student['account'] = async () => {
+  const u = curUser();
   const seg = (id, items, cur) => `<div class="seg" id="${id}">${items.map(([v, l]) => `<button type="button" data-v="${v}" class="${v === cur ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`;
   view.innerHTML = `
     <h2 style="margin-top:4px">${esc(t('acct.title'))}</h2>
     <form id="pf" class="card" novalidate>
       <dl class="kv" style="margin-top:0">
         <dt>${esc(t('acct.email'))}</dt><dd>${esc(u.email)}</dd>
-        <dt>${esc(t('acct.sid'))}</dt><dd>${esc(profile.student_id) || '—'}</dd>
-        <dt>${esc(t('acct.role'))}</dt><dd>${esc(isAdmin ? t('acct.roleAdmin') : t('acct.roleStudent'))}</dd>
       </dl>
       <label for="fn">${esc(t('acct.fullName'))}</label><input id="fn" maxlength="80" value="${esc(profile.full_name)}">
       <div id="err" class="err" role="alert"></div>
