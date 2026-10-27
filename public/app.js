@@ -116,6 +116,9 @@ const DICT = {
     'auth.loggingIn': 'Logging in…', 'auth.creating': 'Creating account…', 'acct.loggingOut': 'Logging out…', 'acct.logoutAsk': 'Are you sure you want to log out?',
     'acct.pw': 'Change password', 'acct.curPw': 'Current password', 'acct.confirmPw': 'Confirm new password', 'acct.updatePw': 'Update password', 'acct.updating': 'Updating…', 'acct.needCur': 'Enter your current password.', 'acct.pwMismatch': 'The new passwords do not match.', 'acct.pwSame': 'Your new password must be different from the current one.', 'acct.pwWrong': 'Your current password is incorrect.', 'acct.pwChanged': 'Password changed',
     'acct.prefs': 'Preferences', 'acct.lang': 'Language', 'acct.theme': 'Appearance', 'acct.auto': 'Auto', 'acct.light': 'Light', 'acct.dark': 'Dark',
+    'av.title': 'Profile photo', 'av.add': 'Add photo', 'av.change': 'Change photo', 'av.remove': 'Remove photo', 'av.hint': 'Drag to position the photo. Use the slider to zoom.', 'av.zoom': 'Zoom', 'av.save': 'Save photo', 'av.saved': 'Profile photo updated', 'av.local': 'Photo saved on this device only. Could not upload it.', 'av.removed': 'Profile photo removed', 'av.open': 'Open account',
+    'la.title': 'Recent login activity', 'la.here': 'This device', 'la.none': 'No logins recorded yet. New logins will show up here.', 'la.note': 'Your last 10 logins. If you do not recognize one, change your password.', 'la.local': 'Showing logins from this device only.',
+    'pw.strength': 'Password strength', 'pw.1': 'Weak', 'pw.2': 'Fair', 'pw.3': 'Good', 'pw.4': 'Strong', 'pw.tip': 'Use more characters, with a mix of letters, numbers and symbols.', 'pw.common': 'This password is too easy to guess.',
     wrong: 'Something went wrong: {m}', retry: 'Try again', cancel: 'Cancel',
     'theme.toLight': 'Switch to light mode', 'theme.toDark': 'Switch to dark mode', 'lang.switch': 'Change language'
   },
@@ -211,6 +214,9 @@ const DICT = {
     'auth.loggingIn': 'Nagla-log in…', 'auth.creating': 'Ginagawa ang account…', 'acct.loggingOut': 'Nagla-log out…', 'acct.logoutAsk': 'Sigurado ka bang gusto mong mag-log out?',
     'acct.pw': 'Palitan ang password', 'acct.curPw': 'Kasalukuyang password', 'acct.confirmPw': 'Ulitin ang bagong password', 'acct.updatePw': 'I-update ang password', 'acct.updating': 'Ina-update…', 'acct.needCur': 'Ilagay ang kasalukuyan mong password.', 'acct.pwMismatch': 'Hindi magkapareho ang mga bagong password.', 'acct.pwSame': 'Dapat iba ang bagong password sa kasalukuyan.', 'acct.pwWrong': 'Mali ang kasalukuyan mong password.', 'acct.pwChanged': 'Napalitan na ang password',
     'acct.prefs': 'Mga setting', 'acct.lang': 'Wika', 'acct.theme': 'Itsura', 'acct.auto': 'Auto', 'acct.light': 'Maliwanag', 'acct.dark': 'Madilim',
+    'av.title': 'Litrato ng profile', 'av.add': 'Magdagdag ng litrato', 'av.change': 'Palitan ang litrato', 'av.remove': 'Alisin ang litrato', 'av.hint': 'I-drag para iposisyon ang litrato. Gamitin ang slider para mag-zoom.', 'av.zoom': 'Zoom', 'av.save': 'I-save ang litrato', 'av.saved': 'Na-update ang litrato ng profile', 'av.local': 'Sa device na ito lang na-save ang litrato. Hindi ito na-upload.', 'av.removed': 'Naalis ang litrato ng profile', 'av.open': 'Buksan ang account',
+    'la.title': 'Mga kamakailang login', 'la.here': 'Ang device na ito', 'la.none': 'Wala pang naitalang login. Lalabas dito ang mga bagong login.', 'la.note': 'Ang huling 10 mong login. Kung may hindi mo kilala, palitan ang password mo.', 'la.local': 'Mga login lang mula sa device na ito ang ipinapakita.',
+    'pw.strength': 'Lakas ng password', 'pw.1': 'Mahina', 'pw.2': 'Katamtaman', 'pw.3': 'Maganda', 'pw.4': 'Malakas', 'pw.tip': 'Dagdagan ang haba at paghaluin ang letra, numero at simbolo.', 'pw.common': 'Madaling hulaan ang password na ito.',
     wrong: 'May nangyaring mali: {m}', retry: 'Subukan ulit', cancel: 'Kanselahin',
     'theme.toLight': 'Lumipat sa maliwanag na itsura', 'theme.toDark': 'Lumipat sa madilim na itsura', 'lang.switch': 'Palitan ang wika'
   }
@@ -305,6 +311,7 @@ function pwField(id, autocomplete) {
     <button type="button" class="pweye" data-for="${id}" aria-label="${esc(t('auth.showPw'))}" aria-pressed="false">${EYE}</button></div>`;
 }
 function bindPw() {
+  bindPwMeters();
   view.querySelectorAll('.pweye').forEach(b => b.onclick = () => {
     const input = $('#' + b.dataset.for), show = input.type === 'password';
     input.type = show ? 'text' : 'password';
@@ -313,6 +320,138 @@ function bindPw() {
     b.setAttribute('aria-pressed', String(show));
     input.focus();
   });
+}
+
+const pwMeter = id => `<div class="pwmeter" data-for="${id}" data-s="0" aria-live="polite"><div class="pwbars" aria-hidden="true"><i></i><i></i><i></i><i></i></div><span class="pwlbl"></span></div>`;
+const COMMON_PW = /^(password|passw0rd|qwerty|qwertyuiop|letmein|welcome|admin|iloveyou|abc123|monkey|dragon|login|receipt|student|school|filipino|manila)/;
+/* level 0 = empty, 1 = weak ... 4 = strong. Length matters most, then variety. */
+function pwEval(p) {
+  if (!p) return { lvl: 0 };
+  const cls = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/].filter(r => r.test(p)).length;
+  const flat = p.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const common = (COMMON_PW.test(flat) && p.length < 14) || /^(.)\1+$/.test(p) || '01234567890123456789'.includes(p) || '98765432109876543210'.includes(p);
+  if (p.length < 8 || common) return { lvl: 1, common };
+  let lvl = 1 + (p.length >= 12 ? 1 : 0) + (cls >= 3 ? 1 : 0) + (p.length >= 16 || (cls === 4 && p.length >= 10) ? 1 : 0);
+  if (new Set(p).size < 5) lvl = Math.min(lvl, 2);
+  return { lvl: clamp(lvl, 1, 4), common: false };
+}
+function bindPwMeters() {
+  view.querySelectorAll('.pwmeter').forEach(m => {
+    const input = $('#' + m.dataset.for), lbl = $('.pwlbl', m);
+    const upd = () => {
+      const r = pwEval(input.value); m.dataset.s = r.lvl;
+      lbl.textContent = r.lvl ? `${t('pw.strength')}: ${t('pw.' + r.lvl)}${r.common ? '. ' + t('pw.common') : r.lvl < 3 ? '. ' + t('pw.tip') : ''}` : '';
+    };
+    input.addEventListener('input', upd); upd();
+  });
+}
+
+/* ---------- profile avatar ---------- */
+/* Kept on this device (fast, works offline) and uploaded to the user's own folder in the storage bucket so other devices can load it. */
+const avKey = () => 'rs-avatar-' + curUser().id, avPath = () => `${curUser().id}/avatar.jpg`;
+const blobToDataURL = b => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(b); });
+function avInner() {
+  const s = curUser() && lsGet(avKey());
+  if (s) return `<img alt="" src="${esc(s)}">`;
+  const n = String((profile && profile.full_name) || (curUser() && curUser().email) || '?').trim() || '?', p = n.includes('@') ? [n] : n.split(/\s+/);
+  return esc(((p[0][0] || '?') + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase());
+}
+const avatarHTML = size => `<span class="av" style="--s:${size}px">${avInner()}</span>`;
+const paintAvatars = () => document.querySelectorAll('.av').forEach(el => { el.innerHTML = avInner(); });
+const avTried = new Set();
+async function pullAvatar() {
+  const u = curUser(); if (!u || !session || !navigator.onLine || lsGet(avKey()) || avTried.has(u.id)) return;
+  avTried.add(u.id);
+  try {
+    const { data, error } = await sb.storage.from(BUCKET).download(avPath());
+    if (error || !data) return;
+    lsSet(avKey(), await blobToDataURL(data)); paintAvatars();
+  } catch { /* no photo uploaded yet */ }
+}
+async function uploadAvatar(blob) {
+  if (!session || !navigator.onLine) return false;
+  try {
+    await sb.storage.from(BUCKET).remove([avPath()]);
+    const up = await sb.storage.from(BUCKET).upload(avPath(), blob, { contentType: 'image/jpeg', upsert: false });
+    return !up.error;
+  } catch { return false; }
+}
+/* Drag to pan, slider to zoom. Resolves with a 256px square JPEG, or null on cancel. */
+function avatarEditor(src) {
+  return new Promise(resolve => {
+    const d = $('#dlg'), V = 240, w = src.width, h = src.height, k0 = V / Math.min(w, h);
+    d.innerHTML = `<b>${esc(t('av.title'))}</b>
+      <div class="avstage"><canvas id="avc" width="${V}" height="${V}"></canvas></div>
+      <div class="note" style="text-align:center">${esc(t('av.hint'))}</div>
+      <label for="avz">${esc(t('av.zoom'))}</label><input id="avz" type="range" min="1" max="3" step="0.01" value="1">
+      <div class="row" style="justify-content:flex-end;margin-top:14px"><button type="button" class="btn ghost" id="avno">${esc(t('cancel'))}</button><button type="button" class="btn" id="avyes">${esc(t('av.save'))}</button></div>`;
+    const cv = $('#avc', d), zoom = $('#avz', d); let ox = 0, oy = 0, drag = null, done = false;
+    const fin = v => { if (done) return; done = true; if (d.open) d.close(); resolve(v); };
+    const fit = () => { const s = k0 * +zoom.value; ox = clamp(ox, -Math.max(0, (w * s - V) / 2), Math.max(0, (w * s - V) / 2)); oy = clamp(oy, -Math.max(0, (h * s - V) / 2), Math.max(0, (h * s - V) / 2)); };
+    const paint = (c, size) => {
+      const r = size / V, s = k0 * +zoom.value * r, x = c.getContext('2d');
+      x.fillStyle = '#fff'; x.fillRect(0, 0, size, size);
+      x.drawImage(src, size / 2 + ox * r - w * s / 2, size / 2 + oy * r - h * s / 2, w * s, h * s);
+    };
+    const draw = () => { fit(); paint(cv, V); };
+    zoom.oninput = draw;
+    cv.onpointerdown = e => { drag = { x: e.clientX, y: e.clientY, ox, oy }; try { cv.setPointerCapture(e.pointerId); } catch { /* ignore */ } cv.style.cursor = 'grabbing'; };
+    cv.onpointermove = e => { if (!drag) return; const f = V / cv.getBoundingClientRect().width; ox = drag.ox + (e.clientX - drag.x) * f; oy = drag.oy + (e.clientY - drag.y) * f; draw(); };
+    cv.onpointerup = cv.onpointercancel = () => { drag = null; cv.style.cursor = ''; };
+    $('#avno', d).onclick = () => fin(null); d.onclose = () => fin(null);
+    $('#avyes', d).onclick = () => { const out = document.createElement('canvas'); out.width = out.height = 256; paint(out, 256); out.toBlob(b => fin(b || null), 'image/jpeg', 0.85); };
+    d.showModal(); draw();
+  });
+}
+function bindAvatar() {
+  const file = $('#avfile'), pick = () => file.click();
+  $('#avchg').onclick = pick; $('#avpick').onclick = pick;
+  file.onchange = async e => {
+    const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+    try {
+      const blob = await avatarEditor(await loadImageToCanvas(f, 1024)); if (!blob) return;
+      lsSet(avKey(), await blobToDataURL(blob)); paintAvatars();
+      const ok = await uploadAvatar(blob); toast(t(ok ? 'av.saved' : 'av.local')); render();
+    } catch (x) { toast(errText(x)); }
+  };
+  const rm = $('#avrm');
+  if (rm) rm.onclick = async () => {
+    avTried.add(curUser().id); lsDel(avKey()); paintAvatars();
+    try { if (session && navigator.onLine) await sb.storage.from(BUCKET).remove([avPath()]); } catch { /* best effort */ }
+    toast(t('av.removed')); render();
+  };
+}
+
+/* ---------- recent login activity ---------- */
+/* Each login is saved on this device and, when the login_activity table exists, in the cloud so every device can list it. */
+const laKey = id => 'rs-logins-' + id;
+const deviceId = () => { let d = lsGet('rs-device'); if (!d) { d = uid(); lsSet('rs-device', d); } return d; };
+function deviceLabel() {
+  const ua = navigator.userAgent || '';
+  const os = /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Windows/.test(ua) ? 'Windows' : /Mac OS X|Macintosh/.test(ua) ? 'macOS' : /Linux|CrOS/.test(ua) ? 'Linux' : '';
+  const br = /EdgA?\/|Edg\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'Browser';
+  return os ? `${br} on ${os}` : br;
+}
+async function logLogin(user) {
+  if (!user) return;
+  const row = { at: new Date().toISOString(), device: deviceLabel(), did: deviceId() };
+  lsSet(laKey(user.id), JSON.stringify([row, ...(lsJSON(laKey(user.id)) || [])].slice(0, 10)));
+  try { await sb.from('login_activity').insert({ user_id: user.id, device_id: row.did, device: row.device }); } catch { /* the cloud table is optional */ }
+}
+async function loadActivity() {
+  if (!$('#lact')) return;
+  let rows = null;
+  try {
+    if (session && navigator.onLine) {
+      const { data, error } = await sb.from('login_activity').select('device,device_id,created_at').order('created_at', { ascending: false }).limit(10);
+      if (!error && data && data.length) rows = data.map(r => ({ at: r.created_at, device: r.device, did: r.device_id }));
+    }
+  } catch { /* fall back to this device's list */ }
+  const local = !rows; if (local) rows = lsJSON(laKey(curUser().id)) || [];
+  if (!$('#lact')) return;
+  const me = deviceId();
+  $('#lalist').innerHTML = rows.length ? rows.map(r => `<div class="la"><b>${esc(r.device)}</b>${r.did === me ? ` <span class="pill ok">${esc(t('la.here'))}</span>` : ''}<div class="note">${esc(new Date(r.at).toLocaleString(loc(), { dateStyle: 'medium', timeStyle: 'short' }))}</div></div>`).join('') : `<p class="note">${esc(t('la.none'))}</p>`;
+  $('#lanote').textContent = t(local && rows.length ? 'la.local' : 'la.note');
 }
 
 /* big photo viewer. The page behind it is blurred. */
@@ -704,7 +843,8 @@ function shell(path) {
   $('#fab').hidden = ['add', 'edit', 'account', 'queued', 'fees'].includes(path);
   const chip = $('#chip'); chip.hidden = false; if (bellEl()) bellEl().hidden = false;
   const u = curUser();
-  chip.innerHTML = `<b>${esc(profile.full_name || (u && u.email) || '')}</b>${esc((u && u.email) || '')}`;
+  chip.innerHTML = `<button type="button" class="avbtn" aria-label="${esc(t('av.open'))}">${avatarHTML(34)}</button><span class="who"><b>${esc(profile.full_name || (u && u.email) || '')}</b>${esc((u && u.email) || '')}</span>`;
+  chip.querySelector('.avbtn').onclick = () => { location.hash = '#/account'; };
 }
 function bareShell() { if (bellEl()) bellEl().hidden = true; $('#tabbar').hidden = true; $('#fab').hidden = true; $('#chip').hidden = true; }
 $('#fab').addEventListener('click', () => { location.hash = '#/add'; });
@@ -717,7 +857,7 @@ async function render() {
     if (recovery) return recoveryView();
     if (!curUser()) { bareShell(); return authView(); }
     if (!profile) await loadProfile();
-    await syncOnce();
+    await syncOnce(); pullAvatar();
     const [, path, arg] = (location.hash || '').split('?')[0].match(/^#\/([^/]*)\/?(.*)$/) || [, '', ''];
     shell(path);
     const fn = student[path] || student[''];
@@ -746,7 +886,7 @@ function authView(mode = 'login') {
         <label for="fn">${esc(t('auth.fullName'))}</label><input id="fn" autocomplete="name" required maxlength="80">` : ''}
       <label for="em">${esc(t('auth.email'))}</label><input id="em" type="email" autocomplete="email" required>
       <label for="pw">${esc(t('auth.password'))}</label>${pwField('pw', mode === 'login' ? 'current-password' : 'new-password')}
-      ${mode === 'register' ? `<div class="note">${esc(t('auth.pwHint'))}</div>` : ''}
+      ${mode === 'register' ? `${pwMeter('pw')}<div class="note">${esc(t('auth.pwHint'))}</div>` : ''}
       <div id="err" class="err" role="alert">${navigator.onLine ? '' : esc(t('auth.offline'))}</div>
       <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${esc(mode === 'login' ? t('auth.login') : t('auth.create'))}</button></div>
       ${mode === 'login' ? `<p style="margin:12px 0 0"><button type="button" class="linkbtn" id="forgot">${esc(t('auth.forgot'))}</button></p>` : ''}
@@ -770,8 +910,9 @@ function authView(mode = 'login') {
     busy(true);
     try {
       if (mode === 'login') {
-        const { error } = await sb.auth.signInWithPassword({ email, password });
+        const { data: sd, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw new Error(isNetErr(error) ? t('auth.offline') : /confirm/i.test(error.message) ? t('auth.confirm') : t('auth.wrong'));
+        logLogin(sd.user);
       } else {
         const full_name = $('#fn').value.trim();
         if (!full_name) throw new Error(t('auth.needNameId'));
@@ -779,6 +920,7 @@ function authView(mode = 'login') {
         const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name }, emailRedirectTo: location.origin + '/' } });
         if (error) throw new Error(error.message);
         if (!data.session) { authView('login'); toast(t('auth.created')); return; }
+        logLogin(data.user);
       }
     } catch (x) { err(errText(x)); busy(false); }
   });
@@ -787,7 +929,7 @@ function recoveryView() {
   bareShell();
   view.innerHTML = `<div class="auth"><form id="rf" class="card" novalidate>
     <h2 style="margin-top:0">${esc(t('auth.newPwTitle'))}</h2>
-    <label for="np">${esc(t('auth.newPw'))}</label>${pwField('np', 'new-password')}
+    <label for="np">${esc(t('auth.newPw'))}</label>${pwField('np', 'new-password')}${pwMeter('np')}
     <div id="err" class="err" role="alert"></div>
     <div class="row" style="margin-top:14px"><button class="btn" type="submit">${esc(t('auth.savePw'))}</button></div></form></div>`;
   bindPw();
@@ -1537,6 +1679,12 @@ student['account'] = async () => {
   const seg = (id, items, cur) => `<div class="seg" id="${id}">${items.map(([v, l]) => `<button type="button" data-v="${v}" class="${v === cur ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`;
   view.innerHTML = `
     <h2 style="margin-top:4px">${esc(t('acct.title'))}</h2>
+    <div class="card avcard">
+      <button type="button" class="avbtn" id="avpick" aria-label="${esc(t('av.change'))}">${avatarHTML(84)}</button>
+      <div class="avinfo"><b>${esc(profile.full_name || u.email)}</b>
+        <div class="row"><button type="button" class="btn small sec" id="avchg">${esc(t(lsGet(avKey()) ? 'av.change' : 'av.add'))}</button>${lsGet(avKey()) ? `<button type="button" class="btn small ghost" id="avrm">${esc(t('av.remove'))}</button>` : ''}</div></div>
+      <input id="avfile" type="file" accept="image/*" hidden>
+    </div>
     <form id="pf" class="card" novalidate>
       <dl class="kv" style="margin-top:0">
         <dt>${esc(t('acct.email'))}</dt><dd>${esc(u.email)}</dd>
@@ -1553,20 +1701,21 @@ student['account'] = async () => {
     <form id="cpf" class="card" novalidate>
       <b>${esc(t('acct.pw'))}</b>
       <label for="cp0">${esc(t('acct.curPw'))}</label>${pwField('cp0', 'current-password')}
-      <label for="cp1">${esc(t('auth.newPw'))}</label>${pwField('cp1', 'new-password')}
+      <label for="cp1">${esc(t('auth.newPw'))}</label>${pwField('cp1', 'new-password')}${pwMeter('cp1')}
       <div class="note">${esc(t('auth.pwHint'))}</div>
       <label for="cp2">${esc(t('acct.confirmPw'))}</label>${pwField('cp2', 'new-password')}
       <div id="perr" class="err" role="alert"></div>
       <div class="row" style="margin-top:12px"><button class="btn sec" type="submit" id="cpgo">${esc(t('acct.updatePw'))}</button></div>
     </form>
+    <div class="card" id="lact"><b>${esc(t('la.title'))}</b><div id="lalist" class="lalist"><p class="note">${esc(t('loading'))}</p></div><p class="note" id="lanote"></p></div>
     <div class="card"><button class="btn danger" id="out">${esc(t('acct.logout'))}</button></div>`;
-  bindPw();
+  bindPw(); bindAvatar(); loadActivity();
   $('#pf').addEventListener('submit', async e => {
     e.preventDefault();
     const full_name = $('#fn').value.trim();
     const { error } = await sb.from('profiles').update({ full_name }).eq('id', profile.id);
     if (error) return ($('#err').textContent = errText(error));
-    profile.full_name = full_name; lsSet('rs-profile-' + u.id, JSON.stringify(profile)); toast(t('acct.saved')); shell('account');
+    profile.full_name = full_name; lsSet('rs-profile-' + u.id, JSON.stringify(profile)); toast(t('acct.saved')); shell('account'); paintAvatars();
   });
   $('#sl').querySelectorAll('button').forEach(b => b.onclick = () => setLang(b.dataset.v));
   $('#st').querySelectorAll('button').forEach(b => b.onclick = () => { setTheme(b.dataset.v); $('#st').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); });

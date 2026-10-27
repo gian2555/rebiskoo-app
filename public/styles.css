@@ -46,7 +46,7 @@ body{font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;backgro
 .hbtn:hover{background:rgba(255,255,255,.26)}
 .chip{font-size:.75rem;text-align:right;line-height:1.2;max-width:34vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip b{display:block;font-size:.8rem;overflow:hidden;text-overflow:ellipsis}
-@media (max-width:520px){.chip,.tag{display:none}}
+@media (max-width:520px){.chip .who,.tag{display:none}}
 .netbar{flex:none;background:var(--warn-bg);color:var(--warn);padding:8px 16px;font-size:.85rem;text-align:center}
 
 main{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
@@ -230,3 +230,31 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .al{padding:9px 11px;border-radius:10px;border-left:4px solid var(--info);background:var(--info-bg);color:var(--info);font-size:.9rem}
 .al.warn{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
 .al.bad{background:var(--bad-bg);color:var(--bad-text);border-color:var(--bad)}
+/* profile avatar */
+.chip{display:flex;align-items:center;gap:8px}
+.chip .who{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.chip .av{box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+.av{display:inline-grid;place-items:center;flex:none;width:var(--s);height:var(--s);border-radius:50%;overflow:hidden;background:var(--brand-l);color:var(--brand-d);font-weight:700;font-size:calc(var(--s)*.4);line-height:1;user-select:none;-webkit-user-select:none}
+.av img{display:block;width:100%;height:100%;object-fit:cover}
+.avbtn{flex:none;padding:0;border:0;background:none;border-radius:50%;line-height:0;cursor:pointer}
+.chip .avbtn:focus-visible{outline-color:#fff}
+.avcard{display:flex;gap:16px;align-items:center}
+.avinfo{flex:1;min-width:0}
+.avinfo b{display:block;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avstage{width:240px;max-width:100%;margin:14px auto 8px;touch-action:none}
+.avstage canvas{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:50%;background:var(--brand-l);box-shadow:0 0 0 3px var(--brand);cursor:grab;touch-action:none}
+
+/* password strength */
+.pwmeter{margin-top:8px}
+.pwbars{display:flex;gap:4px}
+.pwbars i{flex:1;height:5px;border-radius:99px;background:var(--line);transition:background .2s}
+.pwmeter[data-s="1"] i:nth-child(-n+1){background:var(--bad)}
+.pwmeter[data-s="2"] i:nth-child(-n+2){background:var(--warn)}
+.pwmeter[data-s="3"] i:nth-child(-n+3){background:var(--brand)}
+.pwmeter[data-s="4"] i:nth-child(-n+4){background:var(--ok)}
+.pwlbl{display:block;min-height:1.2em;margin-top:4px;font-size:.8rem;color:var(--muted)}
+
+/* login activity */
+.lalist{margin:6px 0 2px}
+.la{padding:9px 0;border-top:1px solid var(--line)}
+.la:first-child{border-top:0}
