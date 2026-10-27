@@ -90,6 +90,11 @@ const DICT = {
     'net.showingSaved': "You're offline. Showing your last saved list.", 'net.needNet': "This needs internet. Try again when you're online.",
     'net.editNeedsNet': 'Editing needs internet.', 'net.cantReach': 'Cannot reach the server. Check your internet connection and reload.',
     'net.queueFail': 'Could not upload: {m}',
+    'tab.fees': 'Fees', 'fee.title': 'School fee calculator', 'fee.add': 'Add fee', 'fee.edit': 'Edit fee', 'fee.name': 'Fee name', 'fee.namePh': 'e.g. Tuition, Math 101 lab', 'fee.term': 'Semester / term', 'fee.termPh': 'e.g. 1st Sem 2026-27', 'fee.tag': 'Subject or event (optional)', 'fee.tagPh': 'e.g. Math 101, Sports Fest', 'fee.official': 'Official (from school)', 'fee.officialHint': 'Tick this only if the amount comes from your school (assessment or billing statement). Otherwise it counts as an estimate.', 'fee.est': 'Estimate', 'fee.mixed': 'Partly official', 'fee.none': 'Not set', 'fee.expected': 'Total expected fees', 'fee.paid': 'Total recorded payments', 'fee.balance': 'Remaining balance', 'fee.progress': 'Payment progress', 'fee.balEst': 'Estimated balance', 'fee.balOfficial': 'Balance (official fees)', 'fee.estNote': 'This is an estimate. It uses the fees you entered and the receipts you saved, not a balance confirmed by your school.', 'fee.officialNote': 'All fees are marked official. Receipts are still matched by category, so confirm with your school before relying on it.', 'fee.by': 'Breakdown', 'fee.byTerm': 'Semester', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} of {e}', 'fee.left': '{a} left', 'fee.settled': 'Fully paid', 'fee.empty': 'Add the fees you expect to pay this school year to see what is left.', 'fee.emptyHint': 'Add each fee with its amount. Receipts are matched to fees by category, oldest payment first.', 'fee.unassigned': '{a} in your receipts does not match any fee category yet.', 'fee.list': 'Your fees', 'fee.school': 'Balance from school', 'fee.schoolSet': 'Enter school balance', 'fee.schoolAsk': 'Balance (₱) shown by your school or cashier.', 'fee.schoolHint': 'Have a statement from the school? Enter its balance to compare with this calculator.', 'fee.schoolAsOf': 'As of {d}', 'fee.match': 'Matches the calculator.', 'fee.diff': 'Differs from the calculator by {a}. Check your receipts and fees, or ask the school.', 'fee.clear': 'Clear', 'fee.errName': 'Enter a fee name.', 'fee.errAmt': 'Enter an amount greater than zero.', 'fee.saved': 'Fee saved', 'fee.removed': 'Fee removed', 'fee.mini': 'Remaining school fees', 'fee.device': 'Fees are saved on this device only.', 'fee.auto': 'Automatic (oldest unpaid first)', 'fee.pick': 'Counts toward fee', 'fee.pickHint': 'Choose a fee if this payment is for a specific semester or subject.', 'fee.afterLeft': '{c}: {a} left to pay', 'fee.afterDone': '{c}: fully paid',
+    'goal.title': 'Monthly budget', 'goal.set': 'Set budget', 'goal.edit': 'Edit', 'goal.save': 'Save',
+    'goal.hint': 'Set a monthly limit to see how much room you have left.', 'goal.ask': 'Monthly budget (₱). Enter 0 to remove it.',
+    'goal.left': '{a} left this month.', 'goal.over': '{a} over budget this month.', 'goal.vsLast': 'vs last month',
+    'list.export': 'Export CSV', 'list.sum': '{n} shown · {a}', 'rec.share': 'Share', 'rec.dup': 'Duplicate', 'rec.shareFail': 'Could not share the photo',
    
    
    
@@ -170,6 +175,11 @@ const DICT = {
     'net.showingSaved': 'Offline ka. Ipinapakita ang huling naka-save na listahan.', 'net.needNet': 'Kailangan ng internet nito. Subukan ulit kapag online ka na.',
     'net.editNeedsNet': 'Kailangan ng internet para mag-edit.', 'net.cantReach': 'Hindi maabot ang server. Tingnan ang internet at i-reload.',
     'net.queueFail': 'Hindi ma-upload: {m}',
+    'tab.fees': 'Mga Bayarin', 'fee.title': 'Calculator ng school fees', 'fee.add': 'Magdagdag ng bayarin', 'fee.edit': 'I-edit ang bayarin', 'fee.name': 'Pangalan ng bayarin', 'fee.namePh': 'hal. Matrikula, Math 101 lab', 'fee.term': 'Semestre / term', 'fee.termPh': 'hal. 1st Sem 2026-27', 'fee.tag': 'Subject o event (hindi kailangan)', 'fee.tagPh': 'hal. Math 101, Sports Fest', 'fee.official': 'Opisyal (galing sa school)', 'fee.officialHint': 'I-tick lang kung galing sa school ang halaga (assessment o billing statement). Kung hindi, tantiya lang ito.', 'fee.est': 'Tantiya', 'fee.mixed': 'Bahagyang opisyal', 'fee.none': 'Wala pa', 'fee.expected': 'Kabuuang inaasahang bayarin', 'fee.paid': 'Kabuuang naitalang bayad', 'fee.balance': 'Natitirang balanse', 'fee.progress': 'Progreso ng bayad', 'fee.balEst': 'Tantiyang balanse', 'fee.balOfficial': 'Balanse (opisyal na bayarin)', 'fee.estNote': 'Tantiya lang ito. Batay ito sa mga bayaring inilagay mo at mga resibong na-save mo, hindi sa balanseng kumpirmado ng school.', 'fee.officialNote': 'Opisyal ang lahat ng bayarin. Itinutugma pa rin ang mga resibo ayon sa category, kaya kumpirmahin sa school bago umasa dito.', 'fee.by': 'Hati-hati', 'fee.byTerm': 'Semestre', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} sa {e}', 'fee.left': '{a} ang natitira', 'fee.settled': 'Bayad na lahat', 'fee.empty': 'Idagdag ang mga bayaring inaasahan mo ngayong school year para makita ang natitira.', 'fee.emptyHint': 'Ilagay ang bawat bayarin at halaga nito. Itinutugma ang mga resibo sa bayarin ayon sa category, mula sa pinakaunang bayad.', 'fee.unassigned': '{a} sa mga resibo mo ang walang katugmang category ng bayarin.', 'fee.list': 'Mga bayarin mo', 'fee.school': 'Balanse mula sa school', 'fee.schoolSet': 'Ilagay ang balanse ng school', 'fee.schoolAsk': 'Balanse (₱) na nakasaad sa school o cashier.', 'fee.schoolHint': 'May statement mula sa school? Ilagay ang balanse para ihambing sa calculator.', 'fee.schoolAsOf': 'Hanggang {d}', 'fee.match': 'Tugma sa calculator.', 'fee.diff': 'Iba ng {a} sa calculator. Suriin ang mga resibo at bayarin, o magtanong sa school.', 'fee.clear': 'Alisin', 'fee.errName': 'Maglagay ng pangalan ng bayarin.', 'fee.errAmt': 'Maglagay ng halagang higit sa zero.', 'fee.saved': 'Na-save ang bayarin', 'fee.removed': 'Naalis ang bayarin', 'fee.mini': 'Natitirang school fees', 'fee.device': 'Sa device na ito lang naka-save ang mga bayarin.', 'fee.auto': 'Awtomatiko (pinakaunang hindi pa bayad)', 'fee.pick': 'Mapupunta sa bayarin', 'fee.pickHint': 'Pumili ng bayarin kung para sa partikular na semestre o subject ang bayad na ito.', 'fee.afterLeft': '{c}: {a} ang natitira', 'fee.afterDone': '{c}: bayad na lahat',
+    'goal.title': 'Budget kada buwan', 'goal.set': 'Magtakda ng budget', 'goal.edit': 'I-edit', 'goal.save': 'I-save',
+    'goal.hint': 'Magtakda ng limit kada buwan para makita kung magkano pa ang natitira.', 'goal.ask': 'Budget kada buwan (₱). Ilagay ang 0 para alisin.',
+    'goal.left': '{a} ang natitira ngayong buwan.', 'goal.over': 'Lampas ng {a} sa budget ngayong buwan.', 'goal.vsLast': 'kumpara noong nakaraang buwan',
+    'list.export': 'I-export ang CSV', 'list.sum': '{n} ang ipinapakita · {a}', 'rec.share': 'I-share', 'rec.dup': 'I-duplicate', 'rec.shareFail': 'Hindi ma-share ang litrato',
    
    
    
@@ -635,11 +645,12 @@ const ICONS = {
   home: 'M3 13h8V3H3v10Zm0 8h8v-6H3v6Zm10 0h8V11h-8v10Zm0-18v6h8V3h-8Z',
   list: 'M4 6h16v2H4V6Zm0 5h16v2H4v-2Zm0 5h10v2H4v-2Z',
   user: 'M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-3.3 0-9 1.7-9 5v2h18v-2c0-3.3-5.7-5-9-5Z',
+  calc: 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 3v3h10V6H7Zm0 5v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2ZM7 15v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z',
   check: 'M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z'
 };
 const tabIcon = p => `<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="${p}"/></svg>`;
 function shell(path) {
-  const tabs = [['#/', t('tab.dashboard'), ICONS.home, ''], ['#/receipts', t('tab.receipts'), ICONS.list, 'receipts'], ['#/account', t('tab.account'), ICONS.user, 'account']];
+  const tabs = [['#/', t('tab.dashboard'), ICONS.home, ''], ['#/receipts', t('tab.receipts'), ICONS.list, 'receipts'], ['#/fees', t('tab.fees'), ICONS.calc, 'fees'], ['#/account', t('tab.account'), ICONS.user, 'account']];
   const bar = $('#tabbar'); bar.hidden = false;
   bar.innerHTML = tabs.map(([h, l, i]) => `<button class="tab" data-route="${h}">${tabIcon(i)}${esc(l)}</button>`).join('');
   bar.querySelectorAll('.tab').forEach(b => {
@@ -648,7 +659,7 @@ function shell(path) {
     b.classList.toggle('on', on);
     b.onclick = () => { location.hash = b.dataset.route; };
   });
-  $('#fab').hidden = ['add', 'edit', 'account', 'queued'].includes(path);
+  $('#fab').hidden = ['add', 'edit', 'account', 'queued', 'fees'].includes(path);
   const chip = $('#chip'); chip.hidden = false;
   const u = curUser();
   chip.innerHTML = `<b>${esc(profile.full_name || (u && u.email) || '')}</b>${esc((u && u.email) || '')}`;
@@ -834,6 +845,113 @@ function catHTML(list) {
 }
 let chartRange = 6;
 
+/* ---------- budget, export, share ---------- */
+const goalKey = () => 'rs-goal-' + curUser().id;
+function goalCard(month, prev) {
+  const goal = Number(lsGet(goalKey())) || 0;
+  const diff = prev > 0 ? Math.round((month - prev) / prev * 100) : null;
+  const trend = diff === null || diff === 0 ? '' : `<span class="trend ${diff > 0 ? 'up' : 'down'}">${diff > 0 ? '▲' : '▼'} ${Math.abs(diff)}% ${esc(t('goal.vsLast'))}</span>`;
+  const over = goal && month > goal, pct = goal ? Math.min(100, month / goal * 100) : 0;
+  return `<div class="card slip"><div class="chart-head"><b>${esc(t('goal.title'))}</b>
+    <button type="button" class="btn small sec" id="goalEdit">${esc(goal ? t('goal.edit') : t('goal.set'))}</button></div>
+    ${goal ? `<div class="slip-amt"><b>${peso(month)}</b><span>/ ${peso(goal)}</span></div>
+      <div class="cat-track slip-track"><div class="cat-fill${over ? ' over' : ''}" style="width:${pct.toFixed(1)}%"></div></div>
+      <div class="note">${esc(over ? t('goal.over', { a: peso(month - goal) }) : t('goal.left', { a: peso(goal - month) }))} ${trend}</div>`
+      : `<p class="note" style="margin:0">${esc(t('goal.hint'))} ${trend}</p>`}</div>`;
+}
+function askNumber(msg, cur) {
+  return new Promise(res => {
+    const d = $('#dlg');
+    d.innerHTML = `<p style="margin:0 0 10px">${esc(msg)}</p><input id="gdn" type="number" inputmode="decimal" min="0" step="1" value="${esc(cur || '')}">
+      <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" id="gno">${esc(t('cancel'))}</button><button class="btn" id="gyes">${esc(t('goal.save'))}</button></div>`;
+    let done = false;
+    const fin = v => { if (done) return; done = true; if (d.open) d.close(); res(v); };
+    $('#gyes').onclick = () => fin(Math.max(0, parseFloat($('#gdn').value) || 0)); $('#gno').onclick = () => fin(null); d.onclose = () => fin(null);
+    d.showModal(); $('#gdn').focus();
+  });
+}
+function exportCSV(list) {
+  const cell = v => { let x = String(v ?? ''); if (/^[=+\-@]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
+  const rows = [['Date paid', 'Description', 'Category', 'Amount (PHP)', 'Receipt no.', 'Notes']]
+    .concat(list.map(r => [r.paid_on, r.description, r.category, Number(r.amount).toFixed(2), r.receipt_no, r.notes]));
+  const blob = new Blob(['\ufeff' + rows.map(r => r.map(cell).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `receipts-${todayISO()}.csv`; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+async function shareReceipt(r) {
+  const b = await (await fetch(urlCache.get(r.image_path))).blob();
+  const file = new File([b], 'receipt.jpg', { type: 'image/jpeg' });
+  const data = { title: r.description, text: `${r.description} · ${peso(r.amount)} · ${fmtDate(r.paid_on)}` };
+  if (navigator.canShare && navigator.canShare({ files: [file] })) data.files = [file];
+  await navigator.share(data);
+}
+
+/* ---------- school fee calculator ---------- */
+const feesKey = () => 'rs-fees-' + curUser().id, schoolKey = () => 'rs-schoolbal-' + curUser().id;
+const linkKey = () => 'rs-feelink-' + curUser().id;
+async function feeNote(cat) {
+  try {
+    const fees = getFees(), mine = fees.filter(f => f.category === cat); if (!mine.length) return '';
+    const T = feeTotals(fees, await myReceipts()), left = mine.reduce((s, f) => s + Math.max(0, f.amount - T.paid[f.id]), 0);
+    return ' · ' + t(left > 0 ? 'fee.afterLeft' : 'fee.afterDone', { c: catName(cat), a: peso(left) });
+  } catch { return ''; }
+}
+const getFees = () => lsJSON(feesKey()) || [];
+const saveFees = a => lsSet(feesKey(), JSON.stringify(a));
+let feeBy = 'term';
+/* Match receipts to fees by category, oldest payment first. Extra money lands on the last fee of that category. */
+function feeTotals(fees, rs) {
+  const paid = Object.fromEntries(fees.map(f => [f.id, 0])); let unassigned = 0;
+  const links = lsJSON(linkKey()) || {}, free = [];
+  rs.forEach(r => { const f = links[r.id] && fees.find(x => x.id === links[r.id]); if (f) paid[f.id] += Number(r.amount); else free.push(r); });
+  free.sort((a, b) => String(a.paid_on).localeCompare(String(b.paid_on))).forEach(r => {
+    let left = Number(r.amount); const c = fees.filter(f => f.category === r.category);
+    for (const f of c) { const take = Math.min(left, Math.max(0, f.amount - paid[f.id])); paid[f.id] += take; left -= take; }
+    if (left > 0.005) { if (c.length) paid[c[c.length - 1].id] += left; else unassigned += left; }
+  });
+  const exp = fees.reduce((s, f) => s + f.amount, 0), got = Object.values(paid).reduce((s, v) => s + v, 0);
+  return { paid, unassigned, exp, got, bal: Math.max(0, exp - got), pct: exp ? Math.min(100, got / exp * 100) : 0 };
+}
+function feeBadge(fees) {
+  const n = fees.filter(f => f.official).length;
+  if (!fees.length) return '';
+  return n === fees.length ? `<span class="pill ok">${esc(t('fee.official'))}</span>` : `<span class="pill unverified">${esc(t(n ? 'fee.mixed' : 'fee.est'))}</span>`;
+}
+function feeMini(rs) {
+  const fees = getFees(); if (!fees.length) return '';
+  const T = feeTotals(fees, rs);
+  return `<a class="card feemini" href="#/fees"><div class="chart-head"><b>${esc(t('fee.mini'))}</b>${feeBadge(fees)}</div>
+    <div class="slip-amt" style="margin:4px 0 8px"><b>${peso(T.bal)}</b><span>${Math.round(T.pct)}%</span></div>
+    <div class="cat-track"><div class="cat-fill" style="width:${T.pct.toFixed(1)}%"></div></div></a>`;
+}
+function feeDialog(f) {
+  return new Promise(res => {
+    const d = $('#dlg'), x = f || { name: '', amount: '', category: CATEGORIES[0], term: '', tag: '', official: false };
+    d.innerHTML = `<form id="ff" novalidate><b>${esc(t(f ? 'fee.edit' : 'fee.add'))}</b>
+      <label for="fnm">${esc(t('fee.name'))}</label><input id="fnm" maxlength="80" placeholder="${esc(t('fee.namePh'))}" value="${esc(x.name)}">
+      <label for="fam">${esc(t('form.amount'))}</label><input id="fam" type="number" inputmode="decimal" min="0.01" step="0.01" value="${esc(x.amount)}">
+      <label for="fct">${esc(t('form.cat'))}</label><select id="fct">${CATEGORIES.map(c => `<option value="${esc(c)}" ${c === x.category ? 'selected' : ''}>${esc(catName(c))}</option>`).join('')}</select>
+      <label for="ftm">${esc(t('fee.term'))}</label><input id="ftm" maxlength="40" placeholder="${esc(t('fee.termPh'))}" value="${esc(x.term)}">
+      <label for="ftg">${esc(t('fee.tag'))}</label><input id="ftg" maxlength="60" placeholder="${esc(t('fee.tagPh'))}" value="${esc(x.tag)}">
+      <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input id="fof" type="checkbox" ${x.official ? 'checked' : ''}> ${esc(t('fee.official'))}</label>
+      <div class="note">${esc(t('fee.officialHint'))}</div><div id="ferr" class="err" role="alert"></div>
+      <div class="row" style="justify-content:flex-end;margin-top:14px">${f ? `<button type="button" class="btn danger" id="fdel" style="margin-right:auto">${esc(t('rec.delete'))}</button>` : ''}
+        <button type="button" class="btn ghost" id="fno">${esc(t('cancel'))}</button><button class="btn" type="submit">${esc(t('goal.save'))}</button></div></form>`;
+    let done = false;
+    const fin = v => { if (done) return; done = true; if (d.open) d.close(); res(v); };
+    $('#fno').onclick = () => fin(null); d.onclose = () => fin(null);
+    if (f) $('#fdel').onclick = () => fin('del');
+    $('#ff').onsubmit = e => {
+      e.preventDefault();
+      const name = $('#fnm').value.trim(), amount = Math.round(parseFloat($('#fam').value) * 100) / 100;
+      if (!name) return ($('#ferr').textContent = t('fee.errName'));
+      if (!(amount > 0)) return ($('#ferr').textContent = t('fee.errAmt'));
+      fin({ id: x.id || uid(), name, amount, category: $('#fct').value, term: $('#ftm').value.trim(), tag: $('#ftg').value.trim(), official: $('#fof').checked });
+    };
+    d.showModal(); $('#fnm').focus();
+  });
+}
+
 /* ---------- student screens ---------- */
 student[''] = async () => {
   const rs = await myReceipts(), live = rs;
@@ -841,6 +959,8 @@ student[''] = async () => {
   const month = live.filter(r => String(r.paid_on).startsWith(thisKey)).reduce((s, r) => s + Number(r.amount), 0);
   const nQ = rs.filter(r => r._queued).length;
   const first = (profile.full_name || '').split(' ')[0];
+  const pd = new Date(); pd.setDate(1); pd.setMonth(pd.getMonth() - 1);
+  const prev = live.filter(r => String(r.paid_on).startsWith(monthKey(pd))).reduce((s, r) => s + Number(r.amount), 0);
   view.innerHTML = `
     <h2 style="margin-top:4px">${first ? tH('dash.welcome', { name: first }) : esc(t('dash.welcome0'))}</h2>
     ${showingCache ? `<div class="banner info">${esc(t('net.showingSaved'))}</div>` : ''}
@@ -851,6 +971,8 @@ student[''] = async () => {
       <div class="card stat"><div class="n">${rs.length}</div><div class="l">${esc(t('stat.count'))}</div></div>
       <div class="card stat"><div class="n">${nQ}</div><div class="l">${esc(t('status.queued'))}</div></div>
     </div>
+    ${goalCard(month, prev)}
+    ${feeMini(live)}
     <div class="card" style="margin-top:12px">
       <div class="chart-head"><b>${esc(t('chart.byMonth'))}</b>
         <div class="seg" id="range"><button type="button" data-n="6" class="${chartRange === 6 ? 'on' : ''}">${esc(t('chart.m6'))}</button><button type="button" data-n="12" class="${chartRange === 12 ? 'on' : ''}">${esc(t('chart.m12'))}</button></div></div>
@@ -861,11 +983,68 @@ student[''] = async () => {
     ${rs.length ? `<div class="list">${rs.slice(0, 5).map(r => itemHTML(r)).join('')}</div>`
       : `<div class="card empty">${esc(t('dash.none'))}<br>${esc(t('dash.noneHint'))}</div>`}`;
   bindItems(); bindQueueBanner();
+  $('#goalEdit').onclick = async () => {
+    const v = await askNumber(t('goal.ask'), Number(lsGet(goalKey())) || '');
+    if (v === null) return; if (v) lsSet(goalKey(), String(v)); else lsDel(goalKey()); render();
+  };
   view.querySelectorAll('#range button').forEach(b => b.onclick = () => {
     chartRange = +b.dataset.n;
     view.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b));
     $('#chartbox').innerHTML = chartHTML(live, chartRange);
   });
+};
+
+student['fees'] = async () => {
+  const rs = await myReceipts(), fees = getFees(), T = feeTotals(fees, rs), sb_ = lsJSON(schoolKey());
+  const allOfficial = fees.length && fees.every(f => f.official);
+  const keyOf = { term: f => f.term || t('fee.none'), cat: f => catName(f.category), tag: f => f.tag || t('fee.none') }[feeBy];
+  const groups = {};
+  fees.forEach(f => { const g = groups[keyOf(f)] ||= { exp: 0, got: 0, fs: [] }; g.exp += f.amount; g.got += Math.min(T.paid[f.id], f.amount); g.fs.push(f); });
+  const rows = Object.entries(groups).map(([k, g]) => {
+    const left = Math.max(0, g.exp - g.got), p = g.exp ? g.got / g.exp * 100 : 0;
+    return `<div class="cat"><div class="cat-top"><span>${esc(k)} ${feeBadge(g.fs)}</span><b>${left ? esc(t('fee.left', { a: peso(left) })) : esc(t('fee.settled'))}</b></div>
+      <div class="cat-bar"><div class="cat-track"><div class="cat-fill" style="width:${p.toFixed(1)}%"></div></div><span class="cat-pct">${Math.round(p)}%</span></div>
+      <div class="note">${esc(t('fee.of', { p: peso(g.got), e: peso(g.exp) }))}</div></div>`;
+  }).join('');
+  let school = `<p class="note" style="margin:0 0 8px">${esc(t('fee.schoolHint'))}</p>`;
+  if (sb_) {
+    const diff = Math.abs(T.bal - sb_.amount);
+    school = `<div class="slip-amt" style="margin:4px 0"><b>${peso(sb_.amount)}</b><span>${esc(t('fee.schoolAsOf', { d: fmtDate(sb_.asOf) }))}</span></div>
+      <div class="note" style="margin-bottom:8px">${esc(diff < 0.5 ? t('fee.match') : t('fee.diff', { a: peso(diff) }))}</div>`;
+  }
+  view.innerHTML = `
+    <div class="chart-head" style="margin-top:4px"><h2 style="margin:0">${esc(t('fee.title'))}</h2><button class="btn small" id="fadd">+ ${esc(t('fee.add'))}</button></div>
+    ${!fees.length ? `<div class="card empty">${esc(t('fee.empty'))}<br><span class="note">${esc(t('fee.emptyHint'))}</span></div>` : `
+    <div class="card slip" style="margin-top:12px"><div class="chart-head"><b>${esc(t(allOfficial ? 'fee.balOfficial' : 'fee.balEst'))}</b>${feeBadge(fees)}</div>
+      <div class="slip-amt"><b>${peso(T.bal)}</b><span>${esc(t('fee.progress'))} ${Math.round(T.pct)}%</span></div>
+      <div class="cat-track slip-track"><div class="cat-fill" style="width:${T.pct.toFixed(1)}%"></div></div>
+      <div class="note">${esc(t(allOfficial ? 'fee.officialNote' : 'fee.estNote'))}</div></div>
+    <div class="grid" style="margin-top:12px"><div class="card stat"><div class="n">${peso(T.exp)}</div><div class="l">${esc(t('fee.expected'))}</div></div>
+      <div class="card stat"><div class="n">${peso(T.got)}</div><div class="l">${esc(t('fee.paid'))}</div></div></div>
+    ${T.unassigned > 0.005 ? `<div class="banner info" style="margin-top:12px">${esc(t('fee.unassigned', { a: peso(T.unassigned) }))}</div>` : ''}
+    <div class="card" style="margin-top:12px"><div class="chart-head"><b>${esc(t('fee.by'))}</b>
+      <div class="seg" id="by">${[['term', 'fee.byTerm'], ['cat', 'fee.byCat'], ['tag', 'fee.byTag']].map(([v, k]) => `<button type="button" data-v="${v}" class="${v === feeBy ? 'on' : ''}">${esc(t(k))}</button>`).join('')}</div></div>${rows}</div>
+    <div class="card"><div class="chart-head"><b>${esc(t('fee.school'))}</b>${sb_ ? `<button type="button" class="linkbtn" id="sclr">${esc(t('fee.clear'))}</button>` : ''}</div>${school}
+      <button type="button" class="btn small sec" id="sset">${esc(t('fee.schoolSet'))}</button></div>
+    <h2>${esc(t('fee.list'))}</h2>
+    <div class="list">${fees.map(f => `<button class="item" data-fid="${esc(f.id)}"><div class="mid"><div class="t">${esc(f.name)}</div>
+      <div class="s">${esc([f.term, catName(f.category), f.tag].filter(Boolean).join(' · '))}</div><div class="s">${feeBadge([f])}</div></div>
+      <div class="amt">${peso(f.amount)}</div></button>`).join('')}</div>
+    <p class="note" style="margin-top:12px">${esc(t('fee.device'))}</p>`}`;
+  const edit = async f => {
+    const v = await feeDialog(f); if (v === null) return;
+    const all = getFees().filter(x => !f || x.id !== f.id);
+    if (v !== 'del') all.splice(f ? Math.max(0, getFees().findIndex(x => x.id === f.id)) : all.length, 0, v);
+    saveFees(all); toast(t(v === 'del' ? 'fee.removed' : 'fee.saved')); render();
+  };
+  $('#fadd').onclick = () => edit(null);
+  view.querySelectorAll('[data-fid]').forEach(b => b.onclick = () => edit(fees.find(f => f.id === b.dataset.fid)));
+  view.querySelectorAll('#by button').forEach(b => b.onclick = () => { feeBy = b.dataset.v; render(); });
+  const ss = $('#sset'); if (ss) ss.onclick = async () => {
+    const v = await askNumber(t('fee.schoolAsk'), sb_ ? sb_.amount : ''); if (v === null) return;
+    lsSet(schoolKey(), JSON.stringify({ amount: v, asOf: todayISO() })); render();
+  };
+  const sc = $('#sclr'); if (sc) sc.onclick = () => { lsDel(schoolKey()); render(); };
 };
 
 student['receipts'] = async () => {
@@ -881,14 +1060,20 @@ student['receipts'] = async () => {
       <div><label for="fd2" style="margin-top:0">${esc(t('list.to'))}</label><input id="fd2" type="date"></div>
       <select id="fs" class="full" aria-label="Sort"><option value="new">${esc(t('list.new'))}</option><option value="old">${esc(t('list.old'))}</option><option value="hi">${esc(t('list.hi'))}</option></select>
     </div>
+    <div class="sumbar"><span id="sum"></span><button type="button" class="btn small sec" id="csv">${esc(t('list.export'))}</button></div>
     <div id="out" class="list"></div>`;
   bindQueueBanner();
+  let shown = rs;
+  $('#csv').onclick = () => exportCSV(shown);
   const draw = () => {
     const q = $('#q').value.trim().toLowerCase(), c = $('#fc').value, d1 = $('#fd1').value, d2 = $('#fd2').value, s = $('#fs').value;
     const list = rs.filter(r =>
       (!q || (r.description + ' ' + (r.receipt_no || '') + ' ' + r.category).toLowerCase().includes(q)) &&
       (!c || r.category === c) && (!d1 || r.paid_on >= d1) && (!d2 || r.paid_on <= d2));
     if (s === 'old') list.reverse(); else if (s === 'hi') list.sort((a, b) => b.amount - a.amount);
+    shown = list;
+    $('#sum').textContent = t('list.sum', { n: list.length, a: peso(list.reduce((s, r) => s + Number(r.amount), 0)) });
+    $('#csv').disabled = !list.length;
     $('#out').innerHTML = list.length ? list.map(r => itemHTML(r)).join('') : `<div class="card empty">${esc(t('list.none'))}</div>`;
     bindItems($('#out'));
   };
@@ -932,7 +1117,7 @@ student['receipt'] = async id => {
     <div class="card">${details(r)}
       <div class="row noprint" style="margin-top:14px">
         ${r.image_path ? `<button class="btn" id="dl">${esc(t('rec.download'))}</button><button class="btn sec" id="pr">${esc(t('rec.print'))}</button>` : ''}
-        <button class="btn sec" id="ed">${esc(t('rec.edit'))}</button><button class="btn danger" id="rm">${esc(t('rec.delete'))}</button>
+        ${r.image_path && navigator.share ? `<button class="btn sec" id="sh">${esc(t('rec.share'))}</button>` : ''}<button class="btn sec" id="dup">${esc(t('rec.dup'))}</button><button class="btn sec" id="ed">${esc(t('rec.edit'))}</button><button class="btn danger" id="rm">${esc(t('rec.delete'))}</button>
       </div>
     </div>`;
   $('#back').onclick = goBack('#/receipts');
@@ -943,6 +1128,8 @@ student['receipt'] = async id => {
   }
   {
     $('#ed').onclick = () => { location.hash = '#/edit/' + r.id; };
+    $('#dup').onclick = () => { location.hash = '#/add/' + r.id; };
+    const sh = $('#sh'); if (sh) sh.onclick = () => shareReceipt(r).catch(e => { if (!e || e.name !== 'AbortError') toast(t('rec.shareFail')); });
     $('#rm').onclick = async () => {
       if (!await ask(t('rec.confirmDelete'), t('rec.delete'))) return;
       const { data: gone, error } = await sb.from('receipts').delete().eq('id', r.id).select('id');
@@ -980,8 +1167,8 @@ student['queued'] = async qid => {
   };
 };
 
-function form(existing) {
-  const r = existing || { description: '', amount: '', paid_on: todayISO(), category: CATEGORIES[2], receipt_no: '', notes: '' };
+function form(existing, prefill) {
+  const r = existing || prefill || { description: '', amount: '', paid_on: todayISO(), category: CATEGORIES[2], receipt_no: '', notes: '' };
   const hasRemote = existing && existing.image_path && urlCache.get(existing.image_path);
   view.innerHTML = `
     <h2 style="margin-top:4px">${esc(existing ? t('form.edit') : t('form.add'))}</h2>
@@ -994,6 +1181,7 @@ function form(existing) {
       <input id="date" required type="date" max="${todayISO()}" value="${esc(String(r.paid_on).slice(0, 10))}">
       <label for="cat">${esc(t('form.cat'))}</label>
       <select id="cat">${CATEGORIES.map(c => `<option value="${esc(c)}" ${c === r.category ? 'selected' : ''}>${esc(catName(c))}</option>`).join('')}</select>
+      <div id="flwrap" hidden><label for="fl">${esc(t('fee.pick'))}</label><select id="fl"></select><div class="note">${esc(t('fee.pickHint'))}</div></div>
       <label for="no">${esc(t('form.no'))} <span class="note">${esc(t('form.noHint'))}</span></label>
       <input id="no" maxlength="40" value="${esc(r.receipt_no)}">
       <label for="notes">${esc(t('form.notes'))} <span class="note">${esc(t('form.optional'))}</span></label>
@@ -1024,6 +1212,13 @@ function form(existing) {
   view.querySelectorAll('input,select').forEach(el => el.addEventListener('input', () => el.classList.remove('filled')));
   const err = m => { $('#err').textContent = m; };
 
+  const fillFl = () => {
+    const c = $('#cat').value, fs = getFees().filter(f => f.category === c), cur = existing && (lsJSON(linkKey()) || {})[existing.id];
+    const keep = $('#fl').value || cur || '';
+    $('#flwrap').hidden = !fs.length;
+    $('#fl').innerHTML = `<option value="">${esc(t('fee.auto'))}</option>` + fs.map(f => `<option value="${esc(f.id)}" ${f.id === keep ? 'selected' : ''}>${esc(f.name + (f.term ? ' · ' + f.term : ''))}</option>`).join('');
+  };
+  $('#cat').addEventListener('change', fillFl); fillFl();
   const setPhoto = (blob, name) => {
     pending = blob;
     $('#pv').src = localUrl(blob); $('#pv').hidden = false;
@@ -1070,7 +1265,8 @@ function form(existing) {
     if (!paid_on) return err(t('form.errDate'));
     if (!existing && !pending) return err(t('form.errPhoto'));
     const row = { description, amount: Math.round(amount * 100) / 100, paid_on, category: $('#cat').value, receipt_no: $('#no').value.trim() || null, notes: $('#notes').value.trim() || null };
-    const userId = curUser().id;
+    const userId = curUser().id, fl = $('#fl').value;
+    const linkIt = id => { const m = lsJSON(linkKey()) || {}; if (fl) m[id] = fl; else delete m[id]; lsSet(linkKey(), JSON.stringify(m)); };
     $('#save').disabled = true;
     try {
       if (existing) {
@@ -1085,7 +1281,7 @@ function form(existing) {
         const { error } = await sb.from('receipts').update(row).eq('id', existing.id);
         if (error) { if (newPath) await sb.storage.from(BUCKET).remove([newPath]); throw error; }
         if (newPath && existing.image_path) await sb.storage.from(BUCKET).remove([existing.image_path]);
-        toast(t('form.resubmitted')); location.replace('#/receipt/' + existing.id);
+        linkIt(existing.id); toast(t('form.resubmitted')); location.replace('#/receipt/' + existing.id);
         return;
       }
       /* new receipt: warn about look-alikes (this phone's waiting list is checked too) */
@@ -1096,6 +1292,7 @@ function form(existing) {
         if (same && !await ask(t('form.similar', { d: same.description, a: peso(same.amount) }), t('form.saveAnyway'), false)) { $('#save').disabled = false; return; }
       } catch { /* skip the check when offline */ }
       const rid = uid(), path = pending ? `${userId}/${rid}.jpg` : null;
+      linkIt(rid);
       let uploaded = false;
       try {
         if (!navigator.onLine) throw new TypeError('Failed to fetch');
@@ -1106,7 +1303,7 @@ function form(existing) {
         }
         const { error } = await sb.from('receipts').insert({ ...row, id: rid, user_id: userId, image_path: path });
         if (error) throw error;
-        toast(t('form.submitted')); location.replace('#/receipt/' + rid);
+        location.replace('#/receipt/' + rid); feeNote(row.category).then(n => toast(t('form.submitted') + n));
       } catch (x) {
         if (isNetErr(x)) {
           await ob.put({ qid: rid, userId, row, blob: pending, imagePath: uploaded ? path : null, createdAt: Date.now() });
@@ -1119,7 +1316,10 @@ function form(existing) {
     } catch (x) { err(t('form.couldNot', { m: errText(x) })); $('#save').disabled = false; }
   });
 }
-student['add'] = async () => form(null);
+student['add'] = async id => {
+  const src = id ? await getReceipt(id).catch(() => null) : null;
+  form(null, src && { ...src, paid_on: todayISO(), receipt_no: '', image_path: null });
+};
 student['edit'] = async id => {
   if (!navigator.onLine) { toast(t('net.editNeedsNet')); location.hash = '#/receipts'; return; }
   const r = await getReceipt(id);
