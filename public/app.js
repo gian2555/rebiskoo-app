@@ -1595,13 +1595,28 @@ student['account'] = async () => {
     const b = $('#out'); setLoading(b, true, t('acct.loggingOut'));
     const cover = busyOverlay(t('acct.loggingOut')), t0 = Date.now();
     try {
-      if (lsGet('rs-push') === '1') { try { await disablePush(); } catch { /* best effort */ } }
-      await sb.auth.signOut(); location.hash = '#/';
+      const cap = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r({ error: new Error('timeout') }), ms))]);
+      if (lsGet('rs-push') === '1') { try { await cap(disablePush(), 3000); } catch { /* best effort */ } }
+      /* signOut() does not throw on a network error: it returns { error } and keeps the session. Phones on weak data hit this. */
+      let out; try { out = await cap(sb.auth.signOut(), 6000); } catch (e) { out = { error: e }; }
+      if (!out || out.error) forceLocalSignOut(); /* clear the saved session ourselves so logout always works */
+      location.hash = '#/';
       const wait = 800 - (Date.now() - t0); if (wait > 0) await new Promise(r => setTimeout(r, wait)); /* long enough to be seen */
     } catch (x) { setLoading(b, false); toast(errText(x)); }
     cover.style.opacity = '0'; setTimeout(() => cover.remove(), 260); /* fade out to reveal the login screen */
   };
 };
+
+/* Wipes the saved Supabase session from this device when the server can't be reached. */
+function forceLocalSignOut() {
+  try {
+    const rm = [];
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && /^sb-.*-auth-token/.test(k)) rm.push(k); }
+    rm.forEach(k => localStorage.removeItem(k));
+  } catch { /* storage blocked */ }
+  session = null; offlineUser = null; profile = null; urlCache.clear(); lsDel('rs-last-user');
+  render();
+}
 
 /* ---------- start ---------- */
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(console.warn));
