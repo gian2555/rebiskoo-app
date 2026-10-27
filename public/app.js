@@ -92,6 +92,7 @@ const DICT = {
     'net.queueFail': 'Could not upload: {m}',
     'tab.fees': 'Fees', 'fee.title': 'School fee calculator', 'fee.add': 'Add fee', 'fee.edit': 'Edit fee', 'fee.name': 'Fee name', 'fee.namePh': 'e.g. Tuition, Math 101 lab', 'fee.term': 'Semester / term', 'fee.termPh': 'e.g. 1st Sem 2026-27', 'fee.tag': 'Subject or event (optional)', 'fee.tagPh': 'e.g. Math 101, Sports Fest', 'fee.official': 'Official (from school)', 'fee.officialHint': 'Tick this only if the amount comes from your school (assessment or billing statement). Otherwise it counts as an estimate.', 'fee.est': 'Estimate', 'fee.mixed': 'Partly official', 'fee.none': 'Not set', 'fee.expected': 'Total expected fees', 'fee.paid': 'Total recorded payments', 'fee.balance': 'Remaining balance', 'fee.progress': 'Payment progress', 'fee.balEst': 'Estimated balance', 'fee.balOfficial': 'Balance (official fees)', 'fee.estNote': 'This is an estimate. It uses the fees you entered and the receipts you saved, not a balance confirmed by your school.', 'fee.officialNote': 'All fees are marked official. Receipts are still matched by category, so confirm with your school before relying on it.', 'fee.by': 'Breakdown', 'fee.byTerm': 'Semester', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} of {e}', 'fee.left': '{a} left', 'fee.settled': 'Fully paid', 'fee.empty': 'Add the fees you expect to pay this school year to see what is left.', 'fee.emptyHint': 'Add each fee with its amount. Receipts are matched to fees by category, oldest payment first.', 'fee.unassigned': '{a} in your receipts does not match any fee category yet.', 'fee.list': 'Your fees', 'fee.school': 'Balance from school', 'fee.schoolSet': 'Enter school balance', 'fee.schoolAsk': 'Balance (₱) shown by your school or cashier.', 'fee.schoolHint': 'Have a statement from the school? Enter its balance to compare with this calculator.', 'fee.schoolAsOf': 'As of {d}', 'fee.match': 'Matches the calculator.', 'fee.diff': 'Differs from the calculator by {a}. Check your receipts and fees, or ask the school.', 'fee.clear': 'Clear', 'fee.errName': 'Enter a fee name.', 'fee.errAmt': 'Enter an amount greater than zero.', 'fee.saved': 'Fee saved', 'fee.removed': 'Fee removed', 'fee.mini': 'Remaining school fees', 'fee.device': 'Fees are saved to your account and follow you to your other devices.', 'fee.auto': 'Automatic (oldest unpaid first)', 'fee.pick': 'Counts toward fee', 'fee.pickHint': 'Choose a fee if this payment is for a specific semester or subject.', 'fee.afterLeft': '{c}: {a} left to pay', 'fee.afterDone': '{c}: fully paid', 'fee.dueLabel': 'Due date (optional)', 'fee.dueOn': 'Due {d}',
     'al.title': 'Notifications', 'al.none': 'You are all caught up.', 'al.done': 'Done',
+    'al.markPaid': 'Mark as paid', 'al.markedPaid': '{n} marked as paid', 'fee.markPaid': 'Mark as paid (without a receipt)', 'fee.markPaidHint': 'Counts this fee as fully paid and removes its alerts. Untick to undo.',
     'al.budget80': 'You have used {p}% of your monthly budget. {a} left.',
     'al.due': '{n} is due in {d} days. {a} still unpaid.', 'al.dueToday': '{n} is due today. {a} still unpaid.', 'al.overdue': '{n} was due {d} days ago. {a} still unpaid.',
     'al.phone': 'Phone alerts', 'al.phoneOn': 'Turn on phone alerts', 'al.phoneOff': 'Turn off phone alerts', 'al.phoneOnMsg': 'Phone alerts are on',
@@ -184,6 +185,7 @@ const DICT = {
     'net.queueFail': 'Hindi ma-upload: {m}',
     'tab.fees': 'Mga Bayarin', 'fee.title': 'Calculator ng school fees', 'fee.add': 'Magdagdag ng bayarin', 'fee.edit': 'I-edit ang bayarin', 'fee.name': 'Pangalan ng bayarin', 'fee.namePh': 'hal. Matrikula, Math 101 lab', 'fee.term': 'Semestre / term', 'fee.termPh': 'hal. 1st Sem 2026-27', 'fee.tag': 'Subject o event (hindi kailangan)', 'fee.tagPh': 'hal. Math 101, Sports Fest', 'fee.official': 'Opisyal (galing sa school)', 'fee.officialHint': 'I-tick lang kung galing sa school ang halaga (assessment o billing statement). Kung hindi, tantiya lang ito.', 'fee.est': 'Tantiya', 'fee.mixed': 'Bahagyang opisyal', 'fee.none': 'Wala pa', 'fee.expected': 'Kabuuang inaasahang bayarin', 'fee.paid': 'Kabuuang naitalang bayad', 'fee.balance': 'Natitirang balanse', 'fee.progress': 'Progreso ng bayad', 'fee.balEst': 'Tantiyang balanse', 'fee.balOfficial': 'Balanse (opisyal na bayarin)', 'fee.estNote': 'Tantiya lang ito. Batay ito sa mga bayaring inilagay mo at mga resibong na-save mo, hindi sa balanseng kumpirmado ng school.', 'fee.officialNote': 'Opisyal ang lahat ng bayarin. Itinutugma pa rin ang mga resibo ayon sa category, kaya kumpirmahin sa school bago umasa dito.', 'fee.by': 'Hati-hati', 'fee.byTerm': 'Semestre', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} sa {e}', 'fee.left': '{a} ang natitira', 'fee.settled': 'Bayad na lahat', 'fee.empty': 'Idagdag ang mga bayaring inaasahan mo ngayong school year para makita ang natitira.', 'fee.emptyHint': 'Ilagay ang bawat bayarin at halaga nito. Itinutugma ang mga resibo sa bayarin ayon sa category, mula sa pinakaunang bayad.', 'fee.unassigned': '{a} sa mga resibo mo ang walang katugmang category ng bayarin.', 'fee.list': 'Mga bayarin mo', 'fee.school': 'Balanse mula sa school', 'fee.schoolSet': 'Ilagay ang balanse ng school', 'fee.schoolAsk': 'Balanse (₱) na nakasaad sa school o cashier.', 'fee.schoolHint': 'May statement mula sa school? Ilagay ang balanse para ihambing sa calculator.', 'fee.schoolAsOf': 'Hanggang {d}', 'fee.match': 'Tugma sa calculator.', 'fee.diff': 'Iba ng {a} sa calculator. Suriin ang mga resibo at bayarin, o magtanong sa school.', 'fee.clear': 'Alisin', 'fee.errName': 'Maglagay ng pangalan ng bayarin.', 'fee.errAmt': 'Maglagay ng halagang higit sa zero.', 'fee.saved': 'Na-save ang bayarin', 'fee.removed': 'Naalis ang bayarin', 'fee.mini': 'Natitirang school fees', 'fee.device': 'Naka-save sa account mo ang mga bayarin at sumusunod sa iba mong device.', 'fee.auto': 'Awtomatiko (pinakaunang hindi pa bayad)', 'fee.pick': 'Mapupunta sa bayarin', 'fee.pickHint': 'Pumili ng bayarin kung para sa partikular na semestre o subject ang bayad na ito.', 'fee.afterLeft': '{c}: {a} ang natitira', 'fee.afterDone': '{c}: bayad na lahat', 'fee.dueLabel': 'Due date (hindi kailangan)', 'fee.dueOn': 'Due sa {d}',
     'al.title': 'Mga abiso', 'al.none': 'Wala kang kailangang asikasuhin.', 'al.done': 'Tapos na',
+    'al.markPaid': 'Bayad na', 'al.markedPaid': 'Bayad na ang {n}', 'fee.markPaid': 'Markahang bayad na (kahit walang resibo)', 'fee.markPaidHint': 'Ituturing na bayad na lahat ang bayarin na ito at mawawala ang mga abiso nito. I-untick para ibalik.',
     'al.budget80': 'Nagamit mo na ang {p}% ng budget mo kada buwan. {a} ang natitira.',
     'al.due': 'Due na ang {n} sa loob ng {d} araw. {a} ang hindi pa bayad.', 'al.dueToday': 'Due na ngayon ang {n}. {a} ang hindi pa bayad.', 'al.overdue': 'Lampas na ng {d} araw ang due ng {n}. {a} ang hindi pa bayad.',
     'al.phone': 'Alerto sa phone', 'al.phoneOn': 'I-on ang alerto sa phone', 'al.phoneOff': 'I-off ang alerto sa phone', 'al.phoneOnMsg': 'Naka-on na ang alerto sa phone',
@@ -916,7 +918,7 @@ async function pushAll() {
   let r = await sb.from('user_prefs').upsert({ user_id: u.id, monthly_budget: Number(lsGet(goalKey())) || 0, school_balance: sch ? sch.amount : null, school_balance_asof: sch ? sch.asOf : null, lang, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
   if (r.error) throw r.error;
   if (fees.length) {
-    r = await sb.from('fees').upsert(fees.map((f, i) => ({ id: f.id, user_id: u.id, name: f.name, amount: f.amount, category: f.category, term: f.term || '', tag: f.tag || '', due_on: f.due || null, official: !!f.official, position: i })), { onConflict: 'id' });
+    r = await sb.from('fees').upsert(fees.map((f, i) => ({ id: f.id, user_id: u.id, name: f.name, amount: f.amount, category: f.category, term: f.term || '', tag: f.tag || '', due_on: f.due || null, official: !!f.official, marked_paid: !!f.paidMark, position: i })), { onConflict: 'id' });
     if (r.error) throw r.error;
   }
   const have = await sb.from('fees').select('id').eq('user_id', u.id); if (have.error) throw have.error;
@@ -955,7 +957,7 @@ async function syncUserData() {
     if ((dirty && (lsGet(sk) === '1' || empty)) || (empty && hasLocal)) {
       await pushAll(); lsDel(dirtyKey()); /* first run moves this phone's data to the cloud */
     } else {
-      lsSet(feesKey(), JSON.stringify(fe.data.map(r => ({ id: r.id, name: r.name, amount: Number(r.amount), category: r.category, term: r.term || '', tag: r.tag || '', due: r.due_on || '', official: !!r.official }))));
+      lsSet(feesKey(), JSON.stringify(fe.data.map(r => ({ id: r.id, name: r.name, amount: Number(r.amount), category: r.category, term: r.term || '', tag: r.tag || '', due: r.due_on || '', official: !!r.official, paidMark: !!r.marked_paid }))));
       lsSet(linkKey(), JSON.stringify(Object.fromEntries(fl.data.map(x => [x.receipt_id, x.fee_id]))));
       const p = pf.data;
       if (p) {
@@ -1004,8 +1006,8 @@ async function getAlerts() {
     fees.filter(f => f.due).forEach(f => {
       const left = Math.max(0, f.amount - T.paid[f.id]); if (left < 0.005) return;
       const d = Math.round((new Date(f.due + 'T00:00:00') - today) / 864e5), a = peso(left);
-      if (d < 0) out.push({ key: 'f' + f.id + 'o', lvl: 'bad', text: t('al.overdue', { n: f.name, d: -d, a }) });
-      else if (d <= 7) out.push({ key: 'f' + f.id + d, lvl: 'warn', text: t(d ? 'al.due' : 'al.dueToday', { n: f.name, d, a }) });
+      if (d < 0) out.push({ key: 'f' + f.id + 'o', fid: f.id, lvl: 'bad', text: t('al.overdue', { n: f.name, d: -d, a }) });
+      else if (d <= 7) out.push({ key: 'f' + f.id + d, fid: f.id, lvl: 'warn', text: t(d ? 'al.due' : 'al.dueToday', { n: f.name, d, a }) });
     });
   }
   return out;
@@ -1031,10 +1033,19 @@ async function openAlerts() {
   const cfg = lsJSON('rs-cfg') || {}, usePush = pushSupported() && !!cfg.vapidPublicKey && !!session;
   const on = perm === 'granted' && (usePush ? lsGet('rs-push') === '1' : lsGet('rs-notify') === '1');
   d.innerHTML = `<b>${esc(t('al.title'))}</b>
-    <div class="alist">${al.length ? al.map(a => `<div class="al ${a.lvl}">${esc(a.text)}</div>`).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
+    <div class="alist">${al.length ? al.map(a => a.fid ? `<div class="al ${a.lvl}" data-fid="${esc(a.fid)}" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>` : `<div class="al ${a.lvl}">${esc(a.text)}</div>`).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
     ${perm === 'none' ? '' : `<div class="lbl">${esc(t('al.phone'))}</div>${perm === 'denied' ? `<p class="note">${esc(t('al.phoneDenied'))}</p>` : `<button type="button" class="btn small sec" id="alPhone">${esc(t(on ? 'al.phoneOff' : 'al.phoneOn'))}</button>`}<p class="note">${esc(t(usePush ? 'al.pushNote' : 'al.phoneNote'))}</p>`}
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn" id="alDone">${esc(t('al.done'))}</button></div>`;
   d.onclose = null; $('#alDone').onclick = () => d.close();
+  d.querySelectorAll('[data-paid]').forEach(btn => btn.onclick = () => {
+    const fees = getFees(), f = fees.find(x => x.id === btn.dataset.paid); if (!f) return;
+    f.paidMark = true; saveFees(fees);
+    d.querySelectorAll('.al[data-fid]').forEach(r => { if (r.dataset.fid === f.id) r.remove(); }); /* a fee can have only one alert, but be safe */
+    const list = d.querySelector('.alist');
+    if (list && !list.querySelector('.al')) list.innerHTML = `<p class="note">${esc(t('al.none'))}</p>`;
+    toast(t('al.markedPaid', { n: f.name })); refreshBell();
+    if (typeof render === 'function') render();
+  });
   const p = $('#alPhone');
   if (p) p.onclick = async () => {
     p.disabled = true;
@@ -1077,6 +1088,7 @@ function feeTotals(fees, rs) {
     for (const f of c) { const take = Math.min(left, Math.max(0, f.amount - paid[f.id])); paid[f.id] += take; left -= take; }
     if (left > 0.005) { if (c.length) paid[c[c.length - 1].id] += left; else unassigned += left; }
   });
+  fees.forEach(f => { if (f.paidMark) paid[f.id] = Math.max(paid[f.id], f.amount); }); /* marked paid by hand */
   const exp = fees.reduce((s, f) => s + f.amount, 0), got = Object.values(paid).reduce((s, v) => s + v, 0);
   return { paid, unassigned, exp, got, bal: Math.max(0, exp - got), pct: exp ? Math.min(100, got / exp * 100) : 0 };
 }
@@ -1103,7 +1115,9 @@ function feeDialog(f) {
       <label for="ftg">${esc(t('fee.tag'))}</label><input id="ftg" maxlength="60" placeholder="${esc(t('fee.tagPh'))}" value="${esc(x.tag)}">
       <label for="fdu">${esc(t('fee.dueLabel'))}</label><input id="fdu" type="date" value="${esc(x.due || '')}">
       <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input id="fof" type="checkbox" ${x.official ? 'checked' : ''}> ${esc(t('fee.official'))}</label>
-      <div class="note">${esc(t('fee.officialHint'))}</div><div id="ferr" class="err" role="alert"></div>
+      <div class="note">${esc(t('fee.officialHint'))}</div>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:600;margin-top:10px"><input id="fpm" type="checkbox" ${x.paidMark ? 'checked' : ''}> ${esc(t('fee.markPaid'))}</label>
+      <div class="note">${esc(t('fee.markPaidHint'))}</div><div id="ferr" class="err" role="alert"></div>
       <div class="row" style="justify-content:flex-end;margin-top:14px">${f ? `<button type="button" class="btn danger" id="fdel" style="margin-right:auto">${esc(t('rec.delete'))}</button>` : ''}
         <button type="button" class="btn ghost" id="fno">${esc(t('cancel'))}</button><button class="btn" type="submit">${esc(t('goal.save'))}</button></div></form>`;
     let done = false;
@@ -1115,7 +1129,7 @@ function feeDialog(f) {
       const name = $('#fnm').value.trim(), amount = Math.round(parseFloat($('#fam').value) * 100) / 100;
       if (!name) return ($('#ferr').textContent = t('fee.errName'));
       if (!(amount > 0)) return ($('#ferr').textContent = t('fee.errAmt'));
-      fin({ id: x.id || uid(), name, amount, category: $('#fct').value, term: $('#ftm').value.trim(), tag: $('#ftg').value.trim(), due: $('#fdu').value, official: $('#fof').checked });
+      fin({ id: x.id || uid(), name, amount, category: $('#fct').value, term: $('#ftm').value.trim(), tag: $('#ftg').value.trim(), due: $('#fdu').value, official: $('#fof').checked, paidMark: $('#fpm').checked });
     };
     d.showModal(); $('#fnm').focus();
   });

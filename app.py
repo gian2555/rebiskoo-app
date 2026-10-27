@@ -215,7 +215,7 @@ def build_alerts(prefs, fees, receipts, links, today):
             out.append((f"b{mk}", m["b80"].format(p=round(spent / goal * 100), a=peso(goal - spent))))
     paid = fee_paid(fees, receipts, links)
     for f in fees:
-        if not f.get("due_on"):
+        if not f.get("due_on") or f.get("marked_paid"):  # marked paid by hand: no alerts
             continue
         left = max(0.0, float(f["amount"]) - paid[f["id"]])
         if left < 0.005:
