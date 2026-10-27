@@ -186,3 +186,44 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
   body{background:#fff;color:#000;padding:0}
   .card{border:0;box-shadow:none}
 }
+/* ---- v7 refresh: quieter chrome, one receipt-slip moment for the budget ---- */
+:root{--topbar2:#0b5a54;--slip:#fffdf7;--slip-line:#e4dcc8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--topbar2:#091a18;--slip:#1a2523;--slip-line:#33474a}}
+:root[data-theme="dark"]{--topbar2:#091a18;--slip:#1a2523;--slip-line:#33474a}
+.topbar{background:linear-gradient(120deg,var(--topbar),var(--topbar2))}
+.card{box-shadow:none}
+.stat{border-left:4px solid var(--brand)}
+.stat .n{font-size:1.3rem}
+.item{transition:border-color .15s,transform .1s}
+.item:hover{border-color:var(--brand)}
+.item .amt{color:var(--brand-d)}
+.grid+.card{margin-top:12px}
+.tab{position:relative;transition:color .15s}
+.tab.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.sumbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:2px 0 10px;font-size:.85rem;color:var(--muted)}
+.sumbar span{font-variant-numeric:tabular-nums}
+.trend{font-weight:600;white-space:nowrap}.trend.up{color:var(--bad-text)}.trend.down{color:var(--ok)}
+.cat-fill.over{background:var(--bad)}
+
+/* the memorable bit: the monthly budget looks like a torn receipt slip */
+.slip{background:var(--slip);border:1px dashed var(--slip-line);border-radius:6px;padding:16px 16px 22px;
+  -webkit-mask:radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/14px 100% repeat-x,linear-gradient(#000,#000) 0 0/100% calc(100% - 7px) no-repeat;
+  mask:radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/14px 100% repeat-x,linear-gradient(#000,#000) 0 0/100% calc(100% - 7px) no-repeat}
+.slip-amt{display:flex;align-items:baseline;gap:8px;margin:8px 0 8px;font-variant-numeric:tabular-nums}
+.slip-amt b{font-size:1.7rem;letter-spacing:-.01em}
+.slip-amt span{color:var(--muted)}
+.slip-track{height:10px;margin-bottom:8px;background:var(--line)}
+
+/* school fee calculator */
+.feemini{display:block;color:inherit;text-decoration:none;margin-top:12px}
+.feemini:hover{border-color:var(--brand)}
+.tab{min-width:0}
+.chart-head h2{text-wrap:balance}
+
+/* notifications */
+.bell{position:relative}
+.bell.has::after{content:attr(data-n);position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:#ef4444;color:#fff;font:700 .65rem/17px system-ui,sans-serif;text-align:center}
+.alist{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.al{padding:9px 11px;border-radius:10px;border-left:4px solid var(--info);background:var(--info-bg);color:var(--info);font-size:.9rem}
+.al.warn{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.al.bad{background:var(--bad-bg);color:var(--bad-text);border-color:var(--bad)}
