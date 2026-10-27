@@ -113,6 +113,8 @@ const DICT = {
    
     'acct.title': 'Account', 'acct.email': 'Email',
     'acct.fullName': 'Full name', 'acct.saveName': 'Save name', 'acct.saved': 'Name saved', 'acct.logout': 'Log out',
+    'auth.loggingIn': 'Logging in…', 'auth.creating': 'Creating account…', 'acct.loggingOut': 'Logging out…', 'acct.logoutAsk': 'Are you sure you want to log out?',
+    'acct.pw': 'Change password', 'acct.curPw': 'Current password', 'acct.confirmPw': 'Confirm new password', 'acct.updatePw': 'Update password', 'acct.updating': 'Updating…', 'acct.needCur': 'Enter your current password.', 'acct.pwMismatch': 'The new passwords do not match.', 'acct.pwSame': 'Your new password must be different from the current one.', 'acct.pwWrong': 'Your current password is incorrect.', 'acct.pwChanged': 'Password changed',
     'acct.prefs': 'Preferences', 'acct.lang': 'Language', 'acct.theme': 'Appearance', 'acct.auto': 'Auto', 'acct.light': 'Light', 'acct.dark': 'Dark',
     wrong: 'Something went wrong: {m}', retry: 'Try again', cancel: 'Cancel',
     'theme.toLight': 'Switch to light mode', 'theme.toDark': 'Switch to dark mode', 'lang.switch': 'Change language'
@@ -206,6 +208,8 @@ const DICT = {
    
     'acct.title': 'Account', 'acct.email': 'Email',
     'acct.fullName': 'Buong pangalan', 'acct.saveName': 'I-save ang pangalan', 'acct.saved': 'Na-save ang pangalan', 'acct.logout': 'Mag-log out',
+    'auth.loggingIn': 'Nagla-log in…', 'auth.creating': 'Ginagawa ang account…', 'acct.loggingOut': 'Nagla-log out…', 'acct.logoutAsk': 'Sigurado ka bang gusto mong mag-log out?',
+    'acct.pw': 'Palitan ang password', 'acct.curPw': 'Kasalukuyang password', 'acct.confirmPw': 'Ulitin ang bagong password', 'acct.updatePw': 'I-update ang password', 'acct.updating': 'Ina-update…', 'acct.needCur': 'Ilagay ang kasalukuyan mong password.', 'acct.pwMismatch': 'Hindi magkapareho ang mga bagong password.', 'acct.pwSame': 'Dapat iba ang bagong password sa kasalukuyan.', 'acct.pwWrong': 'Mali ang kasalukuyan mong password.', 'acct.pwChanged': 'Napalitan na ang password',
     'acct.prefs': 'Mga setting', 'acct.lang': 'Wika', 'acct.theme': 'Itsura', 'acct.auto': 'Auto', 'acct.light': 'Maliwanag', 'acct.dark': 'Madilim',
     wrong: 'May nangyaring mali: {m}', retry: 'Subukan ulit', cancel: 'Kanselahin',
     'theme.toLight': 'Lumipat sa maliwanag na itsura', 'theme.toDark': 'Lumipat sa madilim na itsura', 'lang.switch': 'Palitan ang wika'
@@ -260,6 +264,23 @@ $('#btnTheme').addEventListener('click', () => setTheme(effTheme() === 'dark' ? 
 function toast(msg) {
   const el = $('#toast'); el.textContent = msg; el.classList.add('show');
   clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+(function () {
+  const s = document.createElement('style');
+  s.textContent = '.btn .sp{display:inline-block;width:14px;height:14px;margin-right:8px;vertical-align:-2px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:rs-spin .7s linear infinite}@keyframes rs-spin{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.btn .sp{animation-duration:2.4s}}.rs-busy{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:var(--bg);color:var(--ink);font-weight:600;transition:opacity .25s}.rs-busy .sp{color:var(--brand)}.rs-busy .sp{display:block;width:36px;height:36px;border:3px solid currentColor;border-right-color:transparent;border-radius:50%;animation:rs-spin .7s linear infinite}';
+  document.head.appendChild(s);
+})();
+/* Button loading state: spinner + label, disabled while it runs. */
+function setLoading(btn, on, label) {
+  if (!btn) return;
+  if (on) { btn.dataset.lbl = btn.innerHTML; btn.innerHTML = `<span class="sp" aria-hidden="true"></span>${esc(label)}`; btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+  else { if (btn.dataset.lbl != null) btn.innerHTML = btn.dataset.lbl; btn.disabled = false; btn.removeAttribute('aria-busy'); }
+}
+/* Full-screen loading cover. Lives on <body>, so it stays while the screen underneath is swapped. */
+function busyOverlay(label) {
+  const o = document.createElement('div'); o.className = 'rs-busy'; o.setAttribute('role', 'status');
+  o.innerHTML = `<span class="sp" aria-hidden="true"></span><span>${esc(label)}</span>`;
+  document.body.appendChild(o); return o;
 }
 function ask(msg, ok = 'OK', danger = true) {
   return new Promise(res => {
@@ -735,7 +756,7 @@ function authView(mode = 'login') {
   view.querySelectorAll('.seg button').forEach(b => b.onclick = () => authView(b.dataset.m));
   bindPw();
   const err = m => { $('#err').textContent = m; };
-  const busy = v => { $('#go').disabled = v; };
+  const busy = v => setLoading($('#go'), v, t(mode === 'login' ? 'auth.loggingIn' : 'auth.creating'));
   if (mode === 'login') $('#forgot').onclick = async () => {
     const email = $('#em').value.trim();
     if (!email) return err(t('auth.needEmail'));
@@ -1529,7 +1550,17 @@ student['account'] = async () => {
       <div class="lbl">${esc(t('acct.lang'))}</div>${seg('sl', [['en', 'English'], ['fil', 'Filipino']], lang)}
       <div class="lbl">${esc(t('acct.theme'))}</div>${seg('st', [['auto', t('acct.auto')], ['light', t('acct.light')], ['dark', t('acct.dark')]], theme)}
     </div>
+    <form id="cpf" class="card" novalidate>
+      <b>${esc(t('acct.pw'))}</b>
+      <label for="cp0">${esc(t('acct.curPw'))}</label>${pwField('cp0', 'current-password')}
+      <label for="cp1">${esc(t('auth.newPw'))}</label>${pwField('cp1', 'new-password')}
+      <div class="note">${esc(t('auth.pwHint'))}</div>
+      <label for="cp2">${esc(t('acct.confirmPw'))}</label>${pwField('cp2', 'new-password')}
+      <div id="perr" class="err" role="alert"></div>
+      <div class="row" style="margin-top:12px"><button class="btn sec" type="submit" id="cpgo">${esc(t('acct.updatePw'))}</button></div>
+    </form>
     <div class="card"><button class="btn danger" id="out">${esc(t('acct.logout'))}</button></div>`;
+  bindPw();
   $('#pf').addEventListener('submit', async e => {
     e.preventDefault();
     const full_name = $('#fn').value.trim();
@@ -1539,7 +1570,37 @@ student['account'] = async () => {
   });
   $('#sl').querySelectorAll('button').forEach(b => b.onclick = () => setLang(b.dataset.v));
   $('#st').querySelectorAll('button').forEach(b => b.onclick = () => { setTheme(b.dataset.v); $('#st').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); });
-  $('#out').onclick = async () => { if (lsGet('rs-push') === '1') { try { await disablePush(); } catch { /* best effort */ } } await sb.auth.signOut(); location.hash = '#/'; };
+  $('#cpf').addEventListener('submit', async e => {
+    e.preventDefault();
+    const pe = $('#perr'); pe.textContent = '';
+    const cur = $('#cp0').value, n1 = $('#cp1').value, n2 = $('#cp2').value;
+    if (!cur) return (pe.textContent = t('acct.needCur'));
+    if (n1.length < 8) return (pe.textContent = t('auth.pwShort'));
+    if (n1 !== n2) return (pe.textContent = t('acct.pwMismatch'));
+    if (n1 === cur) return (pe.textContent = t('acct.pwSame'));
+    const go = $('#cpgo'); setLoading(go, true, t('acct.updating'));
+    try {
+      /* confirm the current password first, so someone on an unlocked phone cannot just change it */
+      const chk = await sb.auth.signInWithPassword({ email: u.email, password: cur });
+      if (chk.error) throw new Error(isNetErr(chk.error) ? t('auth.offline') : t('acct.pwWrong'));
+      const { error } = await sb.auth.updateUser({ password: n1 });
+      if (error) throw new Error(errText(error));
+      ['#cp0', '#cp1', '#cp2'].forEach(s => { $(s).value = ''; });
+      toast(t('acct.pwChanged'));
+    } catch (x) { pe.textContent = errText(x); }
+    setLoading(go, false);
+  });
+  $('#out').onclick = async () => {
+    if (!(await ask(t('acct.logoutAsk'), t('acct.logout'), false))) return;
+    const b = $('#out'); setLoading(b, true, t('acct.loggingOut'));
+    const cover = busyOverlay(t('acct.loggingOut')), t0 = Date.now();
+    try {
+      if (lsGet('rs-push') === '1') { try { await disablePush(); } catch { /* best effort */ } }
+      await sb.auth.signOut(); location.hash = '#/';
+      const wait = 800 - (Date.now() - t0); if (wait > 0) await new Promise(r => setTimeout(r, wait)); /* long enough to be seen */
+    } catch (x) { setLoading(b, false); toast(errText(x)); }
+    cover.style.opacity = '0'; setTimeout(() => cover.remove(), 260); /* fade out to reveal the login screen */
+  };
 };
 
 /* ---------- start ---------- */
