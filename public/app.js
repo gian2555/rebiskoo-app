@@ -118,6 +118,9 @@ const DICT = {
     'acct.prefs': 'Preferences', 'acct.lang': 'Language', 'acct.theme': 'Appearance', 'acct.auto': 'Auto', 'acct.light': 'Light', 'acct.dark': 'Dark',
     'av.title': 'Profile photo', 'av.add': 'Add photo', 'av.change': 'Change photo', 'av.remove': 'Remove photo', 'av.hint': 'Drag to position the photo. Use the slider to zoom.', 'av.zoom': 'Zoom', 'av.save': 'Save photo', 'av.saved': 'Profile photo updated', 'av.local': 'Photo saved on this device only. Could not upload it.', 'av.removed': 'Profile photo removed', 'av.open': 'Open account',
     'la.title': 'Recent login activity', 'la.here': 'This device', 'la.none': 'No logins recorded yet. New logins will show up here.', 'la.note': 'Your last 10 logins. If you do not recognize one, change your password.', 'la.local': 'Showing logins from this device only.',
+    'adm.show': 'Show', 'adm.hide': 'Hide', 'adm.prev': 'Previous', 'adm.next': 'Next', 'adm.range': '{a}–{b} of {n}',
+    'adm.users': 'Users', 'adm.colUser': 'User', 'adm.colStatus': 'Status', 'adm.colLast': 'Last activity', 'adm.on': 'Online', 'adm.off': 'Offline', 'adm.onNow': '{n} online now', 'adm.now': 'Just now', 'adm.min1': '1 minute ago', 'adm.minN': '{n} minutes ago', 'adm.hr1': '1 hour ago', 'adm.hrN': '{n} hours ago', 'adm.yest': 'Yesterday', 'adm.daysN': '{n} days ago', 'adm.never': 'Never',
+    'adm.title': 'Admin: app usage', 'adm.total': 'Total users', 'adm.new7': 'New users (7 days)', 'adm.login7': 'Logged in (7 days)', 'adm.login30': 'Logged in (30 days)', 'adm.rec30u': 'Users who saved a receipt (30 days)', 'adm.recAll': 'Receipts saved', 'adm.rec30': 'Receipts saved (30 days)', 'adm.note': 'Names are shown to admins only. Receipts are never shown.',
     'pw.strength': 'Password strength', 'pw.1': 'Weak', 'pw.2': 'Fair', 'pw.3': 'Good', 'pw.4': 'Strong', 'pw.tip': 'Use more characters, with a mix of letters, numbers and symbols.', 'pw.common': 'This password is too easy to guess.',
     wrong: 'Something went wrong: {m}', retry: 'Try again', cancel: 'Cancel',
     'theme.toLight': 'Switch to light mode', 'theme.toDark': 'Switch to dark mode', 'lang.switch': 'Change language'
@@ -216,6 +219,9 @@ const DICT = {
     'acct.prefs': 'Mga setting', 'acct.lang': 'Wika', 'acct.theme': 'Itsura', 'acct.auto': 'Auto', 'acct.light': 'Maliwanag', 'acct.dark': 'Madilim',
     'av.title': 'Litrato ng profile', 'av.add': 'Magdagdag ng litrato', 'av.change': 'Palitan ang litrato', 'av.remove': 'Alisin ang litrato', 'av.hint': 'I-drag para iposisyon ang litrato. Gamitin ang slider para mag-zoom.', 'av.zoom': 'Zoom', 'av.save': 'I-save ang litrato', 'av.saved': 'Na-update ang litrato ng profile', 'av.local': 'Sa device na ito lang na-save ang litrato. Hindi ito na-upload.', 'av.removed': 'Naalis ang litrato ng profile', 'av.open': 'Buksan ang account',
     'la.title': 'Mga kamakailang login', 'la.here': 'Ang device na ito', 'la.none': 'Wala pang naitalang login. Lalabas dito ang mga bagong login.', 'la.note': 'Ang huling 10 mong login. Kung may hindi mo kilala, palitan ang password mo.', 'la.local': 'Mga login lang mula sa device na ito ang ipinapakita.',
+    'adm.show': 'Ipakita', 'adm.hide': 'Itago', 'adm.prev': 'Nakaraan', 'adm.next': 'Susunod', 'adm.range': '{a}–{b} sa {n}',
+    'adm.users': 'Mga user', 'adm.colUser': 'User', 'adm.colStatus': 'Status', 'adm.colLast': 'Huling aktibidad', 'adm.on': 'Online', 'adm.off': 'Offline', 'adm.onNow': '{n} ang online ngayon', 'adm.now': 'Ngayon lang', 'adm.min1': '1 minuto na ang nakalipas', 'adm.minN': '{n} minuto na ang nakalipas', 'adm.hr1': '1 oras na ang nakalipas', 'adm.hrN': '{n} oras na ang nakalipas', 'adm.yest': 'Kahapon', 'adm.daysN': '{n} araw na ang nakalipas', 'adm.never': 'Wala pa',
+    'adm.title': 'Admin: paggamit ng app', 'adm.total': 'Kabuuang users', 'adm.new7': 'Bagong users (7 araw)', 'adm.login7': 'Nag-log in (7 araw)', 'adm.login30': 'Nag-log in (30 araw)', 'adm.rec30u': 'Users na nag-save ng resibo (30 araw)', 'adm.recAll': 'Kabuuang na-save na resibo', 'adm.rec30': 'Na-save na resibo (30 araw)', 'adm.note': 'Ang admin lang ang makakakita ng pangalan. Hindi kailanman ipinapakita ang mga resibo.',
     'pw.strength': 'Lakas ng password', 'pw.1': 'Mahina', 'pw.2': 'Katamtaman', 'pw.3': 'Maganda', 'pw.4': 'Malakas', 'pw.tip': 'Dagdagan ang haba at paghaluin ang letra, numero at simbolo.', 'pw.common': 'Madaling hulaan ang password na ito.',
     wrong: 'May nangyaring mali: {m}', retry: 'Subukan ulit', cancel: 'Kanselahin',
     'theme.toLight': 'Lumipat sa maliwanag na itsura', 'theme.toDark': 'Lumipat sa madilim na itsura', 'lang.switch': 'Palitan ang wika'
@@ -452,6 +458,58 @@ async function loadActivity() {
   const me = deviceId();
   $('#lalist').innerHTML = rows.length ? rows.map(r => `<div class="la"><b>${esc(r.device)}</b>${r.did === me ? ` <span class="pill ok">${esc(t('la.here'))}</span>` : ''}<div class="note">${esc(new Date(r.at).toLocaleString(loc(), { dateStyle: 'medium', timeStyle: 'short' }))}</div></div>`).join('') : `<p class="note">${esc(t('la.none'))}</p>`;
   $('#lanote').textContent = t(local && rows.length ? 'la.local' : 'la.note');
+}
+
+/* ---------- presence: lets the admin see who is online. Sends a small ping while the app is open and visible. ---------- */
+let presTimer = 0;
+function touchPresence() { if (session && navigator.onLine && !document.hidden) sb.rpc('touch_presence').then(() => {}, () => {}); }
+function startPresence() { if (presTimer) return; touchPresence(); presTimer = setInterval(touchPresence, 60000); }
+document.addEventListener('visibilitychange', touchPresence);
+function ago(iso) {
+  if (!iso) return t('adm.never');
+  const m = Math.floor(Math.max(0, Date.now() - new Date(iso).getTime()) / 6e4);
+  if (m < 1) return t('adm.now');
+  if (m < 60) return t(m === 1 ? 'adm.min1' : 'adm.minN', { n: m });
+  const h = Math.floor(m / 60); if (h < 24) return t(h === 1 ? 'adm.hr1' : 'adm.hrN', { n: h });
+  const d = Math.floor(h / 24); return d === 1 ? t('adm.yest') : t('adm.daysN', { n: d });
+}
+let admOpen = false, admPage = 0, admRows = [];
+const ADM_PER = 10;
+function usersCard() {
+  const n = admRows.length, on = admRows.filter(r => r.online).length, pages = Math.max(1, Math.ceil(n / ADM_PER));
+  admPage = clamp(admPage, 0, pages - 1);
+  const head = `<button type="button" class="admtg" id="admtg" aria-expanded="${admOpen}"><span><b>${esc(t('adm.users'))}</b> <span class="note">${n} · ${esc(t('adm.onNow', { n: on }))}</span></span><span class="admshow">${esc(t(admOpen ? 'adm.hide' : 'adm.show'))}</span></button>`;
+  if (!admOpen) return head;
+  const a = admPage * ADM_PER, rows = admRows.slice(a, a + ADM_PER);
+  return head + `<table class="adtbl"><thead><tr><th>${esc(t('adm.colUser'))}</th><th>${esc(t('adm.colStatus'))}</th><th>${esc(t('adm.colLast'))}</th></tr></thead><tbody>${rows.map(r =>
+      `<tr><td class="un"><b>${esc(r.name || r.label)}</b></td><td class="nw"><span class="dot${r.online ? ' on' : ''}"></span>${esc(t(r.online ? 'adm.on' : 'adm.off'))}</td><td class="nw">${esc(r.online ? t('adm.now') : ago(r.last_seen))}</td></tr>`).join('')}</tbody></table>`
+    + (n > ADM_PER ? `<div class="pager"><button type="button" class="btn small sec" id="admpv" ${admPage === 0 ? 'disabled' : ''}>‹ ${esc(t('adm.prev'))}</button><span class="note">${esc(t('adm.range', { a: a + 1, b: a + rows.length, n }))}</span><button type="button" class="btn small sec" id="admnx" ${admPage >= pages - 1 ? 'disabled' : ''}>${esc(t('adm.next'))} ›</button></div>` : '');
+}
+function bindUsers() {
+  const box = $('#admusers'); if (!box) return;
+  const draw = () => { box.innerHTML = usersCard(); bindUsers(); };
+  $('#admtg', box).onclick = () => { admOpen = !admOpen; draw(); };
+  const pv = $('#admpv', box), nx = $('#admnx', box);
+  if (pv) pv.onclick = () => { admPage--; draw(); };
+  if (nx) nx.onclick = () => { admPage++; draw(); };
+}
+function usersTable(rows) {
+  if (!Array.isArray(rows)) return '';
+  admRows = rows;
+  return `<div class="card admbox" id="admusers">${usersCard()}</div>`;
+}
+
+/* ---------- admin: usage counts (only shows for accounts listed in the admins table) ---------- */
+async function loadAdmin() {
+  if (!$('#adm') || !session || !navigator.onLine) return;
+  try {
+    const [{ data, error }, ul] = await Promise.all([sb.rpc('admin_stats'), sb.rpc('admin_users')]);
+    if (error || !data || !$('#adm')) return; /* not an admin: the card stays hidden */
+    const c = (k, v) => `<div class="card stat"><div class="n">${Number(v) || 0}</div><div class="l">${esc(t(k))}</div></div>`;
+    $('#adm').innerHTML = `<h2>${esc(t('adm.title'))}</h2><div class="grid admgrid">${c('adm.total', data.total_users)}${c('adm.new7', data.new_7d)}${c('adm.login7', data.login_7d)}${c('adm.login30', data.login_30d)}${c('adm.rec30u', data.receipt_users_30d)}${c('adm.rec30', data.receipts_30d)}${c('adm.recAll', data.receipts_total)}</div>${usersTable(ul && ul.data)}<p class="note">${esc(t('adm.note'))}</p>`;
+    bindUsers(); $('#adm').hidden = false;
+    clearInterval(loadAdmin.t); loadAdmin.t = setInterval(() => { if ($('#adm')) loadAdmin(); else clearInterval(loadAdmin.t); }, 30000);
+  } catch { /* ignore */ }
 }
 
 /* big photo viewer. The page behind it is blurred. */
@@ -857,7 +915,7 @@ async function render() {
     if (recovery) return recoveryView();
     if (!curUser()) { bareShell(); return authView(); }
     if (!profile) await loadProfile();
-    await syncOnce(); pullAvatar();
+    await syncOnce(); pullAvatar(); startPresence();
     const [, path, arg] = (location.hash || '').split('?')[0].match(/^#\/([^/]*)\/?(.*)$/) || [, '', ''];
     shell(path);
     const fn = student[path] || student[''];
@@ -1707,9 +1765,10 @@ student['account'] = async () => {
       <div id="perr" class="err" role="alert"></div>
       <div class="row" style="margin-top:12px"><button class="btn sec" type="submit" id="cpgo">${esc(t('acct.updatePw'))}</button></div>
     </form>
+    <div id="adm" hidden></div>
     <div class="card" id="lact"><b>${esc(t('la.title'))}</b><div id="lalist" class="lalist"><p class="note">${esc(t('loading'))}</p></div><p class="note" id="lanote"></p></div>
     <div class="card"><button class="btn danger" id="out">${esc(t('acct.logout'))}</button></div>`;
-  bindPw(); bindAvatar(); loadActivity();
+  bindPw(); bindAvatar(); loadActivity(); loadAdmin();
   $('#pf').addEventListener('submit', async e => {
     e.preventDefault();
     const full_name = $('#fn').value.trim();

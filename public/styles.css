@@ -258,3 +258,23 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .lalist{margin:6px 0 2px}
 .la{padding:9px 0;border-top:1px solid var(--line)}
 .la:first-child{border-top:0}
+
+/* admin users table */
+.adtbl{width:100%;border-collapse:collapse;font-size:.9rem}
+.adtbl th,.adtbl td{padding:9px 6px;text-align:left;border-top:1px solid var(--line)}
+.adtbl th{border-top:0;font-size:.75rem;font-weight:600;color:var(--muted)}
+.adtbl .nw{white-space:nowrap}
+.dot{display:inline-block;width:9px;height:9px;margin-right:7px;border-radius:50%;background:var(--muted);opacity:.55}
+.dot.on{background:var(--ok);opacity:1}
+
+.adtbl .un{min-width:140px;overflow-wrap:anywhere}
+
+/* admin: compact stats, collapsible users list with pages */
+.admgrid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.admgrid .card.stat{padding:10px 12px}
+.admgrid .stat .n{font-size:1.15rem}
+.admbox{margin-top:10px;overflow-x:auto}
+.admtg{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;padding:2px 0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.admshow{color:var(--brand);font-weight:600;font-size:.85rem}
+.admbox .adtbl{margin-top:8px}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
