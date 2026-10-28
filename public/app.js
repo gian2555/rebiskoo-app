@@ -90,7 +90,7 @@ const DICT = {
     'net.showingSaved': "You're offline. Showing your last saved list.", 'net.needNet': "This needs internet. Try again when you're online.",
     'net.editNeedsNet': 'Editing needs internet.', 'net.cantReach': 'Cannot reach the server. Check your internet connection and reload.',
     'net.queueFail': 'Could not upload: {m}',
-    'tab.fees': 'Fees', 'fee.title': 'School fee calculator', 'fee.add': 'Add fee', 'fee.edit': 'Edit fee', 'fee.name': 'Fee name', 'fee.namePh': 'e.g. Tuition, Math 101 lab', 'fee.term': 'Semester / term', 'fee.termPh': 'e.g. 1st Sem 2026-27', 'fee.tag': 'Subject or event (optional)', 'fee.tagPh': 'e.g. Math 101, Sports Fest', 'fee.official': 'Official (from school)', 'fee.officialHint': 'Tick this only if the amount comes from your school (assessment or billing statement). Otherwise it counts as an estimate.', 'fee.est': 'Estimate', 'fee.mixed': 'Partly official', 'fee.none': 'Not set', 'fee.expected': 'Total expected fees', 'fee.paid': 'Total recorded payments', 'fee.balance': 'Remaining balance', 'fee.progress': 'Payment progress', 'fee.balEst': 'Estimated balance', 'fee.balOfficial': 'Balance (official fees)', 'fee.estNote': 'This is an estimate. It uses the fees you entered and the receipts you saved, not a balance confirmed by your school.', 'fee.officialNote': 'All fees are marked official. Receipts are still matched by category, so confirm with your school before relying on it.', 'fee.by': 'Breakdown', 'fee.byTerm': 'Semester', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} of {e}', 'fee.left': '{a} left', 'fee.settled': 'Fully paid', 'fee.empty': 'Add the fees you expect to pay this school year to see what is left.', 'fee.emptyHint': 'Add each fee with its amount. Receipts are matched to fees by category, oldest payment first.', 'fee.unassigned': '{a} in your receipts does not match any fee category yet.', 'fee.list': 'Your fees', 'fee.school': 'Balance from school', 'fee.schoolSet': 'Enter school balance', 'fee.schoolAsk': 'Balance (₱) shown by your school or cashier.', 'fee.schoolHint': 'Have a statement from the school? Enter its balance to compare with this calculator.', 'fee.schoolAsOf': 'As of {d}', 'fee.match': 'Matches the calculator.', 'fee.diff': 'Differs from the calculator by {a}. Check your receipts and fees, or ask the school.', 'fee.clear': 'Clear', 'fee.errName': 'Enter a fee name.', 'fee.errAmt': 'Enter an amount greater than zero.', 'fee.saved': 'Fee saved', 'fee.removed': 'Fee removed', 'fee.mini': 'Remaining school fees', 'fee.device': 'Fees are saved to your account and follow you to your other devices.', 'fee.auto': 'Automatic (oldest unpaid first)', 'fee.pick': 'Counts toward fee', 'fee.pickHint': 'Choose a fee if this payment is for a specific semester or subject.', 'fee.afterLeft': '{c}: {a} left to pay', 'fee.afterDone': '{c}: fully paid', 'fee.dueLabel': 'Due date (optional)', 'fee.dueOn': 'Due {d}',
+    'tab.fees': 'Fees', 'fee.title': 'School fee calculator', 'fee.add': 'Add fee', 'fee.edit': 'Edit fee', 'fee.name': 'Fee name', 'fee.namePh': 'e.g. Tuition, Math 101 lab', 'fee.term': 'Semester / term (optional)', 'fee.termPh': 'e.g. 1st Sem 2026-27', 'fee.tag': 'Subject or event (optional)', 'fee.tagPh': 'e.g. Math 101, Sports Fest', 'fee.official': 'Official (from school)', 'fee.officialHint': 'Tick this only if the amount comes from your school (assessment or billing statement). Otherwise it counts as an estimate.', 'fee.est': 'Estimate', 'fee.mixed': 'Partly official', 'fee.none': 'Not set', 'fee.expected': 'Total expected fees', 'fee.paid': 'Total recorded payments', 'fee.balance': 'Remaining balance', 'fee.progress': 'Payment progress', 'fee.balEst': 'Estimated balance', 'fee.balOfficial': 'Balance (official fees)', 'fee.estNote': 'This is an estimate. It uses the fees you entered and the receipts you saved, not a balance confirmed by your school.', 'fee.officialNote': 'All fees are marked official. Receipts are still matched by category, so confirm with your school before relying on it.', 'fee.by': 'Breakdown', 'fee.byTerm': 'Semester', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} of {e}', 'fee.left': '{a} left', 'fee.settled': 'Fully paid', 'fee.empty': 'Add the fees you expect to pay this school year to see what is left.', 'fee.emptyHint': 'Add each fee with its amount. Receipts are matched to fees by category, oldest payment first.', 'fee.unassigned': '{a} in your receipts does not match any fee category yet.', 'fee.list': 'Your fees', 'fee.school': 'Balance from school', 'fee.schoolSet': 'Enter school balance', 'fee.schoolAsk': 'Balance (₱) shown by your school or cashier.', 'fee.schoolHint': 'Have a statement from the school? Enter its balance to compare with this calculator.', 'fee.schoolAsOf': 'As of {d}', 'fee.match': 'Matches the calculator.', 'fee.diff': 'Differs from the calculator by {a}. Check your receipts and fees, or ask the school.', 'fee.clear': 'Clear', 'fee.errName': 'Enter a fee name.', 'fee.errAmt': 'Enter an amount greater than zero.', 'fee.saved': 'Fee saved', 'fee.removed': 'Fee removed', 'fee.mini': 'Remaining school fees', 'fee.device': 'Fees are saved to your account and follow you to your other devices.', 'fee.auto': 'Automatic (oldest unpaid first)', 'fee.pick': 'Counts toward fee', 'fee.pickHint': 'Choose a fee if this payment is for a specific semester or subject.', 'fee.afterLeft': '{c}: {a} left to pay', 'fee.afterDone': '{c}: fully paid', 'fee.dueLabel': 'Due date (optional)', 'fee.dueOn': 'Due {d}',
     'al.title': 'Notifications', 'al.none': 'You are all caught up.', 'al.done': 'Done',
     'al.markPaid': 'Mark as paid', 'al.markedPaid': '{n} marked as paid', 'fee.markPaid': 'Mark as paid (without a receipt)', 'fee.markPaidHint': 'Counts this fee as fully paid and removes its alerts. Untick to undo.',
     'al.budget80': 'You have used {p}% of your monthly budget. {a} left.',
@@ -121,10 +121,13 @@ const DICT = {
     'fee.select': 'Select', 'fee.selAll': 'Select all', 'fee.selNone': 'Clear selection', 'fee.delOne': 'Delete "{name}"? You can restore it from the recycle bin for 30 days.', 'fee.delMany': 'Delete {n} fees? You can restore them from the recycle bin for 30 days.',
     'bin.title': 'Recycle bin', 'bin.note': 'Deleted fees are kept on this device for 30 days.', 'bin.restore': 'Restore', 'bin.restored': 'Fee restored', 'bin.empty': 'The recycle bin is empty.', 'bin.emptyBtn': 'Empty bin', 'bin.emptyAsk': 'Permanently delete everything in the recycle bin?', 'bin.deleted': 'Deleted: {w}', 'fee.removedN': '{n} fees removed',
     'fee.history': 'History', 'fee.historyNote': 'Fees you have fully paid.', 'fee.allPaid': 'Nothing left to pay here. Tap the history icon to see them.',
+    'st.all': 'All', 'st.paid': 'Paid', 'st.partial': 'Partially paid', 'st.unpaid': 'Unpaid', 'st.overdue': 'Overdue',
     'adm.show': 'Show', 'adm.hide': 'Hide', 'adm.prev': 'Previous', 'adm.next': 'Next', 'adm.range': '{a}–{b} of {n}',
     'adm.users': 'Users', 'adm.colUser': 'User', 'adm.colStatus': 'Status', 'adm.colLast': 'Last activity', 'adm.on': 'Online', 'adm.off': 'Offline', 'adm.onNow': '{n} online now', 'adm.now': 'Just now', 'adm.min1': '1 minute ago', 'adm.minN': '{n} minutes ago', 'adm.hr1': '1 hour ago', 'adm.hrN': '{n} hours ago', 'adm.yest': 'Yesterday', 'adm.daysN': '{n} days ago', 'adm.never': 'Never',
     'adm.title': 'Admin: app usage', 'adm.total': 'Total users', 'adm.new7': 'New users (7 days)', 'adm.login7': 'Logged in (7 days)', 'adm.login30': 'Logged in (30 days)', 'adm.rec30u': 'Users who saved a receipt (30 days)', 'adm.recAll': 'Receipts saved', 'adm.rec30': 'Receipts saved (30 days)', 'adm.note': 'Names are shown to admins only. Receipts are never shown.',
     'pw.strength': 'Password strength', 'pw.1': 'Weak', 'pw.2': 'Fair', 'pw.3': 'Good', 'pw.4': 'Strong', 'pw.tip': 'Use more characters, with a mix of letters, numbers and symbols.', 'pw.common': 'This password is too easy to guess.',
+    'nav.main': 'Main', 'nav.more': 'More', 'nav.account': 'Account', 'nav.admin': 'Admin', 'nav.notifications': 'Notifications', 'nav.reports': 'Reports', 'nav.profile': 'Profile', 'nav.security': 'Security', 'nav.prefs': 'Preferences', 'nav.usage': 'Usage', 'nav.users': 'Users', 'nav.menu': 'Menu', 'nav.close': 'Close', 'nav.aria': 'Main menu',
+    'rep.title': 'Reports', 'rep.total': 'Total in range', 'rep.count': 'Receipts in range', 'hist.empty': 'No fully paid fees yet.',
     wrong: 'Something went wrong: {m}', retry: 'Try again', cancel: 'Cancel',
     'theme.toLight': 'Switch to light mode', 'theme.toDark': 'Switch to dark mode', 'lang.switch': 'Change language'
   },
@@ -194,7 +197,7 @@ const DICT = {
     'net.showingSaved': 'Offline ka. Ipinapakita ang huling naka-save na listahan.', 'net.needNet': 'Kailangan ng internet nito. Subukan ulit kapag online ka na.',
     'net.editNeedsNet': 'Kailangan ng internet para mag-edit.', 'net.cantReach': 'Hindi maabot ang server. Tingnan ang internet at i-reload.',
     'net.queueFail': 'Hindi ma-upload: {m}',
-    'tab.fees': 'Mga Bayarin', 'fee.title': 'Calculator ng school fees', 'fee.add': 'Magdagdag ng bayarin', 'fee.edit': 'I-edit ang bayarin', 'fee.name': 'Pangalan ng bayarin', 'fee.namePh': 'hal. Matrikula, Math 101 lab', 'fee.term': 'Semestre / term', 'fee.termPh': 'hal. 1st Sem 2026-27', 'fee.tag': 'Subject o event (hindi kailangan)', 'fee.tagPh': 'hal. Math 101, Sports Fest', 'fee.official': 'Opisyal (galing sa school)', 'fee.officialHint': 'I-tick lang kung galing sa school ang halaga (assessment o billing statement). Kung hindi, tantiya lang ito.', 'fee.est': 'Tantiya', 'fee.mixed': 'Bahagyang opisyal', 'fee.none': 'Wala pa', 'fee.expected': 'Kabuuang inaasahang bayarin', 'fee.paid': 'Kabuuang naitalang bayad', 'fee.balance': 'Natitirang balanse', 'fee.progress': 'Progreso ng bayad', 'fee.balEst': 'Tantiyang balanse', 'fee.balOfficial': 'Balanse (opisyal na bayarin)', 'fee.estNote': 'Tantiya lang ito. Batay ito sa mga bayaring inilagay mo at mga resibong na-save mo, hindi sa balanseng kumpirmado ng school.', 'fee.officialNote': 'Opisyal ang lahat ng bayarin. Itinutugma pa rin ang mga resibo ayon sa category, kaya kumpirmahin sa school bago umasa dito.', 'fee.by': 'Hati-hati', 'fee.byTerm': 'Semestre', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} sa {e}', 'fee.left': '{a} ang natitira', 'fee.settled': 'Bayad na lahat', 'fee.empty': 'Idagdag ang mga bayaring inaasahan mo ngayong school year para makita ang natitira.', 'fee.emptyHint': 'Ilagay ang bawat bayarin at halaga nito. Itinutugma ang mga resibo sa bayarin ayon sa category, mula sa pinakaunang bayad.', 'fee.unassigned': '{a} sa mga resibo mo ang walang katugmang category ng bayarin.', 'fee.list': 'Mga bayarin mo', 'fee.school': 'Balanse mula sa school', 'fee.schoolSet': 'Ilagay ang balanse ng school', 'fee.schoolAsk': 'Balanse (₱) na nakasaad sa school o cashier.', 'fee.schoolHint': 'May statement mula sa school? Ilagay ang balanse para ihambing sa calculator.', 'fee.schoolAsOf': 'Hanggang {d}', 'fee.match': 'Tugma sa calculator.', 'fee.diff': 'Iba ng {a} sa calculator. Suriin ang mga resibo at bayarin, o magtanong sa school.', 'fee.clear': 'Alisin', 'fee.errName': 'Maglagay ng pangalan ng bayarin.', 'fee.errAmt': 'Maglagay ng halagang higit sa zero.', 'fee.saved': 'Na-save ang bayarin', 'fee.removed': 'Naalis ang bayarin', 'fee.mini': 'Natitirang school fees', 'fee.device': 'Naka-save sa account mo ang mga bayarin at sumusunod sa iba mong device.', 'fee.auto': 'Awtomatiko (pinakaunang hindi pa bayad)', 'fee.pick': 'Mapupunta sa bayarin', 'fee.pickHint': 'Pumili ng bayarin kung para sa partikular na semestre o subject ang bayad na ito.', 'fee.afterLeft': '{c}: {a} ang natitira', 'fee.afterDone': '{c}: bayad na lahat', 'fee.dueLabel': 'Due date (hindi kailangan)', 'fee.dueOn': 'Due sa {d}',
+    'tab.fees': 'Mga Bayarin', 'fee.title': 'Calculator ng school fees', 'fee.add': 'Magdagdag ng bayarin', 'fee.edit': 'I-edit ang bayarin', 'fee.name': 'Pangalan ng bayarin', 'fee.namePh': 'hal. Matrikula, Math 101 lab', 'fee.term': 'Semestre / term (hindi kailangan)', 'fee.termPh': 'hal. 1st Sem 2026-27', 'fee.tag': 'Subject o event (hindi kailangan)', 'fee.tagPh': 'hal. Math 101, Sports Fest', 'fee.official': 'Opisyal (galing sa school)', 'fee.officialHint': 'I-tick lang kung galing sa school ang halaga (assessment o billing statement). Kung hindi, tantiya lang ito.', 'fee.est': 'Tantiya', 'fee.mixed': 'Bahagyang opisyal', 'fee.none': 'Wala pa', 'fee.expected': 'Kabuuang inaasahang bayarin', 'fee.paid': 'Kabuuang naitalang bayad', 'fee.balance': 'Natitirang balanse', 'fee.progress': 'Progreso ng bayad', 'fee.balEst': 'Tantiyang balanse', 'fee.balOfficial': 'Balanse (opisyal na bayarin)', 'fee.estNote': 'Tantiya lang ito. Batay ito sa mga bayaring inilagay mo at mga resibong na-save mo, hindi sa balanseng kumpirmado ng school.', 'fee.officialNote': 'Opisyal ang lahat ng bayarin. Itinutugma pa rin ang mga resibo ayon sa category, kaya kumpirmahin sa school bago umasa dito.', 'fee.by': 'Hati-hati', 'fee.byTerm': 'Semestre', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} sa {e}', 'fee.left': '{a} ang natitira', 'fee.settled': 'Bayad na lahat', 'fee.empty': 'Idagdag ang mga bayaring inaasahan mo ngayong school year para makita ang natitira.', 'fee.emptyHint': 'Ilagay ang bawat bayarin at halaga nito. Itinutugma ang mga resibo sa bayarin ayon sa category, mula sa pinakaunang bayad.', 'fee.unassigned': '{a} sa mga resibo mo ang walang katugmang category ng bayarin.', 'fee.list': 'Mga bayarin mo', 'fee.school': 'Balanse mula sa school', 'fee.schoolSet': 'Ilagay ang balanse ng school', 'fee.schoolAsk': 'Balanse (₱) na nakasaad sa school o cashier.', 'fee.schoolHint': 'May statement mula sa school? Ilagay ang balanse para ihambing sa calculator.', 'fee.schoolAsOf': 'Hanggang {d}', 'fee.match': 'Tugma sa calculator.', 'fee.diff': 'Iba ng {a} sa calculator. Suriin ang mga resibo at bayarin, o magtanong sa school.', 'fee.clear': 'Alisin', 'fee.errName': 'Maglagay ng pangalan ng bayarin.', 'fee.errAmt': 'Maglagay ng halagang higit sa zero.', 'fee.saved': 'Na-save ang bayarin', 'fee.removed': 'Naalis ang bayarin', 'fee.mini': 'Natitirang school fees', 'fee.device': 'Naka-save sa account mo ang mga bayarin at sumusunod sa iba mong device.', 'fee.auto': 'Awtomatiko (pinakaunang hindi pa bayad)', 'fee.pick': 'Mapupunta sa bayarin', 'fee.pickHint': 'Pumili ng bayarin kung para sa partikular na semestre o subject ang bayad na ito.', 'fee.afterLeft': '{c}: {a} ang natitira', 'fee.afterDone': '{c}: bayad na lahat', 'fee.dueLabel': 'Due date (hindi kailangan)', 'fee.dueOn': 'Due sa {d}',
     'al.title': 'Mga abiso', 'al.none': 'Wala kang kailangang asikasuhin.', 'al.done': 'Tapos na',
     'al.markPaid': 'Bayad na', 'al.markedPaid': 'Bayad na ang {n}', 'fee.markPaid': 'Markahang bayad na (kahit walang resibo)', 'fee.markPaidHint': 'Ituturing na bayad na lahat ang bayarin na ito at mawawala ang mga abiso nito. I-untick para ibalik.',
     'al.budget80': 'Nagamit mo na ang {p}% ng budget mo kada buwan. {a} ang natitira.',
@@ -225,10 +228,13 @@ const DICT = {
     'fee.select': 'Pumili', 'fee.selAll': 'Piliin lahat', 'fee.selNone': 'I-clear ang napili', 'fee.delOne': 'Buburahin ang "{name}"? Maibabalik mo ito mula sa basurahan sa loob ng 30 araw.', 'fee.delMany': 'Buburahin ang {n} bayarin? Maibabalik mo ang mga ito mula sa basurahan sa loob ng 30 araw.',
     'bin.title': 'Basurahan', 'bin.note': 'Itatago sa device na ito sa loob ng 30 araw ang mga binurang bayarin.', 'bin.restore': 'I-restore', 'bin.restored': 'Naibalik ang bayarin', 'bin.empty': 'Walang laman ang basurahan.', 'bin.emptyBtn': 'Alisan ng laman', 'bin.emptyAsk': 'Permanenteng buburahin ang lahat sa basurahan?', 'bin.deleted': 'Binura: {w}', 'fee.removedN': 'Naalis ang {n} bayarin',
     'fee.history': 'Kasaysayan', 'fee.historyNote': 'Mga bayarin na bayad na lahat.', 'fee.allPaid': 'Wala nang babayaran dito. Pindutin ang icon ng kasaysayan para makita.',
+    'st.all': 'Lahat', 'st.paid': 'Bayad na', 'st.partial': 'Bahagyang bayad', 'st.unpaid': 'Hindi pa bayad', 'st.overdue': 'Lampas na sa due',
     'adm.show': 'Ipakita', 'adm.hide': 'Itago', 'adm.prev': 'Nakaraan', 'adm.next': 'Susunod', 'adm.range': '{a}–{b} sa {n}',
     'adm.users': 'Mga user', 'adm.colUser': 'User', 'adm.colStatus': 'Status', 'adm.colLast': 'Huling aktibidad', 'adm.on': 'Online', 'adm.off': 'Offline', 'adm.onNow': '{n} ang online ngayon', 'adm.now': 'Ngayon lang', 'adm.min1': '1 minuto na ang nakalipas', 'adm.minN': '{n} minuto na ang nakalipas', 'adm.hr1': '1 oras na ang nakalipas', 'adm.hrN': '{n} oras na ang nakalipas', 'adm.yest': 'Kahapon', 'adm.daysN': '{n} araw na ang nakalipas', 'adm.never': 'Wala pa',
     'adm.title': 'Admin: paggamit ng app', 'adm.total': 'Kabuuang users', 'adm.new7': 'Bagong users (7 araw)', 'adm.login7': 'Nag-log in (7 araw)', 'adm.login30': 'Nag-log in (30 araw)', 'adm.rec30u': 'Users na nag-save ng resibo (30 araw)', 'adm.recAll': 'Kabuuang na-save na resibo', 'adm.rec30': 'Na-save na resibo (30 araw)', 'adm.note': 'Ang admin lang ang makakakita ng pangalan. Hindi kailanman ipinapakita ang mga resibo.',
     'pw.strength': 'Lakas ng password', 'pw.1': 'Mahina', 'pw.2': 'Katamtaman', 'pw.3': 'Maganda', 'pw.4': 'Malakas', 'pw.tip': 'Dagdagan ang haba at paghaluin ang letra, numero at simbolo.', 'pw.common': 'Madaling hulaan ang password na ito.',
+    'nav.main': 'Pangunahin', 'nav.more': 'Dagdag', 'nav.account': 'Account', 'nav.admin': 'Admin', 'nav.notifications': 'Mga abiso', 'nav.reports': 'Mga ulat', 'nav.profile': 'Profile', 'nav.security': 'Seguridad', 'nav.prefs': 'Mga setting', 'nav.usage': 'Paggamit', 'nav.users': 'Mga user', 'nav.menu': 'Menu', 'nav.close': 'Isara', 'nav.aria': 'Pangunahing menu',
+    'rep.title': 'Mga ulat', 'rep.total': 'Kabuuan sa saklaw', 'rep.count': 'Mga resibo sa saklaw', 'hist.empty': 'Wala pang bayad na bayarin.',
     wrong: 'May nangyaring mali: {m}', retry: 'Subukan ulit', cancel: 'Kanselahin',
     'theme.toLight': 'Lumipat sa maliwanag na itsura', 'theme.toDark': 'Lumipat sa madilim na itsura', 'lang.switch': 'Palitan ang wika'
   }
@@ -269,6 +275,7 @@ function applyStatic() {
   $('#tag').textContent = t('tagline');
   $('#fab').textContent = t('addReceipt');
   if (bellEl()) { bellEl().setAttribute('aria-label', t('al.title')); bellEl().title = t('al.title'); }
+  const bm = $('#btnMenu'); if (bm) { bm.setAttribute('aria-label', t('nav.menu')); bm.title = t('nav.menu'); }
   const bl = $('#btnLang'); bl.textContent = lang === 'fil' ? 'FIL' : 'EN'; bl.setAttribute('aria-label', t('lang.switch')); bl.title = t('lang.switch');
   const dark = effTheme() === 'dark', bt = $('#btnTheme');
   bt.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="${dark ? SUN : MOON}"/></svg>`;
@@ -479,44 +486,38 @@ function ago(iso) {
   const h = Math.floor(m / 60); if (h < 24) return t(h === 1 ? 'adm.hr1' : 'adm.hrN', { n: h });
   const d = Math.floor(h / 24); return d === 1 ? t('adm.yest') : t('adm.daysN', { n: d });
 }
-let admOpen = false, admPage = 0, admRows = [];
+/* ---------- admin: users list and usage counts (only for accounts listed in the admins table) ---------- */
+let admPage = 0, admRows = [], admTimer = 0;
 const ADM_PER = 10;
 function usersCard() {
   const n = admRows.length, on = admRows.filter(r => r.online).length, pages = Math.max(1, Math.ceil(n / ADM_PER));
   admPage = clamp(admPage, 0, pages - 1);
-  const head = `<button type="button" class="admtg" id="admtg" aria-expanded="${admOpen}"><span><b>${esc(t('adm.users'))}</b> <span class="note">${n} · ${esc(t('adm.onNow', { n: on }))}</span></span><span class="admshow">${esc(t(admOpen ? 'adm.hide' : 'adm.show'))}</span></button>`;
-  if (!admOpen) return head;
   const a = admPage * ADM_PER, rows = admRows.slice(a, a + ADM_PER);
-  return head + `<table class="adtbl"><thead><tr><th>${esc(t('adm.colUser'))}</th><th>${esc(t('adm.colStatus'))}</th><th>${esc(t('adm.colLast'))}</th></tr></thead><tbody>${rows.map(r =>
+  return `<div class="note" style="margin-bottom:6px">${n} · ${esc(t('adm.onNow', { n: on }))}</div>
+    <table class="adtbl"><thead><tr><th>${esc(t('adm.colUser'))}</th><th>${esc(t('adm.colStatus'))}</th><th>${esc(t('adm.colLast'))}</th></tr></thead><tbody>${rows.map(r =>
       `<tr><td class="un"><b>${esc(r.name || r.label)}</b></td><td class="nw"><span class="dot${r.online ? ' on' : ''}"></span>${esc(t(r.online ? 'adm.on' : 'adm.off'))}</td><td class="nw">${esc(r.online ? t('adm.now') : ago(r.last_seen))}</td></tr>`).join('')}</tbody></table>`
     + (n > ADM_PER ? `<div class="pager"><button type="button" class="btn small sec" id="admpv" ${admPage === 0 ? 'disabled' : ''}>‹ ${esc(t('adm.prev'))}</button><span class="note">${esc(t('adm.range', { a: a + 1, b: a + rows.length, n }))}</span><button type="button" class="btn small sec" id="admnx" ${admPage >= pages - 1 ? 'disabled' : ''}>${esc(t('adm.next'))} ›</button></div>` : '');
 }
 function bindUsers() {
   const box = $('#admusers'); if (!box) return;
   const draw = () => { box.innerHTML = usersCard(); bindUsers(); };
-  $('#admtg', box).onclick = () => { admOpen = !admOpen; draw(); };
   const pv = $('#admpv', box), nx = $('#admnx', box);
   if (pv) pv.onclick = () => { admPage--; draw(); };
   if (nx) nx.onclick = () => { admPage++; draw(); };
 }
-function usersTable(rows) {
-  if (!Array.isArray(rows)) return '';
-  admRows = rows;
-  return `<div class="card admbox" id="admusers">${usersCard()}</div>`;
+const usersTable = rows => { admRows = rows; return `<div class="card admbox" id="admusers">${usersCard()}</div>`; };
+/* Returns the data, or null when this account is not an admin. Network problems are thrown so the page can show its retry card. */
+async function adminRpc(name) {
+  const r = await sb.rpc(name);
+  if (r.error) { if (isNetErr(r.error)) throw r.error; return null; }
+  return r.data || null;
 }
-
-/* ---------- admin: usage counts (only shows for accounts listed in the admins table) ---------- */
-async function loadAdmin() {
-  if (!$('#adm') || !session || !navigator.onLine) return;
-  try {
-    const [{ data, error }, ul] = await Promise.all([sb.rpc('admin_stats'), sb.rpc('admin_users')]);
-    if (error || !data || !$('#adm')) return; /* not an admin: the card stays hidden */
-    const c = (k, v) => `<div class="card stat"><div class="n">${Number(v) || 0}</div><div class="l">${esc(t(k))}</div></div>`;
-    $('#adm').innerHTML = `<h2>${esc(t('adm.title'))}</h2><div class="grid admgrid">${c('adm.total', data.total_users)}${c('adm.new7', data.new_7d)}${c('adm.login7', data.login_7d)}${c('adm.login30', data.login_30d)}${c('adm.rec30u', data.receipt_users_30d)}${c('adm.rec30', data.receipts_30d)}${c('adm.recAll', data.receipts_total)}</div>${usersTable(ul && ul.data)}<p class="note">${esc(t('adm.note'))}</p>`;
-    bindUsers(); $('#adm').hidden = false;
-    clearInterval(loadAdmin.t); loadAdmin.t = setInterval(() => { if ($('#adm')) loadAdmin(); else clearInterval(loadAdmin.t); }, 30000);
-  } catch { /* ignore */ }
+function notAdmin() {
+  isAdmin = false; sideSig = ''; const u = curUser(); if (u) lsDel('rs-admin-' + u.id);
+  location.hash = '#/';
 }
+const statCard = (k, v) => `<div class="card stat"><div class="n">${Number(v) || 0}</div><div class="l">${esc(t(k))}</div></div>`;
+const usageHTML = d => `<div class="grid admgrid">${statCard('adm.total', d.total_users)}${statCard('adm.new7', d.new_7d)}${statCard('adm.login7', d.login_7d)}${statCard('adm.login30', d.login_30d)}${statCard('adm.rec30u', d.receipt_users_30d)}${statCard('adm.rec30', d.receipts_30d)}${statCard('adm.recAll', d.receipts_total)}</div><p class="note">${esc(t('adm.note'))}</p>`;
 
 /* big photo viewer. The page behind it is blurred. */
 function openPhoto(src) {
@@ -789,7 +790,7 @@ async function boot() {
     session = s;
     if (s) { offlineUser = null; lsSet('rs-last-user', JSON.stringify({ id: s.user.id, email: s.user.email })); }
     if (event === 'PASSWORD_RECOVERY') recovery = true;
-    if (event === 'SIGNED_OUT') { profile = null; urlCache.clear(); offlineUser = null; lsDel('rs-last-user'); }
+    if (event === 'SIGNED_OUT') { profile = null; urlCache.clear(); offlineUser = null; lsDel('rs-last-user'); isAdmin = false; adminFor = null; }
     const now = curUser() && curUser().id;
     if (was !== now || event === 'PASSWORD_RECOVERY') { profile = null; setTimeout(() => { render(); syncQueue(); }, 0); }
   });
@@ -891,26 +892,128 @@ const ICONS = {
   list: 'M4 6h16v2H4V6Zm0 5h16v2H4v-2Zm0 5h10v2H4v-2Z',
   user: 'M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-3.3 0-9 1.7-9 5v2h18v-2c0-3.3-5.7-5-9-5Z',
   calc: 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 3v3h10V6H7Zm0 5v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2ZM7 15v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z',
-  check: 'M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z'
+  check: 'M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z',
+  bell: 'M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-6v-5c0-3.1-1.64-5.64-4.5-6.32V4a2.5 2.5 0 0 0-5 0v.68C6.63 5.36 5 7.9 5 11v5l-2 2v1h18v-1l-2-2Z',
+  chart: 'M5 9.2h3V19H5V9.2ZM10.6 5h2.8v14h-2.8V5Zm5.6 8H19v6h-2.8v-6Z',
+  lock: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2Zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2Zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2Z',
+  tune: 'M3 17v2h6v-2H3ZM3 5v2h10V5H3Zm10 16v-2h8v-2h-8v-2h-2v6h2ZM7 9v2H3v2h4v2h2V9H7Zm14 4v-2H11v2h10Zm-6-4h2V7h4V5h-4V3h-2v6Z',
+  users: 'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3Zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5Z',
+  usage: 'M3 3v18h18v-2H5V3H3Zm4 10h2v4H7v-4Zm4-6h2v10h-2V7Zm4 3h2v7h-2v-7Z',
+  out: 'M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5ZM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5Z',
+  close: 'M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z'
 };
 const tabIcon = p => `<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="${p}"/></svg>`;
-function shell(path) {
-  const tabs = [['#/', t('tab.dashboard'), ICONS.home, ''], ['#/receipts', t('tab.receipts'), ICONS.list, 'receipts'], ['#/fees', t('tab.fees'), ICONS.calc, 'fees'], ['#/account', t('tab.account'), ICONS.user, 'account']];
-  const bar = $('#tabbar'); bar.hidden = false;
-  bar.innerHTML = tabs.map(([h, l, i]) => `<button class="tab" data-route="${h}">${tabIcon(i)}${esc(l)}</button>`).join('');
-  bar.querySelectorAll('.tab').forEach(b => {
-    const key = tabs.find(x => x[0] === b.dataset.route)[3];
-    const on = key === path || ((path === 'receipt' || path === 'queued') && key === 'receipts') || (path === 'edit' && key === 'receipts');
-    b.classList.toggle('on', on);
-    b.onclick = () => { location.hash = b.dataset.route; };
+const navIco = p => `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="${p}"/></svg>`;
+const BRAND_PATH = 'M6 2h12a1 1 0 0 1 1 1v18.2a.5.5 0 0 1-.8.4L16 20l-2.2 1.6a.5.5 0 0 1-.6 0L11 20l-2.2 1.6a.5.5 0 0 1-.6 0L6 20l-.2 1.6a.5.5 0 0 1-.8-.4V3a1 1 0 0 1 1-1Zm2 5v2h8V7H8Zm0 4v2h8v-2H8Z';
+
+/* Which nav item lights up for each route (null = none). */
+const NAVMAP = { '': 'dash', receipts: 'receipts', receipt: 'receipts', queued: 'receipts', edit: 'receipts', add: null, fees: 'fees', history: 'history', bin: 'bin',
+  notifications: 'notifications', reports: 'reports', account: 'profile', profile: 'profile', security: 'security', preferences: 'preferences', usage: 'usage', users: 'users' };
+let isAdmin = false, adminFor = null, curNav = 'dash', sideSig = '';
+
+/* Admin links only show for accounts that the server says are admins. The last answer is remembered so it also works offline. */
+async function checkAdmin() {
+  const u = curUser(); if (!u || !session || !navigator.onLine) return;
+  try {
+    const { data, error } = await sb.rpc('admin_stats');
+    const ok = !error && !!data;
+    if (ok) lsSet('rs-admin-' + u.id, '1'); else if (!isNetErr(error)) lsDel('rs-admin-' + u.id);
+    if (ok !== isAdmin && curUser() && curUser().id === u.id) { isAdmin = ok; renderSide(curNav); }
+  } catch { /* keep the saved answer */ }
+}
+
+function navGroups() {
+  const g = [
+    { label: t('nav.main'), items: [
+      { k: 'dash', href: '#/', ic: ICONS.home, l: t('tab.dashboard') },
+      { k: 'receipts', href: '#/receipts', ic: ICONS.list, l: t('tab.receipts') },
+      { k: 'fees', href: '#/fees', ic: ICONS.calc, l: t('tab.fees'), subs: [
+        { k: 'history', href: '#/history', l: t('fee.history') },
+        { k: 'bin', href: '#/bin', l: t('bin.title'), n: getTrash().length }] }] },
+    { label: t('nav.more'), items: [
+      { k: 'notifications', href: '#/notifications', ic: ICONS.bell, l: t('nav.notifications'), badge: true },
+      { k: 'reports', href: '#/reports', ic: ICONS.chart, l: t('nav.reports') }] },
+    { label: t('nav.account'), items: [
+      { k: 'profile', href: '#/profile', ic: ICONS.user, l: t('nav.profile') },
+      { k: 'security', href: '#/security', ic: ICONS.lock, l: t('nav.security') },
+      { k: 'preferences', href: '#/preferences', ic: ICONS.tune, l: t('nav.prefs') }] }
+  ];
+  if (isAdmin) g.push({ label: t('nav.admin'), items: [
+    { k: 'usage', href: '#/usage', ic: ICONS.usage, l: t('nav.usage') },
+    { k: 'users', href: '#/users', ic: ICONS.users, l: t('nav.users') }] });
+  return g;
+}
+const navLink = (it, sub) => `<a class="sb-a${sub ? ' sub' : ''}" href="${it.href}" data-k="${it.k}">${sub ? '' : navIco(it.ic)}<span class="sb-l">${esc(it.l)}</span>${it.badge ? '<span class="sb-badge" hidden></span>' : ''}${it.n ? `<span class="sb-n">${it.n}</span>` : ''}</a>`;
+const navHTML = () => navGroups().map(g => `<div class="sb-grp">${esc(g.label)}</div>${g.items.map(it => navLink(it) + (it.subs ? `<div class="sb-subs">${it.subs.map(s => navLink(s, true)).join('')}</div>` : '')).join('')}`).join('');
+function markNav(root, cur) {
+  root.querySelectorAll('a[data-k]').forEach(a => {
+    const on = a.dataset.k === cur; a.classList.toggle('on', on);
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
-  $('#fab').hidden = ['add', 'edit', 'account', 'queued', 'fees'].includes(path);
-  const chip = $('#chip'); chip.hidden = false; if (bellEl()) bellEl().hidden = false;
+}
+
+/* Sidebar for laptops and wide screens. It is only rebuilt when something in it changes, so keyboard focus stays put while you move around. */
+function renderSide(cur) {
+  const side = $('#sidebar'); if (!side) return;
+  const sig = [lang, isAdmin ? 1 : 0, getTrash().length].join('|');
+  if (sig !== sideSig) {
+    sideSig = sig;
+    side.setAttribute('aria-label', t('nav.aria'));
+    side.innerHTML = `<div class="sb-brand"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="${BRAND_PATH}"/></svg><span>ReceiptSafe</span></div>
+      <button type="button" class="sb-add" id="sbAdd">${esc(t('addReceipt'))}</button>
+      <nav class="sb-nav" aria-label="${esc(t('nav.aria'))}">${navHTML()}</nav>
+      <div class="sb-foot">
+        <button type="button" class="sb-me" id="sbMe" aria-label="${esc(t('av.open'))}">${avatarHTML(36)}<span class="who"><b id="sbName"></b><small id="sbMail"></small></span></button>
+        <button type="button" class="sb-a sb-out" id="sbOut">${navIco(ICONS.out)}<span class="sb-l">${esc(t('acct.logout'))}</span></button>
+      </div>`;
+    $('#sbAdd', side).onclick = () => { location.hash = '#/add'; };
+    $('#sbMe', side).onclick = () => { location.hash = '#/profile'; };
+    $('#sbOut', side).onclick = e => doLogout(e.currentTarget);
+  }
+  const u = curUser();
+  $('#sbName', side).textContent = (profile && profile.full_name) || (u && u.email) || '';
+  $('#sbMail', side).textContent = (u && u.email) || '';
+  markNav(side, cur); side.hidden = false;
+}
+
+/* Menu for phones: the bottom bar keeps its 4 tabs, everything else lives here. */
+function openMenu() {
+  let d = $('#menu');
+  if (!d) { d = document.createElement('dialog'); d.id = 'menu'; d.className = 'sheet'; document.body.appendChild(d); }
+  d.setAttribute('aria-label', t('nav.menu'));
+  d.innerHTML = `<div class="sheet-head"><b>${esc(t('nav.menu'))}</b><button type="button" class="ibtn" id="mnx" aria-label="${esc(t('nav.close'))}">${navIco(ICONS.close)}</button></div>
+    ${navHTML()}
+    <div class="sb-grp"></div>
+    <button type="button" class="sb-a sb-out" id="mnOut">${navIco(ICONS.out)}<span class="sb-l">${esc(t('acct.logout'))}</span></button>`;
+  markNav(d, curNav);
+  d.querySelectorAll('a[data-k]').forEach(a => a.addEventListener('click', () => d.close()));
+  $('#mnx', d).onclick = () => d.close();
+  $('#mnOut', d).onclick = () => { d.close(); doLogout(null); };
+  d.onclick = e => { if (e.target === d) d.close(); };
+  d.showModal(); refreshBell();
+}
+$('#btnMenu').addEventListener('click', openMenu);
+
+function shell(path) {
+  const cur = path in NAVMAP ? NAVMAP[path] : 'dash';
+  curNav = cur; document.body.classList.add('has-side');
+  const tabs = [['#/', t('tab.dashboard'), ICONS.home, 'dash'], ['#/receipts', t('tab.receipts'), ICONS.list, 'receipts'], ['#/fees', t('tab.fees'), ICONS.calc, 'fees'], ['#/profile', t('tab.account'), ICONS.user, 'acct']];
+  const tabOn = { dash: 'dash', receipts: 'receipts', fees: 'fees', history: 'fees', bin: 'fees', profile: 'acct', security: 'acct', preferences: 'acct' }[cur];
+  const bar = $('#tabbar'); bar.hidden = false;
+  bar.innerHTML = tabs.map(([h, l, i, k]) => `<button class="tab${k === tabOn ? ' on' : ''}" data-route="${h}"${k === tabOn ? ' aria-current="page"' : ''}>${tabIcon(i)}${esc(l)}</button>`).join('');
+  bar.querySelectorAll('.tab').forEach(b => { b.onclick = () => { location.hash = b.dataset.route; }; });
+  $('#fab').hidden = !['', 'receipts', 'receipt', 'reports'].includes(path);
+  const chip = $('#chip'); chip.hidden = false; if (bellEl()) bellEl().hidden = false; $('#btnMenu').hidden = false;
   const u = curUser();
   chip.innerHTML = `<button type="button" class="avbtn" aria-label="${esc(t('av.open'))}">${avatarHTML(34)}</button><span class="who"><b>${esc(profile.full_name || (u && u.email) || '')}</b>${esc((u && u.email) || '')}</span>`;
-  chip.querySelector('.avbtn').onclick = () => { location.hash = '#/account'; };
+  chip.querySelector('.avbtn').onclick = () => { location.hash = '#/profile'; };
+  renderSide(cur);
 }
-function bareShell() { if (bellEl()) bellEl().hidden = true; $('#tabbar').hidden = true; $('#fab').hidden = true; $('#chip').hidden = true; }
+function bareShell() {
+  if (bellEl()) bellEl().hidden = true;
+  $('#tabbar').hidden = true; $('#fab').hidden = true; $('#chip').hidden = true; $('#btnMenu').hidden = true; $('#sidebar').hidden = true;
+  document.body.classList.remove('has-side'); sideSig = '';
+}
 $('#fab').addEventListener('click', () => { location.hash = '#/add'; });
 
 const student = {};
@@ -923,6 +1026,7 @@ async function render() {
     if (!profile) await loadProfile();
     await syncOnce(); pullAvatar(); startPresence();
     const [, path, arg] = (location.hash || '').split('?')[0].match(/^#\/([^/]*)\/?(.*)$/) || [, '', ''];
+    const uu = curUser(); if (adminFor !== uu.id) { adminFor = uu.id; isAdmin = lsGet('rs-admin-' + uu.id) === '1'; checkAdmin(); }
     shell(path);
     const fn = student[path] || student[''];
     view.innerHTML = `<div class="spin">${esc(t('loading'))}</div>`;
@@ -1254,24 +1358,23 @@ function notifyPhone(al) {
 async function refreshBell() {
   const b = bellEl(); if (!b || !curUser()) return;
   const al = await getAlerts(); b.classList.toggle('has', al.length > 0); b.dataset.n = al.length; notifyPhone(al);
+  document.querySelectorAll('.sb-badge').forEach(x => { x.textContent = al.length > 99 ? '99+' : al.length; x.hidden = !al.length; });
 }
-async function openAlerts() {
-  const al = await getAlerts(), d = $('#dlg'), perm = 'Notification' in window ? Notification.permission : 'none';
+student['notifications'] = async () => {
+  const al = await getAlerts(), perm = 'Notification' in window ? Notification.permission : 'none';
   const cfg = lsJSON('rs-cfg') || {}, usePush = pushSupported() && !!cfg.vapidPublicKey && !!session;
   const on = perm === 'granted' && (usePush ? lsGet('rs-push') === '1' : lsGet('rs-notify') === '1');
-  d.innerHTML = `<b>${esc(t('al.title'))}</b>
-    <div class="alist">${al.length ? al.map(a => a.fid ? `<div class="al ${a.lvl}" data-fid="${esc(a.fid)}" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>` : `<div class="al ${a.lvl}">${esc(a.text)}</div>`).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
-    ${perm === 'none' ? '' : `<div class="lbl">${esc(t('al.phone'))}</div>${perm === 'denied' ? `<p class="note">${esc(t('al.phoneDenied'))}</p>` : `<button type="button" class="btn small sec" id="alPhone">${esc(t(on ? 'al.phoneOff' : 'al.phoneOn'))}</button>`}<p class="note">${esc(t(usePush ? 'al.pushNote' : 'al.phoneNote'))}</p>`}
-    <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn" id="alDone">${esc(t('al.done'))}</button></div>`;
-  d.onclose = null; $('#alDone').onclick = () => d.close();
-  d.querySelectorAll('[data-paid]').forEach(btn => btn.onclick = () => {
+  view.innerHTML = `<h2 style="margin-top:4px">${esc(t('al.title'))}</h2>
+    ${al.length ? `<div class="alist" style="margin-top:0">${al.map(a => a.fid
+      ? `<div class="al act ${a.lvl}"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>`
+      : `<div class="al ${a.lvl}">${esc(a.text)}</div>`).join('')}</div>` : `<div class="card empty">${esc(t('al.none'))}</div>`}
+    ${perm === 'none' ? '' : `<div class="card" style="margin-top:12px"><b>${esc(t('al.phone'))}</b>
+      ${perm === 'denied' ? `<p class="note">${esc(t('al.phoneDenied'))}</p>` : `<div class="row" style="margin-top:8px"><button type="button" class="btn small sec" id="alPhone">${esc(t(on ? 'al.phoneOff' : 'al.phoneOn'))}</button></div>`}
+      <p class="note">${esc(t(usePush ? 'al.pushNote' : 'al.phoneNote'))}</p></div>`}`;
+  view.querySelectorAll('[data-paid]').forEach(btn => btn.onclick = () => {
     const fees = getFees(), f = fees.find(x => x.id === btn.dataset.paid); if (!f) return;
     f.paidMark = true; saveFees(fees);
-    d.querySelectorAll('.al[data-fid]').forEach(r => { if (r.dataset.fid === f.id) r.remove(); }); /* a fee can have only one alert, but be safe */
-    const list = d.querySelector('.alist');
-    if (list && !list.querySelector('.al')) list.innerHTML = `<p class="note">${esc(t('al.none'))}</p>`;
-    toast(t('al.markedPaid', { n: f.name })); refreshBell();
-    if (typeof render === 'function') render();
+    toast(t('al.markedPaid', { n: f.name })); render();
   });
   const p = $('#alPhone');
   if (p) p.onclick = async () => {
@@ -1286,11 +1389,11 @@ async function openAlerts() {
         }
       }
     } catch (e) { toast(t('al.pushFail', { m: errText(e) })); }
-    d.close(); refreshBell();
+    render();
   };
-  d.showModal();
-}
-if (bellEl()) bellEl().addEventListener('click', openAlerts);
+};
+/* the bell in the header now opens the Notifications page */
+if (bellEl()) bellEl().addEventListener('click', () => { location.hash = '#/notifications'; });
 
 /* ---------- school fee calculator ---------- */
 const feesKey = () => 'rs-fees-' + curUser().id, schoolKey = () => 'rs-schoolbal-' + curUser().id;
@@ -1304,9 +1407,16 @@ async function feeNote(cat) {
 }
 const getFees = () => lsJSON(feesKey()) || [];
 const saveFees = a => { lsSet(feesKey(), JSON.stringify(a)); cloudSave(); };
-let feeBy = 'term', feePage = 0, feeSelOn = false, feeHistOpen = false;
+let feeBy = 'term', feePage = 0, feeSelOn = false, feeHistOpen = false, feeFilter = 'all';
 const feeSel = new Set();
 const FEE_PER = 10;
+/* Status is worked out from the fee, what has been paid toward it, and its due date. Nothing to enter by hand. */
+function feeStatus(f, paid) {
+  if (Math.max(0, f.amount - paid) < 0.005) return 'paid';
+  if (f.due && f.due < todayISO()) return 'overdue';
+  return paid > 0.005 ? 'partial' : 'unpaid';
+}
+const ST_CLS = { paid: 'ok', partial: 'unverified', unpaid: 'none', overdue: 'bad' };
 const feeIco = p => `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="${p}"/></svg>`;
 const PENCIL = 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z';
 const HIST = 'M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3Zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12Z';
@@ -1415,26 +1525,57 @@ const trashKey = () => 'rs-feetrash-' + curUser().id;
 const getTrash = () => { const cut = Date.now() - 30 * 864e5; return (lsJSON(trashKey()) || []).filter(x => x && x.fee && new Date(x.at).getTime() > cut); };
 const saveTrash = a => lsSet(trashKey(), JSON.stringify(a));
 const trashFees = fs => saveTrash([...fs.map(f => ({ fee: f, at: new Date().toISOString() })), ...getTrash()]);
-function openBin() {
-  const d = $('#dlg');
+/* Recycle bin and fee history are pages now (they were popups behind small icons). */
+student['bin'] = async () => {
+  const bin = getTrash();
+  view.innerHTML = `<h2 style="margin-top:4px">${esc(t('bin.title'))}</h2><p class="note" style="margin-top:0">${esc(t('bin.note'))}</p>
+    <div class="card">${bin.length ? `<div class="histlist" style="max-height:none;margin:0">${bin.map((x, i) => `<div class="hrow"><div class="hmid"><b>${esc(x.fee.name)}</b><div class="note">${esc(peso(x.fee.amount))} · ${esc(t('bin.deleted', { w: ago(x.at) }))}</div></div><button type="button" class="btn small sec" data-r="${i}">${esc(t('bin.restore'))}</button></div>`).join('')}</div>
+      <div class="row" style="margin-top:12px"><button type="button" class="btn ghost" id="bempty">${esc(t('bin.emptyBtn'))}</button></div>` : `<p class="note" style="margin:0">${esc(t('bin.empty'))}</p>`}</div>`;
+  view.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
+    const all = getTrash(), it = all[+b.dataset.r]; if (!it) return;
+    const fees = getFees(); if (!fees.some(f => f.id === it.fee.id)) { fees.push(it.fee); saveFees(fees); }
+    saveTrash(all.filter((_, i) => i !== +b.dataset.r)); toast(t('bin.restored')); render();
+  });
+  const em = $('#bempty');
+  if (em) em.onclick = async () => { if (await ask(t('bin.emptyAsk'), t('bin.emptyBtn'))) { saveTrash([]); render(); } };
+};
+student['history'] = async () => {
+  const rs = await myReceipts(), fees = getFees(), T = feeTotals(fees, rs);
+  const done = fees.filter(f => feeStatus(f, T.paid[f.id]) === 'paid');
+  view.innerHTML = `<h2 style="margin-top:4px">${esc(t('fee.history'))}</h2><p class="note" style="margin-top:0">${esc(t('fee.historyNote'))}</p>
+    <div class="card">${done.length ? `<div class="histlist" style="max-height:none;margin:0">${done.map(f => `<div class="hrow"><span class="hchk">${feeIco(ICONS.check)}</span><div class="hmid"><b>${esc(f.name)}</b><div class="note">${esc([f.term, catName(f.category), f.tag].filter(Boolean).join(' · '))}</div></div><div class="hamt">${peso(f.amount)}</div></div>`).join('')}</div>` : `<p class="note" style="margin:0">${esc(t('hist.empty'))}</p>`}</div>`;
+};
+/* Reports: the charts and Export CSV, for any date range. */
+student['reports'] = async () => {
+  const rs = await myReceipts();
+  let shown = rs;
+  view.innerHTML = `<div class="chart-head" style="margin-top:4px"><h2 style="margin:0">${esc(t('rep.title'))}</h2><button type="button" class="btn small sec" id="csv">${esc(t('list.export'))}</button></div>
+    ${showingCache ? `<div class="banner info" style="margin-top:12px">${esc(t('net.showingSaved'))}</div>` : ''}
+    <div class="filters"><div><label for="rd1" style="margin-top:0">${esc(t('list.from'))}</label><input id="rd1" type="date"></div><div><label for="rd2" style="margin-top:0">${esc(t('list.to'))}</label><input id="rd2" type="date"></div></div>
+    <div class="grid"><div class="card stat"><div class="n" id="rtot"></div><div class="l">${esc(t('rep.total'))}</div></div><div class="card stat"><div class="n" id="rcnt"></div><div class="l">${esc(t('rep.count'))}</div></div></div>
+    <div class="card" style="margin-top:12px"><div class="chart-head"><b>${esc(t('chart.byMonth'))}</b>
+      <div class="seg" id="range"><button type="button" data-n="6" class="${chartRange === 6 ? 'on' : ''}">${esc(t('chart.m6'))}</button><button type="button" data-n="12" class="${chartRange === 12 ? 'on' : ''}">${esc(t('chart.m12'))}</button></div></div>
+      <div id="chartbox"></div></div>
+    <div class="card"><div class="chart-head"><b>${esc(t('chart.byCat'))}</b></div><div id="catbox"></div></div>`;
   const draw = () => {
-    const bin = getTrash();
-    d.innerHTML = `<b>${esc(t('bin.title'))}</b><div class="note">${esc(t('bin.note'))}</div>
-      <div class="histlist">${bin.length ? bin.map((x, i) => `<div class="hrow"><div class="hmid"><b>${esc(x.fee.name)}</b><div class="note">${esc(peso(x.fee.amount))} · ${esc(t('bin.deleted', { w: ago(x.at) }))}</div></div><button type="button" class="btn small sec" data-r="${i}">${esc(t('bin.restore'))}</button></div>`).join('') : `<p class="note">${esc(t('bin.empty'))}</p>`}</div>
-      <div class="row" style="justify-content:flex-end;margin-top:12px">${bin.length ? `<button type="button" class="btn ghost" id="bempty" style="margin-right:auto">${esc(t('bin.emptyBtn'))}</button>` : ''}<button type="button" class="btn" id="bdone">${esc(t('al.done'))}</button></div>`;
-    d.onclose = null; $('#bdone').onclick = () => d.close();
-    d.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
-      const all = getTrash(), it = all[+b.dataset.r]; if (!it) return;
-      const fees = getFees(); if (!fees.some(f => f.id === it.fee.id)) { fees.push(it.fee); saveFees(fees); }
-      saveTrash(all.filter((_, i) => i !== +b.dataset.r)); toast(t('bin.restored')); draw(); render();
-    });
-    const em = $('#bempty');
-    if (em) em.onclick = async () => {
-      if (await ask(t('bin.emptyAsk'), t('bin.emptyBtn'))) { saveTrash([]); render(); } else openBin();
-    };
+    const d1 = $('#rd1').value, d2 = $('#rd2').value;
+    const list = rs.filter(r => (!d1 || r.paid_on >= d1) && (!d2 || r.paid_on <= d2));
+    shown = list;
+    $('#rtot').textContent = peso(list.reduce((s, r) => s + Number(r.amount), 0));
+    $('#rcnt').textContent = list.length;
+    $('#chartbox').innerHTML = chartHTML(list, chartRange);
+    $('#catbox').innerHTML = catHTML(list);
+    $('#csv').disabled = !list.length;
   };
-  draw(); if (!d.open) d.showModal();
-}
+  $('.filters').addEventListener('input', draw); $('.filters').addEventListener('change', draw);
+  $('#csv').onclick = () => exportCSV(shown);
+  view.querySelectorAll('#range button').forEach(b => b.onclick = () => {
+    chartRange = +b.dataset.n;
+    view.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b)); draw();
+  });
+  draw();
+};
+
 student['fees'] = async () => {
   feeSelOn = false; feeSel.clear();
   const rs = await myReceipts(), fees = getFees(), T = feeTotals(fees, rs), sb_ = lsJSON(schoolKey());
@@ -1449,6 +1590,7 @@ student['fees'] = async () => {
       <div class="note">${esc(t('fee.of', { p: peso(g.got), e: peso(g.exp) }))}</div></div>` };
   });
   const rows = entries.filter(e => !e.done).map(e => e.html).join(''), doneRows = entries.filter(e => e.done);
+  const paidN = fees.filter(f => feeStatus(f, T.paid[f.id]) === 'paid').length;
   let school = `<p class="note" style="margin:0 0 8px">${esc(t('fee.schoolHint'))}</p>`;
   if (sb_) {
     const diff = Math.abs(T.bal - sb_.amount);
@@ -1465,7 +1607,7 @@ student['fees'] = async () => {
     <div class="grid" style="margin-top:12px"><div class="card stat"><div class="n">${peso(T.exp)}</div><div class="l">${esc(t('fee.expected'))}</div></div>
       <div class="card stat"><div class="n">${peso(T.got)}</div><div class="l">${esc(t('fee.paid'))}</div></div></div>
     ${T.unassigned > 0.005 ? `<div class="banner info" style="margin-top:12px">${esc(t('fee.unassigned', { a: peso(T.unassigned) }))}</div>` : ''}
-    <div class="card" style="margin-top:12px"><div class="chart-head"><span class="row" style="flex-wrap:nowrap;gap:4px"><b>${esc(t('fee.by'))}</b>${doneRows.length ? `<button type="button" class="ibtn hist" id="fht" aria-label="${esc(t('fee.history') + ' (' + doneRows.length + ')')}" title="${esc(t('fee.history'))}">${feeIco(HIST)}<span class="hcount">${doneRows.length}</span></button>` : ''}</span>
+    <div class="card" style="margin-top:12px"><div class="chart-head"><span class="row" style="flex-wrap:nowrap;gap:4px"><b>${esc(t('fee.by'))}</b>${paidN ? `<button type="button" class="ibtn hist" id="fht" aria-label="${esc(t('fee.history') + ' (' + paidN + ')')}" title="${esc(t('fee.history'))}">${feeIco(HIST)}<span class="hcount">${paidN}</span></button>` : ''}</span>
       <div class="seg" id="by">${[['term', 'fee.byTerm'], ['cat', 'fee.byCat'], ['tag', 'fee.byTag']].map(([v, k]) => `<button type="button" data-v="${v}" class="${v === feeBy ? 'on' : ''}">${esc(t(k))}</button>`).join('')}</div></div>${rows || `<p class="note" style="margin:8px 0 0">${esc(t('fee.allPaid'))}</p>`}</div>
     <div class="card"><div class="chart-head"><b>${esc(t('fee.school'))}</b>${sb_ ? `<button type="button" class="linkbtn" id="sclr">${esc(t('fee.clear'))}</button>` : ''}</div>${school}
       <button type="button" class="btn small sec" id="sset">${esc(t('fee.schoolSet'))}</button></div>
@@ -1479,13 +1621,7 @@ student['fees'] = async () => {
   };
   $('#fadd').onclick = () => edit(null);
   const fht = $('#fht');
-  if (fht) fht.onclick = () => {
-    const d = $('#dlg');
-    d.innerHTML = `<b>${esc(t('fee.history'))}</b><div class="note">${esc(t('fee.historyNote'))}</div>
-      <div class="histlist">${doneRows.map(e => `<div class="hrow"><span class="hchk">${feeIco(ICONS.check)}</span><div class="hmid"><b>${esc(e.k)}</b><div class="note">${esc(peso(e.g.exp))}</div></div>${feeBadge(e.g.fs)}</div>`).join('')}</div>
-      <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn" id="hdone">${esc(t('al.done'))}</button></div>`;
-    d.onclose = null; $('#hdone').onclick = () => d.close(); d.showModal();
-  };
+  if (fht) fht.onclick = () => { location.hash = '#/history'; };
   const fl = $('#feelist');
   const removeFees = async ids => {
     const one = ids.length === 1, f0 = fees.find(f => f.id === ids[0]);
@@ -1495,13 +1631,18 @@ student['fees'] = async () => {
     toast(one ? t('fee.removed') : t('fee.removedN', { n: ids.length })); render();
   };
   const drawFees = () => {
-    const n = fees.length, pages = Math.max(1, Math.ceil(n / FEE_PER)); feePage = clamp(feePage, 0, pages - 1);
-    const a = feePage * FEE_PER, rows = fees.slice(a, a + FEE_PER);
+    const stOf = f => feeStatus(f, T.paid[f.id]), cnt = { paid: 0, partial: 0, unpaid: 0, overdue: 0 };
+    fees.forEach(f => { cnt[stOf(f)]++; });
+    if (feeFilter !== 'all' && !cnt[feeFilter]) feeFilter = 'all';
+    const vis = fees.filter(f => feeFilter === 'all' || stOf(f) === feeFilter), n = vis.length, pages = Math.max(1, Math.ceil(n / FEE_PER)); feePage = clamp(feePage, 0, pages - 1);
+    const a = feePage * FEE_PER, rows = vis.slice(a, a + FEE_PER), allSel = n > 0 && vis.every(f => feeSel.has(f.id));
+    const stPill = f => { const st = stOf(f), left = Math.max(0, f.amount - T.paid[f.id]); return `<span class="pill ${ST_CLS[st]}">${esc(t('st.' + st))}</span>${st === 'paid' ? '' : `<span class="note">${esc(t('fee.left', { a: peso(left) }))}</span> `}`; };
     fl.innerHTML = `<div class="chart-head"><h2 style="margin:0">${esc(t('fee.list'))}</h2><div class="row">${feeSelOn
-      ? `<button type="button" class="btn small ghost" id="fsa">${esc(t(feeSel.size === n ? 'fee.selNone' : 'fee.selAll'))}</button><button type="button" class="btn small danger" id="fsd" ${feeSel.size ? '' : 'disabled'}>${esc(t('rec.delete'))} (${feeSel.size})</button><button type="button" class="btn small ghost" id="fsx">${esc(t('cancel'))}</button>`
+      ? `<button type="button" class="btn small ghost" id="fsa">${esc(t(allSel ? 'fee.selNone' : 'fee.selAll'))}</button><button type="button" class="btn small danger" id="fsd" ${feeSel.size ? '' : 'disabled'}>${esc(t('rec.delete'))} (${feeSel.size})</button><button type="button" class="btn small ghost" id="fsx">${esc(t('cancel'))}</button>`
       : `${getTrash().length ? `<button type="button" class="ibtn hist" id="fbin" aria-label="${esc(t('bin.title') + ' (' + getTrash().length + ')')}" title="${esc(t('bin.title'))}">${feeIco(BIN)}<span class="hcount">${getTrash().length}</span></button>` : ''}<button type="button" class="btn small sec" id="fson">${esc(t('fee.select'))}</button>`}</div></div>
+      <div class="fchips">${[['all', fees.length], ...['overdue', 'unpaid', 'partial', 'paid'].map(k => [k, cnt[k]])].filter(([k, c]) => k === 'all' || c).map(([k, c]) => `<button type="button" class="fchip${feeFilter === k ? ' on' : ''}" data-f="${k}">${esc(t('st.' + k))} ${c}</button>`).join('')}</div>
       <div class="list">${rows.map(f => `<div class="item feeitem${feeSelOn ? ' pick' : ''}${feeSel.has(f.id) ? ' sel' : ''}" data-fid="${esc(f.id)}">${feeSelOn ? `<input type="checkbox" class="fsel" aria-label="${esc(f.name)}" ${feeSel.has(f.id) ? 'checked' : ''}>` : ''}<div class="mid"><div class="t">${esc(f.name)}</div>
-        <div class="s">${esc([f.term, catName(f.category), f.tag, f.due ? t('fee.dueOn', { d: fmtDate(f.due) }) : ''].filter(Boolean).join(' · '))}</div><div class="s">${feeBadge([f])}</div></div>
+        <div class="s">${esc([f.term, catName(f.category), f.tag, f.due ? t('fee.dueOn', { d: fmtDate(f.due) }) : ''].filter(Boolean).join(' · '))}</div><div class="s">${stPill(f)}${feeBadge([f])}</div></div>
         <div class="amt">${peso(f.amount)}</div>${feeSelOn ? '' : `<div class="acts"><button type="button" class="ibtn" data-act="edit" aria-label="${esc(t('fee.edit') + ': ' + f.name)}" title="${esc(t('fee.edit'))}">${feeIco(PENCIL)}</button><button type="button" class="ibtn danger" data-act="del" aria-label="${esc(t('rec.delete') + ': ' + f.name)}" title="${esc(t('rec.delete'))}">${feeIco(TRASH)}</button></div>`}</div>`).join('')}</div>
       ${n > FEE_PER ? `<div class="pager"><button type="button" class="btn small sec" id="fpv" ${feePage === 0 ? 'disabled' : ''}>‹ ${esc(t('adm.prev'))}</button><span class="note">${esc(t('adm.range', { a: a + 1, b: a + rows.length, n }))}</span><button type="button" class="btn small sec" id="fnx" ${feePage >= pages - 1 ? 'disabled' : ''}>${esc(t('adm.next'))} ›</button></div>` : ''}`;
     fl.querySelectorAll('.feeitem').forEach(row => {
@@ -1511,10 +1652,11 @@ student['fees'] = async () => {
       $('[data-act=del]', row).onclick = () => removeFees([f.id]);
     });
     const on = (id, fn) => { const b = $('#' + id, fl); if (b) b.onclick = fn; };
-    on('fbin', openBin);
+    fl.querySelectorAll('.fchip').forEach(b => b.onclick = () => { feeFilter = b.dataset.f; feePage = 0; feeSel.clear(); drawFees(); });
+    on('fbin', () => { location.hash = '#/bin'; });
     on('fson', () => { feeSelOn = true; drawFees(); });
     on('fsx', () => { feeSelOn = false; feeSel.clear(); drawFees(); });
-    on('fsa', () => { if (feeSel.size === n) feeSel.clear(); else fees.forEach(f => feeSel.add(f.id)); drawFees(); });
+    on('fsa', () => { if (allSel) vis.forEach(f => feeSel.delete(f.id)); else vis.forEach(f => feeSel.add(f.id)); drawFees(); });
     on('fsd', () => removeFees([...feeSel]));
     on('fpv', () => { feePage--; drawFees(); });
     on('fnx', () => { feePage++; drawFees(); });
@@ -1808,12 +1950,14 @@ student['edit'] = async id => {
   form(r);
 };
 
-/* ---------- account ---------- */
-student['account'] = async () => {
+/* ---------- account (split into Profile, Security, Preferences) ---------- */
+const acctNav = cur => `<div class="seg acctseg" role="navigation" aria-label="${esc(t('nav.account'))}">${[['profile', '#/profile', t('nav.profile')], ['security', '#/security', t('nav.security')], ['preferences', '#/preferences', t('nav.prefs')]].map(([k, h, l]) => `<a href="${h}" class="${k === cur ? 'on' : ''}"${k === cur ? ' aria-current="page"' : ''}>${esc(l)}</a>`).join('')}</div>`;
+
+student['profile'] = async () => {
   const u = curUser();
-  const seg = (id, items, cur) => `<div class="seg" id="${id}">${items.map(([v, l]) => `<button type="button" data-v="${v}" class="${v === cur ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`;
   view.innerHTML = `
-    <h2 style="margin-top:4px">${esc(t('acct.title'))}</h2>
+    ${acctNav('profile')}
+    <h2 style="margin-top:4px">${esc(t('nav.profile'))}</h2>
     <div class="card avcard">
       <button type="button" class="avbtn" id="avpick" aria-label="${esc(t('av.change'))}">${avatarHTML(84)}</button>
       <div class="avinfo"><b>${esc(profile.full_name || u.email)}</b>
@@ -1828,11 +1972,24 @@ student['account'] = async () => {
       <div id="err" class="err" role="alert"></div>
       <div class="row" style="margin-top:12px"><button class="btn sec" type="submit">${esc(t('acct.saveName'))}</button></div>
     </form>
-    <div class="card">
-      <b>${esc(t('acct.prefs'))}</b>
-      <div class="lbl">${esc(t('acct.lang'))}</div>${seg('sl', [['en', 'English'], ['fil', 'Filipino']], lang)}
-      <div class="lbl">${esc(t('acct.theme'))}</div>${seg('st', [['auto', t('acct.auto')], ['light', t('acct.light')], ['dark', t('acct.dark')]], theme)}
-    </div>
+    <div class="card lo-mobile"><button class="btn danger" id="out">${esc(t('acct.logout'))}</button></div>`;
+  bindAvatar();
+  $('#pf').addEventListener('submit', async e => {
+    e.preventDefault();
+    const full_name = $('#fn').value.trim();
+    const { error } = await sb.from('profiles').update({ full_name }).eq('id', profile.id);
+    if (error) return ($('#err').textContent = errText(error));
+    profile.full_name = full_name; lsSet('rs-profile-' + u.id, JSON.stringify(profile)); toast(t('acct.saved')); shell('profile'); paintAvatars();
+  });
+  $('#out').onclick = () => doLogout($('#out'));
+};
+student['account'] = id => student['profile'](id); /* old links still work */
+
+student['security'] = async () => {
+  const u = curUser();
+  view.innerHTML = `
+    ${acctNav('security')}
+    <h2 style="margin-top:4px">${esc(t('nav.security'))}</h2>
     <form id="cpf" class="card" novalidate>
       <b>${esc(t('acct.pw'))}</b>
       <label for="cp0">${esc(t('acct.curPw'))}</label>${pwField('cp0', 'current-password')}
@@ -1842,19 +1999,8 @@ student['account'] = async () => {
       <div id="perr" class="err" role="alert"></div>
       <div class="row" style="margin-top:12px"><button class="btn sec" type="submit" id="cpgo">${esc(t('acct.updatePw'))}</button></div>
     </form>
-    <div id="adm" hidden></div>
-    <div class="card" id="lact"><b>${esc(t('la.title'))}</b><div id="lalist" class="lalist"><p class="note">${esc(t('loading'))}</p></div><p class="note" id="lanote"></p></div>
-    <div class="card"><button class="btn danger" id="out">${esc(t('acct.logout'))}</button></div>`;
-  bindPw(); bindAvatar(); loadActivity(); loadAdmin();
-  $('#pf').addEventListener('submit', async e => {
-    e.preventDefault();
-    const full_name = $('#fn').value.trim();
-    const { error } = await sb.from('profiles').update({ full_name }).eq('id', profile.id);
-    if (error) return ($('#err').textContent = errText(error));
-    profile.full_name = full_name; lsSet('rs-profile-' + u.id, JSON.stringify(profile)); toast(t('acct.saved')); shell('account'); paintAvatars();
-  });
-  $('#sl').querySelectorAll('button').forEach(b => b.onclick = () => setLang(b.dataset.v));
-  $('#st').querySelectorAll('button').forEach(b => b.onclick = () => { setTheme(b.dataset.v); $('#st').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); });
+    <div class="card" id="lact"><b>${esc(t('la.title'))}</b><div id="lalist" class="lalist"><p class="note">${esc(t('loading'))}</p></div><p class="note" id="lanote"></p></div>`;
+  bindPw(); loadActivity();
   $('#cpf').addEventListener('submit', async e => {
     e.preventDefault();
     const pe = $('#perr'); pe.textContent = '';
@@ -1875,22 +2021,58 @@ student['account'] = async () => {
     } catch (x) { pe.textContent = errText(x); }
     setLoading(go, false);
   });
-  $('#out').onclick = async () => {
-    if (!(await ask(t('acct.logoutAsk'), t('acct.logout'), false))) return;
-    const b = $('#out'); setLoading(b, true, t('acct.loggingOut'));
-    const cover = busyOverlay(t('acct.loggingOut')), t0 = Date.now();
-    try {
-      const cap = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r({ error: new Error('timeout') }), ms))]);
-      if (lsGet('rs-push') === '1') { try { await cap(disablePush(), 3000); } catch { /* best effort */ } }
-      /* signOut() does not throw on a network error: it returns { error } and keeps the session. Phones on weak data hit this. */
-      let out; try { out = await cap(sb.auth.signOut(), 6000); } catch (e) { out = { error: e }; }
-      if (!out || out.error) forceLocalSignOut(); /* clear the saved session ourselves so logout always works */
-      location.hash = '#/';
-      const wait = 800 - (Date.now() - t0); if (wait > 0) await new Promise(r => setTimeout(r, wait)); /* long enough to be seen */
-    } catch (x) { setLoading(b, false); toast(errText(x)); }
-    cover.style.opacity = '0'; setTimeout(() => cover.remove(), 260); /* fade out to reveal the login screen */
-  };
 };
+
+student['preferences'] = async () => {
+  const seg = (id, items, cur) => `<div class="seg" id="${id}">${items.map(([v, l]) => `<button type="button" data-v="${v}" class="${v === cur ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`;
+  view.innerHTML = `
+    ${acctNav('preferences')}
+    <h2 style="margin-top:4px">${esc(t('nav.prefs'))}</h2>
+    <div class="card">
+      <div class="lbl" style="margin-top:0">${esc(t('acct.lang'))}</div>${seg('sl', [['en', 'English'], ['fil', 'Filipino']], lang)}
+      <div class="lbl">${esc(t('acct.theme'))}</div>${seg('st', [['auto', t('acct.auto')], ['light', t('acct.light')], ['dark', t('acct.dark')]], theme)}
+    </div>`;
+  $('#sl').querySelectorAll('button').forEach(b => b.onclick = () => setLang(b.dataset.v));
+  $('#st').querySelectorAll('button').forEach(b => b.onclick = () => { setTheme(b.dataset.v); $('#st').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); });
+};
+
+/* Admin pages (Usage, Users). Anyone who is not an admin is sent back to the dashboard. */
+student['usage'] = async () => {
+  const d = await adminRpc('admin_stats'); if (!d) return notAdmin();
+  view.innerHTML = `<h2 style="margin-top:4px">${esc(t('adm.title'))}</h2><div id="admstats">${usageHTML(d)}</div>`;
+  clearInterval(admTimer);
+  admTimer = setInterval(async () => {
+    if (!$('#admstats')) return clearInterval(admTimer);
+    try { const x = await adminRpc('admin_stats'); if (x && $('#admstats')) $('#admstats').innerHTML = usageHTML(x); } catch { /* keep the last numbers */ }
+  }, 30000);
+};
+student['users'] = async () => {
+  const rows = await adminRpc('admin_users'); if (!Array.isArray(rows)) return notAdmin();
+  view.innerHTML = `<h2 style="margin-top:4px">${esc(t('adm.users'))}</h2>${usersTable(rows)}<p class="note">${esc(t('adm.note'))}</p>`;
+  bindUsers();
+  clearInterval(admTimer);
+  admTimer = setInterval(async () => {
+    if (!$('#admusers')) return clearInterval(admTimer);
+    try { const x = await adminRpc('admin_users'); if (Array.isArray(x) && $('#admusers')) { admRows = x; $('#admusers').innerHTML = usersCard(); bindUsers(); } } catch { /* keep the last list */ }
+  }, 30000);
+};
+
+/* Shared by the sidebar, the phone menu and the Profile page. */
+async function doLogout(b) {
+  if (!(await ask(t('acct.logoutAsk'), t('acct.logout'), false))) return;
+  if (b) setLoading(b, true, t('acct.loggingOut'));
+  const cover = busyOverlay(t('acct.loggingOut')), t0 = Date.now();
+  try {
+    const cap = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r({ error: new Error('timeout') }), ms))]);
+    if (lsGet('rs-push') === '1') { try { await cap(disablePush(), 3000); } catch { /* best effort */ } }
+    /* signOut() does not throw on a network error: it returns { error } and keeps the session. Phones on weak data hit this. */
+    let out; try { out = await cap(sb.auth.signOut(), 6000); } catch (e) { out = { error: e }; }
+    if (!out || out.error) forceLocalSignOut(); /* clear the saved session ourselves so logout always works */
+    location.hash = '#/';
+    const wait = 800 - (Date.now() - t0); if (wait > 0) await new Promise(r => setTimeout(r, wait)); /* long enough to be seen */
+  } catch (x) { if (b) setLoading(b, false); toast(errText(x)); }
+  cover.style.opacity = '0'; setTimeout(() => cover.remove(), 260); /* fade out to reveal the login screen */
+}
 
 /* Wipes the saved Supabase session from this device when the server can't be reached. */
 function forceLocalSignOut() {
