@@ -3,7 +3,7 @@
 - Serves the web app (public/).
 - /api/config      -> public Supabase URL + anon key for the browser.
 - /api/admin/export.csv -> CSV report for admins. Uses the service-role key, which stays on this server.
-- /api/cron/push -> daily phone alerts (budget, due dates). Called by Vercel Cron, not by the browser.
+- /api/cron/push -> daily phone alerts (fee due dates). Called by Vercel Cron, not by the browser.
 """
 import csv
 import hmac
@@ -142,15 +142,11 @@ def export_csv():
 PH = timezone(timedelta(hours=8))  # Philippine time
 MSG = {
     "en": {
-        "over": "{a} over budget this month.",
-        "b80": "You have used {p}% of your monthly budget. {a} left.",
         "due": "{n} is due in {d} days. {a} still unpaid.",
         "today": "{n} is due today. {a} still unpaid.",
         "overdue": "{n} was due {d} days ago. {a} still unpaid.",
     },
     "fil": {
-        "over": "Lampas ng {a} sa budget ngayong buwan.",
-        "b80": "Nagamit mo na ang {p}% ng budget mo kada buwan. {a} ang natitira.",
         "due": "Due na ang {n} sa loob ng {d} araw. {a} ang hindi pa bayad.",
         "today": "Due na ngayon ang {n}. {a} ang hindi pa bayad.",
         "overdue": "Lampas na ng {d} araw ang due ng {n}. {a} ang hindi pa bayad.",
@@ -210,14 +206,6 @@ def fee_paid(fees, receipts, links):
 def build_alerts(prefs, fees, receipts, links, today):
     m = MSG.get((prefs or {}).get("lang"), MSG["en"])
     out = []
-    goal = float((prefs or {}).get("monthly_budget") or 0)
-    if goal:
-        mk = today.strftime("%Y-%m")
-        spent = sum(float(r["amount"]) for r in receipts if str(r["paid_on"]).startswith(mk))
-        if spent > goal:
-            out.append((f"b{mk}o", m["over"].format(a=peso(spent - goal))))
-        elif spent >= goal * 0.8:
-            out.append((f"b{mk}", m["b80"].format(p=round(spent / goal * 100), a=peso(goal - spent))))
     paid = fee_paid(fees, receipts, links)
     for f in fees:
         if not f.get("due_on") or f.get("marked_paid"):  # marked paid by hand: no alerts
@@ -260,8 +248,8 @@ def send_push(subs, text, key, vapid_key):
 
 
 TEST_MSG = {
-    "en": "Test alert: phone alerts are working. You will get due-date and budget reminders even when the app is closed.",
-    "fil": "Pansubok na alerto: gumagana ang alerto sa phone. Makakatanggap ka ng paalala sa due date at budget kahit sarado ang app.",
+    "en": "Test alert: phone alerts are working. You will get due-date reminders even when the app is closed.",
+    "fil": "Pansubok na alerto: gumagana ang alerto sa phone. Makakatanggap ka ng paalala sa due date kahit sarado ang app.",
 }
 _last_test = {}  # one test every 10 seconds per user, so the button cannot be spammed
 

@@ -93,20 +93,16 @@ const DICT = {
     'tab.fees': 'Fees', 'fee.title': 'School fee calculator', 'fee.add': 'Add fee', 'fee.edit': 'Edit fee', 'fee.name': 'Fee name', 'fee.namePh': 'e.g. Tuition, Math 101 lab', 'fee.term': 'Semester / term (optional)', 'fee.termPh': 'e.g. 1st Sem 2026-27', 'fee.tag': 'Subject or event (optional)', 'fee.tagPh': 'e.g. Math 101, Sports Fest', 'fee.official': 'Official (from school)', 'fee.officialHint': 'Tick this only if the amount comes from your school (assessment or billing statement). Otherwise it counts as an estimate.', 'fee.est': 'Estimate', 'fee.mixed': 'Partly official', 'fee.none': 'Not set', 'fee.expected': 'Total expected fees', 'fee.paid': 'Total recorded payments', 'fee.balance': 'Remaining balance', 'fee.progress': 'Payment progress', 'fee.balEst': 'Estimated balance', 'fee.balOfficial': 'Balance (official fees)', 'fee.estNote': 'This is an estimate. It uses the fees you entered and the receipts you saved, not a balance confirmed by your school.', 'fee.officialNote': 'All fees are marked official. Receipts are still matched by category, so confirm with your school before relying on it.', 'fee.by': 'Breakdown', 'fee.byTerm': 'Semester', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} of {e}', 'fee.left': '{a} left', 'fee.settled': 'Fully paid', 'fee.empty': 'Add the fees you expect to pay this school year to see what is left.', 'fee.emptyHint': 'Add each fee with its amount. Receipts are matched to fees by category, oldest payment first.', 'fee.unassigned': '{a} in your receipts does not match any fee category yet.', 'fee.list': 'Your fees', 'fee.school': 'Balance from school', 'fee.schoolSet': 'Enter school balance', 'fee.schoolAsk': 'Balance (₱) shown by your school or cashier.', 'fee.schoolHint': 'Have a statement from the school? Enter its balance to compare with this calculator.', 'fee.schoolAsOf': 'As of {d}', 'fee.match': 'Matches the calculator.', 'fee.diff': 'Differs from the calculator by {a}. Check your receipts and fees, or ask the school.', 'fee.clear': 'Clear', 'fee.errName': 'Enter a fee name.', 'fee.errAmt': 'Enter an amount greater than zero.', 'fee.saved': 'Fee saved', 'fee.removed': 'Fee removed', 'fee.mini': 'Remaining school fees', 'fee.device': 'Fees are saved to your account and follow you to your other devices.', 'fee.auto': 'Automatic (oldest unpaid first)', 'fee.pick': 'Counts toward fee', 'fee.pickHint': 'Choose a fee if this payment is for a specific semester or subject.', 'fee.afterLeft': '{c}: {a} left to pay', 'fee.afterDone': '{c}: fully paid', 'fee.dueLabel': 'Due date (optional)', 'fee.dueOn': 'Due {d}',
     'al.title': 'Notifications', 'al.none': 'You are all caught up.', 'al.done': 'Done',
     'al.markPaid': 'Mark as paid', 'al.markedPaid': '{n} marked as paid', 'fee.markPaid': 'Mark as paid (without a receipt)', 'fee.markPaidHint': 'Counts this fee as fully paid and removes its alerts. Untick to undo.',
-    'al.budget80': 'You have used {p}% of your monthly budget. {a} left.',
     'al.due': '{n} is due in {d} days. {a} still unpaid.', 'al.dueToday': '{n} is due today. {a} still unpaid.', 'al.overdue': '{n} was due {d} days ago. {a} still unpaid.',
     'al.phone': 'Phone alerts', 'al.phoneOn': 'Turn on phone alerts', 'al.phoneOff': 'Turn off phone alerts', 'al.phoneOnMsg': 'Phone alerts are on',
     'al.pushNote': 'You will get alerts even when the app is closed, once a day (around 9 AM).', 'al.pushFail': 'Could not turn on phone alerts: {m}',
     'al.phoneDenied': 'Notifications are blocked in your browser settings.',
     'al.phoneNote': 'Alerts appear when you open the app. Alerts while the app is closed are not available on this device yet.',
-    'goal.title': 'Monthly budget', 'goal.set': 'Set budget', 'goal.edit': 'Edit', 'goal.save': 'Save',
-    'goal.hint': 'Set a monthly limit to see how much room you have left.', 'goal.ask': 'Monthly budget (₱). Enter 0 to remove it.',
-    'goal.left': '{a} left this month.', 'goal.over': '{a} over budget this month.', 'goal.vsLast': 'vs last month',
+    'goal.save': 'Save', 'goal.vsLast': 'vs last month',
     'al.on': 'On', 'al.off': 'Off',
     'al.test': 'Send a test alert', 'al.testing': 'Sending…', 'al.testSent': 'Test sent to {n} device(s). It should arrive in a few seconds, even if you lock the phone or close the app.',
     'al.testFail': 'Could not send the test: {m}', 'al.testNone': 'This phone is not registered for alerts yet. Turn phone alerts off and on again.',
     'al.iosHint': 'On iPhone, tap Share, then "Add to Home Screen". Open ReceiptSafe from the new icon, then turn on phone alerts.',
-    'al.budget': 'Monthly budget alert', 'al.budgetNone': 'Not set. Set a monthly limit to get a warning at 80% and when you go over.', 'al.budgetAmt': '{a} per month. You get a warning at 80% and when you go over.', 'al.budgetSaved': 'Budget saved',
     'pp.title': 'Never miss a due date', 'pp.body': 'Turn on phone alerts and ReceiptSafe will remind you about due fees, even when the app is closed.', 'pp.on': 'Turn on alerts', 'pp.later': 'Not now',
     'pp.ios': 'To get alerts on iPhone, tap Share, then "Add to Home Screen". Open ReceiptSafe from the new icon and turn on alerts from the bell.', 'pp.ok': 'Got it',
     'list.export': 'Export CSV', 'list.sum': '{n} shown · {a}', 'rec.share': 'Share', 'rec.dup': 'Duplicate', 'rec.shareFail': 'Could not share the photo',
@@ -205,20 +201,16 @@ const DICT = {
     'tab.fees': 'Mga Bayarin', 'fee.title': 'Calculator ng school fees', 'fee.add': 'Magdagdag ng bayarin', 'fee.edit': 'I-edit ang bayarin', 'fee.name': 'Pangalan ng bayarin', 'fee.namePh': 'hal. Matrikula, Math 101 lab', 'fee.term': 'Semestre / term (hindi kailangan)', 'fee.termPh': 'hal. 1st Sem 2026-27', 'fee.tag': 'Subject o event (hindi kailangan)', 'fee.tagPh': 'hal. Math 101, Sports Fest', 'fee.official': 'Opisyal (galing sa school)', 'fee.officialHint': 'I-tick lang kung galing sa school ang halaga (assessment o billing statement). Kung hindi, tantiya lang ito.', 'fee.est': 'Tantiya', 'fee.mixed': 'Bahagyang opisyal', 'fee.none': 'Wala pa', 'fee.expected': 'Kabuuang inaasahang bayarin', 'fee.paid': 'Kabuuang naitalang bayad', 'fee.balance': 'Natitirang balanse', 'fee.progress': 'Progreso ng bayad', 'fee.balEst': 'Tantiyang balanse', 'fee.balOfficial': 'Balanse (opisyal na bayarin)', 'fee.estNote': 'Tantiya lang ito. Batay ito sa mga bayaring inilagay mo at mga resibong na-save mo, hindi sa balanseng kumpirmado ng school.', 'fee.officialNote': 'Opisyal ang lahat ng bayarin. Itinutugma pa rin ang mga resibo ayon sa category, kaya kumpirmahin sa school bago umasa dito.', 'fee.by': 'Hati-hati', 'fee.byTerm': 'Semestre', 'fee.byCat': 'Category', 'fee.byTag': 'Subject / event', 'fee.of': '{p} sa {e}', 'fee.left': '{a} ang natitira', 'fee.settled': 'Bayad na lahat', 'fee.empty': 'Idagdag ang mga bayaring inaasahan mo ngayong school year para makita ang natitira.', 'fee.emptyHint': 'Ilagay ang bawat bayarin at halaga nito. Itinutugma ang mga resibo sa bayarin ayon sa category, mula sa pinakaunang bayad.', 'fee.unassigned': '{a} sa mga resibo mo ang walang katugmang category ng bayarin.', 'fee.list': 'Mga bayarin mo', 'fee.school': 'Balanse mula sa school', 'fee.schoolSet': 'Ilagay ang balanse ng school', 'fee.schoolAsk': 'Balanse (₱) na nakasaad sa school o cashier.', 'fee.schoolHint': 'May statement mula sa school? Ilagay ang balanse para ihambing sa calculator.', 'fee.schoolAsOf': 'Hanggang {d}', 'fee.match': 'Tugma sa calculator.', 'fee.diff': 'Iba ng {a} sa calculator. Suriin ang mga resibo at bayarin, o magtanong sa school.', 'fee.clear': 'Alisin', 'fee.errName': 'Maglagay ng pangalan ng bayarin.', 'fee.errAmt': 'Maglagay ng halagang higit sa zero.', 'fee.saved': 'Na-save ang bayarin', 'fee.removed': 'Naalis ang bayarin', 'fee.mini': 'Natitirang school fees', 'fee.device': 'Naka-save sa account mo ang mga bayarin at sumusunod sa iba mong device.', 'fee.auto': 'Awtomatiko (pinakaunang hindi pa bayad)', 'fee.pick': 'Mapupunta sa bayarin', 'fee.pickHint': 'Pumili ng bayarin kung para sa partikular na semestre o subject ang bayad na ito.', 'fee.afterLeft': '{c}: {a} ang natitira', 'fee.afterDone': '{c}: bayad na lahat', 'fee.dueLabel': 'Due date (hindi kailangan)', 'fee.dueOn': 'Due sa {d}',
     'al.title': 'Mga abiso', 'al.none': 'Wala kang kailangang asikasuhin.', 'al.done': 'Tapos na',
     'al.markPaid': 'Bayad na', 'al.markedPaid': 'Bayad na ang {n}', 'fee.markPaid': 'Markahang bayad na (kahit walang resibo)', 'fee.markPaidHint': 'Ituturing na bayad na lahat ang bayarin na ito at mawawala ang mga abiso nito. I-untick para ibalik.',
-    'al.budget80': 'Nagamit mo na ang {p}% ng budget mo kada buwan. {a} ang natitira.',
     'al.due': 'Due na ang {n} sa loob ng {d} araw. {a} ang hindi pa bayad.', 'al.dueToday': 'Due na ngayon ang {n}. {a} ang hindi pa bayad.', 'al.overdue': 'Lampas na ng {d} araw ang due ng {n}. {a} ang hindi pa bayad.',
     'al.phone': 'Alerto sa phone', 'al.phoneOn': 'I-on ang alerto sa phone', 'al.phoneOff': 'I-off ang alerto sa phone', 'al.phoneOnMsg': 'Naka-on na ang alerto sa phone',
     'al.pushNote': 'Makakatanggap ka ng alerto kahit sarado ang app, isang beses kada araw (mga 9 AM).', 'al.pushFail': 'Hindi ma-on ang alerto sa phone: {m}',
     'al.phoneDenied': 'Naka-block ang notifications sa settings ng browser mo.',
     'al.phoneNote': 'Lalabas ang mga alerto kapag binuksan mo ang app. Hindi pa available sa device na ito ang alerto habang sarado ang app.',
-    'goal.title': 'Budget kada buwan', 'goal.set': 'Magtakda ng budget', 'goal.edit': 'I-edit', 'goal.save': 'I-save',
-    'goal.hint': 'Magtakda ng limit kada buwan para makita kung magkano pa ang natitira.', 'goal.ask': 'Budget kada buwan (₱). Ilagay ang 0 para alisin.',
-    'goal.left': '{a} ang natitira ngayong buwan.', 'goal.over': 'Lampas ng {a} sa budget ngayong buwan.', 'goal.vsLast': 'kumpara noong nakaraang buwan',
+    'goal.save': 'I-save', 'goal.vsLast': 'kumpara noong nakaraang buwan',
     'al.on': 'Naka-on', 'al.off': 'Naka-off',
     'al.test': 'Magpadala ng pansubok na alerto', 'al.testing': 'Ipinapadala…', 'al.testSent': 'Naipadala ang pagsubok sa {n} device. Dapat itong dumating sa loob ng ilang segundo, kahit naka-lock ang phone o sarado ang app.',
     'al.testFail': 'Hindi maipadala ang pagsubok: {m}', 'al.testNone': 'Hindi pa naka-register ang phone na ito para sa alerto. I-off at i-on ulit ang alerto sa phone.',
     'al.iosHint': 'Sa iPhone, pindutin ang Share, tapos "Add to Home Screen". Buksan ang ReceiptSafe mula sa bagong icon, tapos i-on ang alerto sa phone.',
-    'al.budget': 'Alerto sa budget kada buwan', 'al.budgetNone': 'Wala pa. Magtakda ng limit kada buwan para may babala sa 80% at kapag lumampas.', 'al.budgetAmt': '{a} kada buwan. May babala sa 80% at kapag lumampas.', 'al.budgetSaved': 'Na-save ang budget',
     'pp.title': 'Huwag palampasin ang due date', 'pp.body': 'I-on ang alerto sa phone at paaalalahanan ka ng ReceiptSafe sa mga due na bayarin, kahit sarado ang app.', 'pp.on': 'I-on ang alerto', 'pp.later': 'Mamaya na',
     'pp.ios': 'Para makatanggap ng alerto sa iPhone, pindutin ang Share, tapos "Add to Home Screen". Buksan ang ReceiptSafe mula sa bagong icon at i-on ang alerto mula sa bell.', 'pp.ok': 'Sige',
     'list.export': 'I-export ang CSV', 'list.sum': '{n} ang ipinapakita · {a}', 'rec.share': 'I-share', 'rec.dup': 'I-duplicate', 'rec.shareFail': 'Hindi ma-share ang litrato',
@@ -1110,8 +1102,7 @@ function catHTML(list) {
 }
 let chartRange = 6;
 
-/* ---------- budget, export, share ---------- */
-const goalKey = () => 'rs-goal-' + curUser().id;
+/* ---------- export, share ---------- */
 function askNumber(msg, cur) {
   return new Promise(res => {
     const d = $('#dlg');
@@ -1139,14 +1130,14 @@ async function shareReceipt(r) {
   await navigator.share(data);
 }
 
-/* ---------- cloud sync (fees, budget, school balance, fee links) and push ---------- */
+/* ---------- cloud sync (fees, school balance, fee links) and push ---------- */
 /* localStorage stays as the fast, offline copy. Supabase is the shared copy the server reads for push alerts. */
 let synced = null, syncChain = Promise.resolve(), pend = 0;
 const dirtyKey = () => 'rs-dirty-' + curUser().id;
 async function pushAll() {
   const u = session && session.user; if (!u) throw new Error('offline');
   const fees = lsJSON(feesKey()) || [], sch = lsJSON(schoolKey()), links = lsJSON(linkKey()) || {};
-  let r = await sb.from('user_prefs').upsert({ user_id: u.id, monthly_budget: Number(lsGet(goalKey())) || 0, school_balance: sch ? sch.amount : null, school_balance_asof: sch ? sch.asOf : null, lang, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+  let r = await sb.from('user_prefs').upsert({ user_id: u.id, school_balance: sch ? sch.amount : null, school_balance_asof: sch ? sch.asOf : null, lang, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
   if (r.error) throw r.error;
   if (fees.length) {
     r = await sb.from('fees').upsert(fees.map((f, i) => ({ id: f.id, user_id: u.id, name: f.name, amount: f.amount, category: f.category, term: f.term || '', tag: f.tag || '', due_on: f.due || null, official: !!f.official, marked_paid: !!f.paidMark, position: i })), { onConflict: 'id' });
@@ -1184,7 +1175,7 @@ async function syncUserData() {
     ]);
     for (const x of [pf, fe, fl]) if (x.error) throw x.error;
     const dirty = lsGet(dirtyKey()) === '1', empty = !pf.data && !fe.data.length;
-    const hasLocal = (lsJSON(feesKey()) || []).length || lsGet(goalKey()) || lsGet(schoolKey());
+    const hasLocal = (lsJSON(feesKey()) || []).length || lsGet(schoolKey());
     if ((dirty && (lsGet(sk) === '1' || empty)) || (empty && hasLocal)) {
       await pushAll(); lsDel(dirtyKey()); /* first run moves this phone's data to the cloud */
     } else {
@@ -1192,7 +1183,6 @@ async function syncUserData() {
       lsSet(linkKey(), JSON.stringify(Object.fromEntries(fl.data.map(x => [x.receipt_id, x.fee_id]))));
       const p = pf.data;
       if (p) {
-        if (Number(p.monthly_budget) > 0) lsSet(goalKey(), String(Number(p.monthly_budget))); else lsDel(goalKey());
         if (p.school_balance != null) lsSet(schoolKey(), JSON.stringify({ amount: Number(p.school_balance), asOf: p.school_balance_asof || todayISO() })); else lsDel(schoolKey());
       }
     }
@@ -1280,12 +1270,6 @@ async function getAlerts() {
   const u = curUser(); if (!u) return [];
   const rs = [...(await queuedItems()).map(toPseudo), ...(lsJSON('rs-cache-' + u.id) || [])], out = [], nQ = rs.filter(r => r._queued).length;
   if (nQ) out.push({ key: 'q', lvl: 'info', text: tn('net.waiting', nQ) });
-  const goal = Number(lsGet(goalKey())) || 0;
-  if (goal) {
-    const mk = monthKey(new Date()), m = rs.filter(r => String(r.paid_on).startsWith(mk)).reduce((s, r) => s + Number(r.amount), 0);
-    if (m > goal) out.push({ key: 'b' + mk + 'o', lvl: 'bad', text: t('goal.over', { a: peso(m - goal) }) });
-    else if (m >= goal * 0.8) out.push({ key: 'b' + mk, lvl: 'warn', text: t('al.budget80', { p: Math.round(m / goal * 100), a: peso(goal - m) }) });
-  }
   const fees = getFees();
   if (fees.length) {
     const T = feeTotals(fees, rs), today = new Date(todayISO() + 'T00:00:00');
@@ -1315,7 +1299,7 @@ async function refreshBell() {
   const al = await getAlerts(); b.classList.toggle('has', al.length > 0); b.dataset.n = al.length; notifyPhone(al);
 }
 async function openAlerts() {
-  const al = await getAlerts(), d = $('#dlg'), s = phoneState(), goal = Number(lsGet(goalKey())) || 0;
+  const al = await getAlerts(), d = $('#dlg'), s = phoneState();
   const row = a => a.fid ? `<div class="al ${a.lvl}" data-fid="${esc(a.fid)}" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>` : `<div class="al ${a.lvl}">${esc(a.text)}</div>`;
   const hasPhone = !s.needInstall && s.perm !== 'none' && s.perm !== 'denied';
   const phone = s.needInstall ? `<p class="note">${esc(t('al.iosHint'))}</p>`
@@ -1326,9 +1310,6 @@ async function openAlerts() {
   d.innerHTML = `<b>${esc(t('al.title'))}</b>
     <div class="alist">${al.length ? al.map(row).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
     <div class="lbl">${esc(t('al.phone'))}${hasPhone ? ` <span class="pill ${s.on ? 'ok' : 'none'}">${esc(t(s.on ? 'al.on' : 'al.off'))}</span>` : ''}</div>${phone}
-    <div class="lbl">${esc(t('al.budget'))}</div>
-    <p class="note" style="margin:0 0 8px">${esc(goal ? t('al.budgetAmt', { a: peso(goal) }) : t('al.budgetNone'))}</p>
-    <button type="button" class="btn small sec" id="alBudget">${esc(t(goal ? 'goal.edit' : 'goal.set'))}</button>
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn" id="alDone">${esc(t('al.done'))}</button></div>`;
   d.onclose = null; $('#alDone').onclick = () => d.close();
   d.querySelectorAll('[data-paid]').forEach(btn => btn.onclick = () => {
@@ -1352,11 +1333,6 @@ async function openAlerts() {
     try { const j = await sendTestPush(); msg.textContent = t('al.testSent', { n: j.devices || 1 }); }
     catch (e) { msg.textContent = e.message === 'no_subscription' ? t('al.testNone') : t('al.testFail', { m: errText(e) }); }
     setLoading(tb, false);
-  };
-  $('#alBudget').onclick = async () => {
-    const v = await askNumber(t('goal.ask'), goal || '');
-    if (v !== null) { if (v) lsSet(goalKey(), String(v)); else lsDel(goalKey()); cloudSave(); toast(t('al.budgetSaved')); refreshBell(); render(); }
-    openAlerts();
   };
   if (!d.open) d.showModal();
 }
