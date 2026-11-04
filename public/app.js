@@ -98,10 +98,17 @@ const DICT = {
     'al.phone': 'Phone alerts', 'al.phoneOn': 'Turn on phone alerts', 'al.phoneOff': 'Turn off phone alerts', 'al.phoneOnMsg': 'Phone alerts are on',
     'al.pushNote': 'You will get alerts even when the app is closed, once a day (around 9 AM).', 'al.pushFail': 'Could not turn on phone alerts: {m}',
     'al.phoneDenied': 'Notifications are blocked in your browser settings.',
-    'al.phoneNote': 'Alerts appear when you open the app. Alerts while the app is closed need a push server, which this app does not have yet.',
+    'al.phoneNote': 'Alerts appear when you open the app. Alerts while the app is closed are not available on this device yet.',
     'goal.title': 'Monthly budget', 'goal.set': 'Set budget', 'goal.edit': 'Edit', 'goal.save': 'Save',
     'goal.hint': 'Set a monthly limit to see how much room you have left.', 'goal.ask': 'Monthly budget (₱). Enter 0 to remove it.',
     'goal.left': '{a} left this month.', 'goal.over': '{a} over budget this month.', 'goal.vsLast': 'vs last month',
+    'al.on': 'On', 'al.off': 'Off',
+    'al.test': 'Send a test alert', 'al.testing': 'Sending…', 'al.testSent': 'Test sent to {n} device(s). It should arrive in a few seconds, even if you lock the phone or close the app.',
+    'al.testFail': 'Could not send the test: {m}', 'al.testNone': 'This phone is not registered for alerts yet. Turn phone alerts off and on again.',
+    'al.iosHint': 'On iPhone, tap Share, then "Add to Home Screen". Open ReceiptSafe from the new icon, then turn on phone alerts.',
+    'al.budget': 'Monthly budget alert', 'al.budgetNone': 'Not set. Set a monthly limit to get a warning at 80% and when you go over.', 'al.budgetAmt': '{a} per month. You get a warning at 80% and when you go over.', 'al.budgetSaved': 'Budget saved',
+    'pp.title': 'Never miss a due date', 'pp.body': 'Turn on phone alerts and ReceiptSafe will remind you about due fees, even when the app is closed.', 'pp.on': 'Turn on alerts', 'pp.later': 'Not now',
+    'pp.ios': 'To get alerts on iPhone, tap Share, then "Add to Home Screen". Open ReceiptSafe from the new icon and turn on alerts from the bell.', 'pp.ok': 'Got it',
     'list.export': 'Export CSV', 'list.sum': '{n} shown · {a}', 'rec.share': 'Share', 'rec.dup': 'Duplicate', 'rec.shareFail': 'Could not share the photo',
    
    
@@ -203,10 +210,17 @@ const DICT = {
     'al.phone': 'Alerto sa phone', 'al.phoneOn': 'I-on ang alerto sa phone', 'al.phoneOff': 'I-off ang alerto sa phone', 'al.phoneOnMsg': 'Naka-on na ang alerto sa phone',
     'al.pushNote': 'Makakatanggap ka ng alerto kahit sarado ang app, isang beses kada araw (mga 9 AM).', 'al.pushFail': 'Hindi ma-on ang alerto sa phone: {m}',
     'al.phoneDenied': 'Naka-block ang notifications sa settings ng browser mo.',
-    'al.phoneNote': 'Lalabas ang mga alerto kapag binuksan mo ang app. Para lumabas kahit sarado ang app, kailangan ng push server na wala pa sa app na ito.',
+    'al.phoneNote': 'Lalabas ang mga alerto kapag binuksan mo ang app. Hindi pa available sa device na ito ang alerto habang sarado ang app.',
     'goal.title': 'Budget kada buwan', 'goal.set': 'Magtakda ng budget', 'goal.edit': 'I-edit', 'goal.save': 'I-save',
     'goal.hint': 'Magtakda ng limit kada buwan para makita kung magkano pa ang natitira.', 'goal.ask': 'Budget kada buwan (₱). Ilagay ang 0 para alisin.',
     'goal.left': '{a} ang natitira ngayong buwan.', 'goal.over': 'Lampas ng {a} sa budget ngayong buwan.', 'goal.vsLast': 'kumpara noong nakaraang buwan',
+    'al.on': 'Naka-on', 'al.off': 'Naka-off',
+    'al.test': 'Magpadala ng pansubok na alerto', 'al.testing': 'Ipinapadala…', 'al.testSent': 'Naipadala ang pagsubok sa {n} device. Dapat itong dumating sa loob ng ilang segundo, kahit naka-lock ang phone o sarado ang app.',
+    'al.testFail': 'Hindi maipadala ang pagsubok: {m}', 'al.testNone': 'Hindi pa naka-register ang phone na ito para sa alerto. I-off at i-on ulit ang alerto sa phone.',
+    'al.iosHint': 'Sa iPhone, pindutin ang Share, tapos "Add to Home Screen". Buksan ang ReceiptSafe mula sa bagong icon, tapos i-on ang alerto sa phone.',
+    'al.budget': 'Alerto sa budget kada buwan', 'al.budgetNone': 'Wala pa. Magtakda ng limit kada buwan para may babala sa 80% at kapag lumampas.', 'al.budgetAmt': '{a} kada buwan. May babala sa 80% at kapag lumampas.', 'al.budgetSaved': 'Na-save ang budget',
+    'pp.title': 'Huwag palampasin ang due date', 'pp.body': 'I-on ang alerto sa phone at paaalalahanan ka ng ReceiptSafe sa mga due na bayarin, kahit sarado ang app.', 'pp.on': 'I-on ang alerto', 'pp.later': 'Mamaya na',
+    'pp.ios': 'Para makatanggap ng alerto sa iPhone, pindutin ang Share, tapos "Add to Home Screen". Buksan ang ReceiptSafe mula sa bagong icon at i-on ang alerto mula sa bell.', 'pp.ok': 'Sige',
     'list.export': 'I-export ang CSV', 'list.sum': '{n} ang ipinapakita · {a}', 'rec.share': 'I-share', 'rec.dup': 'I-duplicate', 'rec.shareFail': 'Hindi ma-share ang litrato',
    
    
@@ -923,7 +937,7 @@ async function render() {
     if (recovery) return recoveryView();
     if (!curUser()) { bareShell(); return authView(); }
     if (!profile) await loadProfile();
-    await syncOnce(); pullAvatar(); startPresence();
+    await syncOnce(); pullAvatar(); startPresence(); keepPushAlive();
     const [, path, arg] = (location.hash || '').split('?')[0].match(/^#\/([^/]*)\/?(.*)$/) || [, '', ''];
     shell(path);
     const fn = student[path] || student[''];
@@ -1098,18 +1112,6 @@ let chartRange = 6;
 
 /* ---------- budget, export, share ---------- */
 const goalKey = () => 'rs-goal-' + curUser().id;
-function goalCard(month, prev) {
-  const goal = Number(lsGet(goalKey())) || 0;
-  const diff = prev > 0 ? Math.round((month - prev) / prev * 100) : null;
-  const trend = diff === null || diff === 0 ? '' : `<span class="trend ${diff > 0 ? 'up' : 'down'}">${diff > 0 ? '▲' : '▼'} ${Math.abs(diff)}% ${esc(t('goal.vsLast'))}</span>`;
-  const over = goal && month > goal, pct = goal ? Math.min(100, month / goal * 100) : 0;
-  return `<div class="card slip"><div class="chart-head"><b>${esc(t('goal.title'))}</b>
-    <button type="button" class="btn small sec" id="goalEdit">${esc(goal ? t('goal.edit') : t('goal.set'))}</button></div>
-    ${goal ? `<div class="slip-amt"><b>${peso(month)}</b><span>/ ${peso(goal)}</span></div>
-      <div class="cat-track slip-track"><div class="cat-fill${over ? ' over' : ''}" style="width:${pct.toFixed(1)}%"></div></div>
-      <div class="note">${esc(over ? t('goal.over', { a: peso(month - goal) }) : t('goal.left', { a: peso(goal - month) }))} ${trend}</div>`
-      : `<p class="note" style="margin:0">${esc(t('goal.hint'))} ${trend}</p>`}</div>`;
-}
 function askNumber(msg, cur) {
   return new Promise(res => {
     const d = $('#dlg');
@@ -1208,13 +1210,68 @@ async function enablePush() {
   let r = await sb.from('user_prefs').upsert({ user_id: uid_, lang }, { onConflict: 'user_id' }); if (r.error) throw r.error;
   r = await sb.from('push_subscriptions').upsert({ user_id: uid_, endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth, user_agent: navigator.userAgent.slice(0, 200) }, { onConflict: 'endpoint' });
   if (r.error) { await sub.unsubscribe().catch(() => {}); throw r.error; }
-  lsSet('rs-push', '1');
+  lsSet('rs-push', '1'); lsSet('rs-push-chk', String(Date.now()));
 }
 async function disablePush() {
   try {
     const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
     if (sub) { await sb.from('push_subscriptions').delete().eq('endpoint', sub.endpoint); await sub.unsubscribe().catch(() => {}); }
   } finally { lsSet('rs-push', '0'); }
+}
+
+/* ---------- phone alerts: state, turning on and off, keeping the subscription alive, test ---------- */
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isStandalone = () => (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+function phoneState() {
+  const cfg = lsJSON('rs-cfg') || {}, perm = 'Notification' in window ? Notification.permission : 'none';
+  const usePush = pushSupported() && !!cfg.vapidPublicKey && !!session;
+  const on = perm === 'granted' && (usePush ? lsGet('rs-push') === '1' : lsGet('rs-notify') === '1');
+  /* iPhone only allows alerts for an app that was added to the Home Screen */
+  return { perm, usePush, on, needInstall: isIOS && !isStandalone() };
+}
+/* returns true when phone alerts end up on */
+async function setPhone(want) {
+  const s = phoneState();
+  if (!want) { if (s.usePush) await disablePush(); else lsSet('rs-notify', '0'); return false; }
+  const r = Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission();
+  if (r !== 'granted') return false;
+  if (s.usePush) await enablePush(); else { lsSet('rs-notify', '1'); notifyPhone(await getAlerts()); }
+  return true;
+}
+/* A phone can lose its push subscription (browser data cleared, expiry). Quietly sign it up again whenever the app is opened,
+   at most twice a day, so alerts keep arriving while the app is closed. */
+async function keepPushAlive() {
+  const u = curUser(); if (!u || !session || !navigator.onLine || lsGet('rs-push') !== '1') return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') { lsSet('rs-push', '0'); return; } /* blocked in the browser since */
+  const last = Number(lsGet('rs-push-chk')) || 0; if (Date.now() - last < 12 * 36e5) return;
+  try { await enablePush(); lsSet('rs-push-chk', String(Date.now())); } catch (e) { console.warn('push refresh', e); }
+}
+/* Asks the server to push one test alert to this user's phones: proves the whole route works, including when the app is closed. */
+async function sendTestPush() {
+  const { data } = await sb.auth.getSession(), tok = data && data.session && data.session.access_token;
+  if (!tok) throw new Error('offline');
+  const r = await fetch('/api/push/test', { method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify({ lang }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || 'HTTP ' + r.status);
+  return j;
+}
+/* a gentle one-time card on the dashboard */
+function pushPrompt() {
+  const u = curUser(); if (!u || lsGet('rs-pp-' + u.id) === '1') return '';
+  const s = phoneState(); if (s.on || s.perm === 'denied') return '';
+  if (s.needInstall) return `<div class="card pp" role="region" aria-labelledby="ppT"><div><b id="ppT">${esc(t('pp.title'))}</b><p class="note" style="margin:4px 0 0">${esc(t('pp.ios'))}</p><div class="row"><button type="button" class="btn small" id="ppNo">${esc(t('pp.ok'))}</button></div></div></div>`;
+  if (!s.usePush) return '';
+  return `<div class="card pp" role="region" aria-labelledby="ppT"><div><b id="ppT">${esc(t('pp.title'))}</b><p class="note" style="margin:4px 0 0">${esc(t('pp.body'))}</p>
+    <div class="row"><button type="button" class="btn small" id="ppOn">${esc(t('pp.on'))}</button><button type="button" class="btn small ghost" id="ppNo">${esc(t('pp.later'))}</button></div></div></div>`;
+}
+function bindPushPrompt() {
+  const no = $('#ppNo'); if (no) no.onclick = () => { lsSet('rs-pp-' + curUser().id, '1'); render(); };
+  const on = $('#ppOn');
+  if (on) on.onclick = async () => {
+    setLoading(on, true, t('loading'));
+    try { if (await setPhone(true)) toast(t('al.phoneOnMsg')); } catch (e) { toast(t('al.pushFail', { m: errText(e) })); }
+    render(); refreshBell();
+  };
 }
 
 /* ---------- notifications ---------- */
@@ -1258,12 +1315,20 @@ async function refreshBell() {
   const al = await getAlerts(); b.classList.toggle('has', al.length > 0); b.dataset.n = al.length; notifyPhone(al);
 }
 async function openAlerts() {
-  const al = await getAlerts(), d = $('#dlg'), perm = 'Notification' in window ? Notification.permission : 'none';
-  const cfg = lsJSON('rs-cfg') || {}, usePush = pushSupported() && !!cfg.vapidPublicKey && !!session;
-  const on = perm === 'granted' && (usePush ? lsGet('rs-push') === '1' : lsGet('rs-notify') === '1');
+  const al = await getAlerts(), d = $('#dlg'), s = phoneState(), goal = Number(lsGet(goalKey())) || 0;
+  const row = a => a.fid ? `<div class="al ${a.lvl}" data-fid="${esc(a.fid)}" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>` : `<div class="al ${a.lvl}">${esc(a.text)}</div>`;
+  const hasPhone = !s.needInstall && s.perm !== 'none' && s.perm !== 'denied';
+  const phone = s.needInstall ? `<p class="note">${esc(t('al.iosHint'))}</p>`
+    : s.perm === 'none' ? ''
+    : s.perm === 'denied' ? `<p class="note">${esc(t('al.phoneDenied'))}</p>`
+    : `<div class="row"><button type="button" class="btn small sec" id="alPhone">${esc(t(s.on ? 'al.phoneOff' : 'al.phoneOn'))}</button>${s.on && s.usePush ? `<button type="button" class="btn small ghost" id="alTest">${esc(t('al.test'))}</button>` : ''}</div>
+      <p class="note" id="alMsg" role="status">${esc(t(s.usePush ? 'al.pushNote' : 'al.phoneNote'))}</p>`;
   d.innerHTML = `<b>${esc(t('al.title'))}</b>
-    <div class="alist">${al.length ? al.map(a => a.fid ? `<div class="al ${a.lvl}" data-fid="${esc(a.fid)}" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>` : `<div class="al ${a.lvl}">${esc(a.text)}</div>`).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
-    ${perm === 'none' ? '' : `<div class="lbl">${esc(t('al.phone'))}</div>${perm === 'denied' ? `<p class="note">${esc(t('al.phoneDenied'))}</p>` : `<button type="button" class="btn small sec" id="alPhone">${esc(t(on ? 'al.phoneOff' : 'al.phoneOn'))}</button>`}<p class="note">${esc(t(usePush ? 'al.pushNote' : 'al.phoneNote'))}</p>`}
+    <div class="alist">${al.length ? al.map(row).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
+    <div class="lbl">${esc(t('al.phone'))}${hasPhone ? ` <span class="pill ${s.on ? 'ok' : 'none'}">${esc(t(s.on ? 'al.on' : 'al.off'))}</span>` : ''}</div>${phone}
+    <div class="lbl">${esc(t('al.budget'))}</div>
+    <p class="note" style="margin:0 0 8px">${esc(goal ? t('al.budgetAmt', { a: peso(goal) }) : t('al.budgetNone'))}</p>
+    <button type="button" class="btn small sec" id="alBudget">${esc(t(goal ? 'goal.edit' : 'goal.set'))}</button>
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn" id="alDone">${esc(t('al.done'))}</button></div>`;
   d.onclose = null; $('#alDone').onclick = () => d.close();
   d.querySelectorAll('[data-paid]').forEach(btn => btn.onclick = () => {
@@ -1278,19 +1343,22 @@ async function openAlerts() {
   const p = $('#alPhone');
   if (p) p.onclick = async () => {
     p.disabled = true;
-    try {
-      if (on) { if (usePush) await disablePush(); else lsSet('rs-notify', '0'); }
-      else {
-        const r = Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission();
-        if (r === 'granted') {
-          if (usePush) await enablePush(); else { lsSet('rs-notify', '1'); notifyPhone(al); }
-          toast(t('al.phoneOnMsg'));
-        }
-      }
-    } catch (e) { toast(t('al.pushFail', { m: errText(e) })); }
-    d.close(); refreshBell();
+    try { if (await setPhone(!s.on) && !s.on) toast(t('al.phoneOnMsg')); } catch (e) { toast(t('al.pushFail', { m: errText(e) })); }
+    refreshBell(); openAlerts(); /* show the new state, with the test button */
   };
-  d.showModal();
+  const tb = $('#alTest');
+  if (tb) tb.onclick = async () => {
+    const msg = $('#alMsg'); setLoading(tb, true, t('al.testing'));
+    try { const j = await sendTestPush(); msg.textContent = t('al.testSent', { n: j.devices || 1 }); }
+    catch (e) { msg.textContent = e.message === 'no_subscription' ? t('al.testNone') : t('al.testFail', { m: errText(e) }); }
+    setLoading(tb, false);
+  };
+  $('#alBudget').onclick = async () => {
+    const v = await askNumber(t('goal.ask'), goal || '');
+    if (v !== null) { if (v) lsSet(goalKey(), String(v)); else lsDel(goalKey()); cloudSave(); toast(t('al.budgetSaved')); refreshBell(); render(); }
+    openAlerts();
+  };
+  if (!d.open) d.showModal();
 }
 if (bellEl()) bellEl().addEventListener('click', openAlerts);
 
@@ -1385,17 +1453,19 @@ student[''] = async () => {
   const first = (profile.full_name || '').split(' ')[0];
   const pd = new Date(); pd.setDate(1); pd.setMonth(pd.getMonth() - 1);
   const prev = live.filter(r => String(r.paid_on).startsWith(monthKey(pd))).reduce((s, r) => s + Number(r.amount), 0);
+  const diff = prev > 0 ? Math.round((month - prev) / prev * 100) : null;
+  const trend = diff === null || diff === 0 ? '' : `<span class="trend ${diff > 0 ? 'up' : 'down'}">${diff > 0 ? '▲' : '▼'} ${Math.abs(diff)}% ${esc(t('goal.vsLast'))}</span>`;
   view.innerHTML = `
     <h2 style="margin-top:4px">${first ? tH('dash.welcome', { name: first }) : esc(t('dash.welcome0'))}</h2>
     ${showingCache ? `<div class="banner info">${esc(t('net.showingSaved'))}</div>` : ''}
     ${queueBanner(nQ)}
+    ${pushPrompt()}
     <div class="grid four">
       <div class="card stat"><div class="n">${peso(total)}</div><div class="l">${esc(t('stat.total'))}</div></div>
-      <div class="card stat"><div class="n">${peso(month)}</div><div class="l">${esc(t('stat.month'))}</div></div>
+      <div class="card stat"><div class="n">${peso(month)}</div><div class="l">${esc(t('stat.month'))}</div>${trend ? `<div class="l">${trend}</div>` : ''}</div>
       <div class="card stat"><div class="n">${rs.length}</div><div class="l">${esc(t('stat.count'))}</div></div>
       <div class="card stat"><div class="n">${nQ}</div><div class="l">${esc(t('status.queued'))}</div></div>
     </div>
-    ${goalCard(month, prev)}
     ${feeMini(live)}
     <div class="card" style="margin-top:12px">
       <div class="chart-head"><b>${esc(t('chart.byMonth'))}</b>
@@ -1406,11 +1476,7 @@ student[''] = async () => {
     <h2>${esc(t('dash.recent'))}</h2>
     ${rs.length ? `<div class="list">${rs.slice(0, 5).map(r => itemHTML(r)).join('')}</div>`
       : `<div class="card empty">${esc(t('dash.none'))}<br>${esc(t('dash.noneHint'))}</div>`}`;
-  bindItems(); bindQueueBanner();
-  $('#goalEdit').onclick = async () => {
-    const v = await askNumber(t('goal.ask'), Number(lsGet(goalKey())) || '');
-    if (v === null) return; if (v) lsSet(goalKey(), String(v)); else lsDel(goalKey()); cloudSave(); render();
-  };
+  bindItems(); bindQueueBanner(); bindPushPrompt();
   view.querySelectorAll('#range button').forEach(b => b.onclick = () => {
     chartRange = +b.dataset.n;
     view.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b));

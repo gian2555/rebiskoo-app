@@ -44,8 +44,8 @@ def config():
     return resp
 
 
-def require_admin():
-    """Check the caller's Supabase login token and confirm they are an admin."""
+def auth_user():
+    """Check the caller's Supabase login token and return their user id."""
     token = request.headers.get("Authorization", "").removeprefix("Bearer ").strip()
     if not token:
         abort(401)
@@ -56,7 +56,12 @@ def require_admin():
     )
     if who.status_code != 200:
         abort(401)
-    user_id = who.json()["id"]
+    return who.json()["id"]
+
+
+def require_admin():
+    """Same login check, then confirm the caller is an admin."""
+    user_id = auth_user()
     prof = requests.get(
         f"{SUPABASE_URL}/rest/v1/profiles",
         params={"id": f"eq.{user_id}", "select": "role"},
@@ -228,6 +233,65 @@ def build_alerts(prefs, fees, receipts, links, today):
     return out
 
 
+def send_push(subs, text, key, vapid_key):
+    """Push one message to each of a user's phones. Returns (how many were sent, endpoints that no longer exist)."""
+    from pywebpush import WebPushException, webpush  # imported here so the rest of the app never depends on it
+
+    sent, dead = 0, []
+    for s in subs:
+        try:
+            webpush(
+                subscription_info={"endpoint": s["endpoint"], "keys": {"p256dh": s["p256dh"], "auth": s["auth"]}},
+                data=json.dumps({"title": "ReceiptSafe", "body": text, "tag": key, "url": "./"}),
+                vapid_private_key=vapid_key,
+                vapid_claims={"sub": os.environ.get("VAPID_SUBJECT", "mailto:admin@example.com")},
+                ttl=86400,
+            )
+            sent += 1
+        except WebPushException as e:
+            code = e.response.status_code if e.response is not None else None
+            if code in (404, 410):
+                dead.append(s["endpoint"])  # the phone unsubscribed
+            else:
+                app.logger.warning("push failed (%s): %s", code, e)  # shows up in the server log, so problems are not silent
+        except Exception as e:
+            app.logger.warning("push error: %s", e)
+    return sent, dead
+
+
+TEST_MSG = {
+    "en": "Test alert: phone alerts are working. You will get due-date and budget reminders even when the app is closed.",
+    "fil": "Pansubok na alerto: gumagana ang alerto sa phone. Makakatanggap ka ng paalala sa due date at budget kahit sarado ang app.",
+}
+_last_test = {}  # one test every 10 seconds per user, so the button cannot be spammed
+
+
+@app.post("/api/push/test")
+def push_test():
+    """The signed-in student asks for one test push to their own phones."""
+    uid = auth_user()
+    vapid_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
+    if not vapid_key:
+        return jsonify(error="Push is not set up on the server yet."), 500
+    now = datetime.now().timestamp()
+    if now - _last_test.get(uid, 0) < 10:
+        return jsonify(error="Please wait a few seconds before testing again."), 429
+    _last_test[uid] = now
+    r = requests.get(f"{SUPABASE_URL}/rest/v1/push_subscriptions", params={"user_id": f"eq.{uid}", "select": "*"},
+                     headers=SERVICE_HEADERS, timeout=15)
+    r.raise_for_status()
+    subs = r.json()
+    if not subs:
+        return jsonify(error="no_subscription"), 404
+    lang = (request.get_json(silent=True) or {}).get("lang")
+    sent, dead = send_push(subs, TEST_MSG.get(lang, TEST_MSG["en"]), "test", vapid_key)
+    for ep in set(dead):
+        requests.delete(f"{SUPABASE_URL}/rest/v1/push_subscriptions", params={"endpoint": f"eq.{ep}"}, headers=SERVICE_HEADERS, timeout=15)
+    if not sent:
+        return jsonify(error="The push service did not accept the message. Turn phone alerts off and on again."), 502
+    return jsonify(devices=len(subs), sent=sent)
+
+
 @app.get("/api/cron/push")
 def cron_push():
     """Once a day: work out each subscribed student's alerts and push them to their phones."""
@@ -237,8 +301,6 @@ def cron_push():
     vapid_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
     if not vapid_key:
         return jsonify(error="VAPID_PRIVATE_KEY is not set"), 500
-    from pywebpush import WebPushException, webpush  # imported here so the rest of the app never depends on it
-
     today = datetime.now(PH).date()
     subs = rest_all("push_subscriptions", "*", order="id")
     users = sorted({s["user_id"] for s in subs})
@@ -262,24 +324,12 @@ def cron_push():
     for uid in users:
         alerts = [a for a in build_alerts(prefs.get(uid), fees.get(uid, []), receipts.get(uid, []), links.get(uid, {}), today)
                   if a[0] not in logged.get(uid, set())][:5]
+        user_subs = [x for x in subs if x["user_id"] == uid]
         for key, text in alerts:
-            ok = False
-            for s in (x for x in subs if x["user_id"] == uid):
-                try:
-                    webpush(
-                        subscription_info={"endpoint": s["endpoint"], "keys": {"p256dh": s["p256dh"], "auth": s["auth"]}},
-                        data=json.dumps({"title": "ReceiptSafe", "body": text, "tag": key, "url": "./"}),
-                        vapid_private_key=vapid_key,
-                        vapid_claims={"sub": os.environ.get("VAPID_SUBJECT", "mailto:admin@example.com")},
-                        ttl=86400,
-                    )
-                    ok = True
-                    sent += 1
-                except WebPushException as e:
-                    if e.response is not None and e.response.status_code in (404, 410):
-                        dead.append(s["endpoint"])  # the phone unsubscribed
-                except Exception:
-                    pass
+            n, gone = send_push(user_subs, text, key, vapid_key)
+            sent += n
+            dead.extend(gone)
+            ok = n > 0
             if ok:
                 new_log.append({"user_id": uid, "key": key, "sent_on": str(today)})
     if new_log:

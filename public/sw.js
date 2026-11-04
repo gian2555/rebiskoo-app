@@ -1,4 +1,4 @@
-const CACHE = 'receiptsafe-cloud-v26';
+const CACHE = 'receiptsafe-cloud-v27';
 const SB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png'];
@@ -33,13 +33,14 @@ self.addEventListener('fetch', e => {
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(l => (l[0] ? l[0].focus() : self.clients.openWindow('./'))));
+  const url = (e.notification.data && e.notification.data.url) || './';
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(l => (l[0] ? l[0].focus() : self.clients.openWindow(url))));
 });
 // Push from the server (daily alerts). Works while the app is closed.
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : '' }; }
   e.waitUntil(self.registration.showNotification(d.title || 'ReceiptSafe', {
-    body: d.body || '', icon: 'icons/icon-192.png', badge: 'icons/icon-192.png', tag: d.tag || 'rs', data: { url: d.url || './' }
+    body: d.body || '', icon: 'icons/icon-192.png', badge: 'icons/icon-192.png', tag: d.tag || 'rs', vibrate: [120, 60, 120], data: { url: d.url || './' }
   }));
 });

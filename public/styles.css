@@ -306,3 +306,9 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .fchips{display:flex;gap:6px;overflow-x:auto;margin:10px 0;padding-bottom:2px}
 .fchip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:99px;cursor:pointer}
 .fchip.on{background:var(--brand-l);color:var(--brand-d);border-color:var(--brand)}
+
+/* phone alerts: dashboard prompt and status pill */
+.pp{background:var(--brand-l);border-color:var(--brand);margin-bottom:12px}
+.pp .row{margin-top:10px}
+.pill.none{background:var(--line);color:var(--muted)}
+.lbl .pill{margin-left:6px;vertical-align:middle}
