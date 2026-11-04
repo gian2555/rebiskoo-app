@@ -458,8 +458,31 @@ async function logLogin(user) {
   lsSet(laKey(user.id), JSON.stringify([row, ...(lsJSON(laKey(user.id)) || [])].slice(0, 10)));
   try { await sb.from('login_activity').insert({ user_id: user.id, device_id: row.did, device: row.device }); } catch { /* the cloud table is optional */ }
 }
+/* Collapsed until the user taps Show, then 5 logins per page (the same pattern as the admin users list). */
+const LA_PER = 5;
+let laOpen = false, laPage = 0, laRows = [], laLocal = false, laLoaded = false;
+function laCard() {
+  const n = laRows.length, pages = Math.max(1, Math.ceil(n / LA_PER)); laPage = clamp(laPage, 0, pages - 1);
+  const head = `<button type="button" class="admtg" id="latg" aria-expanded="${laOpen}" aria-controls="lalist"><span><b>${esc(t('la.title'))}</b> <span class="note">${laLoaded ? n : ''}</span></span><span class="admshow">${esc(t(laOpen ? 'adm.hide' : 'adm.show'))}</span></button>`;
+  if (!laOpen) return head;
+  if (!laLoaded) return head + `<div id="lalist" class="lalist"><p class="note">${esc(t('loading'))}</p></div>`;
+  const a = laPage * LA_PER, rows = laRows.slice(a, a + LA_PER), me = deviceId();
+  return head + `<div id="lalist" class="lalist">${n ? rows.map(r => `<div class="la"><b>${esc(r.device)}</b>${r.did === me ? ` <span class="pill ok">${esc(t('la.here'))}</span>` : ''}<div class="note">${esc(new Date(r.at).toLocaleString(loc(), { dateStyle: 'medium', timeStyle: 'short' }))}</div></div>`).join('') : `<p class="note">${esc(t('la.none'))}</p>`}</div>`
+    + (n > LA_PER ? `<div class="pager"><button type="button" class="btn small sec" id="lapv" ${laPage === 0 ? 'disabled' : ''}>‹ ${esc(t('adm.prev'))}</button><span class="note">${esc(t('adm.range', { a: a + 1, b: a + rows.length, n }))}</span><button type="button" class="btn small sec" id="lanx" ${laPage >= pages - 1 ? 'disabled' : ''}>${esc(t('adm.next'))} ›</button></div>` : '')
+    + `<p class="note" id="lanote">${esc(t(laLocal && n ? 'la.local' : 'la.note'))}</p>`;
+}
+function bindActivity() {
+  const box = $('#lact'); if (!box) return;
+  const draw = focusId => { box.innerHTML = laCard(); bindActivity(); const f = $('#' + focusId, box); if (f && !f.disabled) f.focus(); else $('#latg', box).focus(); };
+  $('#latg', box).onclick = () => { laOpen = !laOpen; laPage = 0; draw('latg'); };
+  const pv = $('#lapv', box), nx = $('#lanx', box);
+  if (pv) pv.onclick = () => { laPage--; draw('lapv'); };
+  if (nx) nx.onclick = () => { laPage++; draw('lanx'); };
+}
 async function loadActivity() {
-  if (!$('#lact')) return;
+  const box = $('#lact'); if (!box) return;
+  laOpen = false; laPage = 0; laLoaded = false; laRows = [];
+  box.innerHTML = laCard(); bindActivity(); /* just the Show / Hide header for now */
   let rows = null;
   try {
     if (session && navigator.onLine) {
@@ -467,11 +490,11 @@ async function loadActivity() {
       if (!error && data && data.length) rows = data.map(r => ({ at: r.created_at, device: r.device, did: r.device_id }));
     }
   } catch { /* fall back to this device's list */ }
-  const local = !rows; if (local) rows = lsJSON(laKey(curUser().id)) || [];
+  laLocal = !rows; if (laLocal) rows = lsJSON(laKey(curUser().id)) || [];
   if (!$('#lact')) return;
-  const me = deviceId();
-  $('#lalist').innerHTML = rows.length ? rows.map(r => `<div class="la"><b>${esc(r.device)}</b>${r.did === me ? ` <span class="pill ok">${esc(t('la.here'))}</span>` : ''}<div class="note">${esc(new Date(r.at).toLocaleString(loc(), { dateStyle: 'medium', timeStyle: 'short' }))}</div></div>`).join('') : `<p class="note">${esc(t('la.none'))}</p>`;
-  $('#lanote').textContent = t(local && rows.length ? 'la.local' : 'la.note');
+  laRows = rows; laLoaded = true;
+  const keep = document.activeElement && document.activeElement.id === 'latg';
+  $('#lact').innerHTML = laCard(); bindActivity(); if (keep) $('#latg').focus();
 }
 
 /* ---------- presence: lets the admin see who is online. Sends a small ping while the app is open and visible. ---------- */
@@ -1900,7 +1923,7 @@ student['account'] = async () => {
       <div class="row" style="margin-top:12px"><button class="btn sec" type="submit" id="cpgo">${esc(t('acct.updatePw'))}</button></div>
     </form>
     <div id="adm" hidden></div>
-    <div class="card" id="lact"><b>${esc(t('la.title'))}</b><div id="lalist" class="lalist"><p class="note">${esc(t('loading'))}</p></div><p class="note" id="lanote"></p></div>
+    <div class="card" id="lact"></div>
     <div class="card"><button class="btn danger" id="out">${esc(t('acct.logout'))}</button></div>`;
   bindPw(); bindAvatar(); loadActivity(); loadAdmin();
   $('#pf').addEventListener('submit', async e => {
