@@ -5,6 +5,7 @@
 - /api/admin/export.csv -> CSV report for admins. Uses the service-role key, which stays on this server.
 - /api/cron/push -> daily phone alerts (fee due dates). Called by Vercel Cron, not by the browser.
 """
+import base64
 import csv
 import hmac
 import io
@@ -35,11 +36,36 @@ def index():
     return send_from_directory(app.static_folder, "index.html")
 
 
+def vapid_public_key():
+    """The public key the phones must subscribe with.
+
+    It is worked out from VAPID_PRIVATE_KEY itself, so it can never be a different pair from the one used to send
+    (a mismatched pair is the most common reason phones get no push while the app is closed). If that fails,
+    fall back to VAPID_PUBLIC_KEY. Returns "" when push is not set up.
+    """
+    priv = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
+    if not priv:
+        return ""
+    try:
+        from cryptography.hazmat.primitives import serialization
+        from py_vapid import Vapid
+
+        v = Vapid.from_string(private_key=priv)
+        raw = v.public_key.public_bytes(serialization.Encoding.X962, serialization.PublicFormat.UncompressedPoint)
+        derived = base64.urlsafe_b64encode(raw).decode().rstrip("=")
+        env = os.environ.get("VAPID_PUBLIC_KEY", "").strip()
+        if env and env != derived:
+            app.logger.warning("VAPID_PUBLIC_KEY does not match VAPID_PRIVATE_KEY; using the key derived from the private key")
+        return derived
+    except Exception as e:
+        app.logger.warning("could not read VAPID_PRIVATE_KEY (%s); falling back to VAPID_PUBLIC_KEY", e)
+        return os.environ.get("VAPID_PUBLIC_KEY", "").strip()
+
+
 @app.get("/api/config")
 def config():
     # The anon key is meant to be public. Row Level Security protects the data.
-    resp = jsonify(url=SUPABASE_URL, anonKey=ANON_KEY,
-                   vapidPublicKey=os.environ.get("VAPID_PUBLIC_KEY", "").strip())
+    resp = jsonify(url=SUPABASE_URL, anonKey=ANON_KEY, vapidPublicKey=vapid_public_key())
     resp.headers["Cache-Control"] = "no-store"
     return resp
 
@@ -222,17 +248,18 @@ def build_alerts(prefs, fees, receipts, links, today):
 
 
 def send_push(subs, text, key, vapid_key):
-    """Push one message to each of a user's phones. Returns (how many were sent, endpoints that no longer exist)."""
+    """Push one message to each of a user's phones. Returns (how many were sent, endpoints that no longer exist, error notes)."""
     from pywebpush import WebPushException, webpush  # imported here so the rest of the app never depends on it
 
-    sent, dead = 0, []
+    sent, dead, errs = 0, [], []
     for s in subs:
         try:
             webpush(
                 subscription_info={"endpoint": s["endpoint"], "keys": {"p256dh": s["p256dh"], "auth": s["auth"]}},
                 data=json.dumps({"title": "ReceiptSafe", "body": text, "tag": key, "url": "./"}),
                 vapid_private_key=vapid_key,
-                vapid_claims={"sub": os.environ.get("VAPID_SUBJECT", "mailto:admin@example.com")},
+                vapid_claims={"sub": os.environ.get("VAPID_SUBJECT", "mailto:admin@example.com").strip()},
+                content_encoding="aes128gcm",  # the only encoding Apple's push service accepts
                 ttl=86400,
             )
             sent += 1
@@ -241,10 +268,13 @@ def send_push(subs, text, key, vapid_key):
             if code in (404, 410):
                 dead.append(s["endpoint"])  # the phone unsubscribed
             else:
-                app.logger.warning("push failed (%s): %s", code, e)  # shows up in the server log, so problems are not silent
+                body = (e.response.text[:160] if e.response is not None else str(e)[:160])
+                errs.append(f"{code} {body}")
+                app.logger.warning("push failed (%s): %s", code, body)  # shows up in the server log, so problems are not silent
         except Exception as e:
+            errs.append(str(e)[:160])
             app.logger.warning("push error: %s", e)
-    return sent, dead
+    return sent, dead, errs
 
 
 TEST_MSG = {
@@ -272,11 +302,12 @@ def push_test():
     if not subs:
         return jsonify(error="no_subscription"), 404
     lang = (request.get_json(silent=True) or {}).get("lang")
-    sent, dead = send_push(subs, TEST_MSG.get(lang, TEST_MSG["en"]), "test", vapid_key)
+    sent, dead, errs = send_push(subs, TEST_MSG.get(lang, TEST_MSG["en"]), "test", vapid_key)
     for ep in set(dead):
         requests.delete(f"{SUPABASE_URL}/rest/v1/push_subscriptions", params={"endpoint": f"eq.{ep}"}, headers=SERVICE_HEADERS, timeout=15)
     if not sent:
-        return jsonify(error="The push service did not accept the message. Turn phone alerts off and on again."), 502
+        why = errs[0] if errs else "the phone's subscription is no longer valid"
+        return jsonify(error=f"The push service did not accept the message ({why}). Turn phone alerts off and on again; if it keeps failing, check VAPID_PRIVATE_KEY and VAPID_SUBJECT on the server."), 502
     return jsonify(devices=len(subs), sent=sent)
 
 
@@ -314,7 +345,7 @@ def cron_push():
                   if a[0] not in logged.get(uid, set())][:5]
         user_subs = [x for x in subs if x["user_id"] == uid]
         for key, text in alerts:
-            n, gone = send_push(user_subs, text, key, vapid_key)
+            n, gone, _errs = send_push(user_subs, text, key, vapid_key)
             sent += n
             dead.extend(gone)
             ok = n > 0

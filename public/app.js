@@ -105,6 +105,9 @@ const DICT = {
     'al.iosHint': 'On iPhone, tap Share, then "Add to Home Screen". Open ReceiptSafe from the new icon, then turn on phone alerts.',
     'pp.title': 'Never miss a due date', 'pp.body': 'Turn on phone alerts and ReceiptSafe will remind you about due fees, even when the app is closed.', 'pp.on': 'Turn on alerts', 'pp.later': 'Not now',
     'pp.ios': 'To get alerts on iPhone, tap Share, then "Add to Home Screen". Open ReceiptSafe from the new icon and turn on alerts from the bell.', 'pp.ok': 'Got it',
+    'al.why.server': 'Alerts while the app is closed are OFF: the server has no push key. Set VAPID_PRIVATE_KEY (and VAPID_SUBJECT) in the server settings, then redeploy.',
+    'al.why.unsupported': 'This device cannot get alerts while the app is closed. On iPhone it needs iOS 16.4 or newer, and ReceiptSafe must be opened from its Home Screen icon.',
+    'al.why.login': 'Log in first to turn on alerts while the app is closed.',
     'list.export': 'Export CSV', 'list.sum': '{n} shown · {a}', 'rec.share': 'Share', 'rec.dup': 'Duplicate', 'rec.shareFail': 'Could not share the photo',
    
    
@@ -213,6 +216,9 @@ const DICT = {
     'al.iosHint': 'Sa iPhone, pindutin ang Share, tapos "Add to Home Screen". Buksan ang ReceiptSafe mula sa bagong icon, tapos i-on ang alerto sa phone.',
     'pp.title': 'Huwag palampasin ang due date', 'pp.body': 'I-on ang alerto sa phone at paaalalahanan ka ng ReceiptSafe sa mga due na bayarin, kahit sarado ang app.', 'pp.on': 'I-on ang alerto', 'pp.later': 'Mamaya na',
     'pp.ios': 'Para makatanggap ng alerto sa iPhone, pindutin ang Share, tapos "Add to Home Screen". Buksan ang ReceiptSafe mula sa bagong icon at i-on ang alerto mula sa bell.', 'pp.ok': 'Sige',
+    'al.why.server': 'OFF ang alerto habang sarado ang app: walang push key ang server. I-set ang VAPID_PRIVATE_KEY (at VAPID_SUBJECT) sa settings ng server, tapos i-redeploy.',
+    'al.why.unsupported': 'Hindi makakatanggap ng alerto ang device na ito habang sarado ang app. Sa iPhone, kailangan ng iOS 16.4 pataas at dapat buksan ang ReceiptSafe mula sa icon sa Home Screen.',
+    'al.why.login': 'Mag-log in muna para ma-on ang alerto habang sarado ang app.',
     'list.export': 'I-export ang CSV', 'list.sum': '{n} ang ipinapakita · {a}', 'rec.share': 'I-share', 'rec.dup': 'I-duplicate', 'rec.shareFail': 'Hindi ma-share ang litrato',
    
    
@@ -1217,8 +1223,15 @@ const pushSupported = () => 'serviceWorker' in navigator && 'PushManager' in win
 const keyBytes = s => { const b = atob((s + '='.repeat((4 - s.length % 4) % 4)).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(b, c => c.charCodeAt(0)); };
 async function enablePush() {
   const cfg = lsJSON('rs-cfg') || {}; if (!cfg.vapidPublicKey) throw new Error('Push is not set up on the server yet.');
-  const reg = await navigator.serviceWorker.ready;
-  const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyBytes(cfg.vapidPublicKey) });
+  const reg = await navigator.serviceWorker.ready, key = keyBytes(cfg.vapidPublicKey);
+  let sub = await reg.pushManager.getSubscription();
+  if (sub) { /* made with a different server key (for example before the keys were fixed): it can never receive our pushes, so start over */
+    const cur = sub.options && sub.options.applicationServerKey ? new Uint8Array(sub.options.applicationServerKey) : null;
+    if (cur && (cur.length !== key.length || cur.some((v, i) => v !== key[i]))) {
+      await sb.from('push_subscriptions').delete().eq('endpoint', sub.endpoint); await sub.unsubscribe().catch(() => {}); sub = null;
+    }
+  }
+  sub = sub || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
   const j = sub.toJSON(), uid_ = session.user.id;
   let r = await sb.from('user_prefs').upsert({ user_id: uid_, lang }, { onConflict: 'user_id' }); if (r.error) throw r.error;
   r = await sb.from('push_subscriptions').upsert({ user_id: uid_, endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth, user_agent: navigator.userAgent.slice(0, 200) }, { onConflict: 'endpoint' });
@@ -1240,7 +1253,8 @@ function phoneState() {
   const usePush = pushSupported() && !!cfg.vapidPublicKey && !!session;
   const on = perm === 'granted' && (usePush ? lsGet('rs-push') === '1' : lsGet('rs-notify') === '1');
   /* iPhone only allows alerts for an app that was added to the Home Screen */
-  return { perm, usePush, on, needInstall: isIOS && !isStandalone() };
+  const why = !pushSupported() ? 'unsupported' : !cfg.vapidPublicKey ? 'server' : !session ? 'login' : '';
+  return { perm, usePush, on, why, needInstall: isIOS && !isStandalone() };
 }
 /* returns true when phone alerts end up on */
 async function setPhone(want) {
@@ -1324,12 +1338,12 @@ async function refreshBell() {
 async function openAlerts() {
   const al = await getAlerts(), d = $('#dlg'), s = phoneState();
   const row = a => a.fid ? `<div class="al ${a.lvl}" data-fid="${esc(a.fid)}" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>${esc(a.text)}</span><button type="button" class="btn small sec" data-paid="${esc(a.fid)}">${esc(t('al.markPaid'))}</button></div>` : `<div class="al ${a.lvl}">${esc(a.text)}</div>`;
-  const hasPhone = !s.needInstall && s.perm !== 'none' && s.perm !== 'denied';
+  const hasPhone = !s.needInstall && s.perm !== 'none' && s.perm !== 'denied' && s.usePush;
   const phone = s.needInstall ? `<p class="note">${esc(t('al.iosHint'))}</p>`
-    : s.perm === 'none' ? ''
+    : s.perm === 'none' ? `<p class="err" role="alert">${esc(t('al.why.' + (s.why || 'unsupported')))}</p>`
     : s.perm === 'denied' ? `<p class="note">${esc(t('al.phoneDenied'))}</p>`
     : `<div class="row"><button type="button" class="btn small sec" id="alPhone">${esc(t(s.on ? 'al.phoneOff' : 'al.phoneOn'))}</button>${s.on && s.usePush ? `<button type="button" class="btn small ghost" id="alTest">${esc(t('al.test'))}</button>` : ''}</div>
-      <p class="note" id="alMsg" role="status">${esc(t(s.usePush ? 'al.pushNote' : 'al.phoneNote'))}</p>`;
+      ${s.usePush ? `<p class="note" id="alMsg" role="status">${esc(t('al.pushNote'))}</p>` : `<p class="err" id="alMsg" role="alert">${esc(t('al.why.' + (s.why || 'unsupported')))}</p><p class="note">${esc(t('al.phoneNote'))}</p>`}`;
   d.innerHTML = `<b>${esc(t('al.title'))}</b>
     <div class="alist">${al.length ? al.map(row).join('') : `<p class="note">${esc(t('al.none'))}</p>`}</div>
     <div class="lbl">${esc(t('al.phone'))}${hasPhone ? ` <span class="pill ${s.on ? 'ok' : 'none'}">${esc(t(s.on ? 'al.on' : 'al.off'))}</span>` : ''}</div>${phone}
