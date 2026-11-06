@@ -251,6 +251,20 @@ def build_alerts(prefs, fees, receipts, links, today):
     return out
 
 
+def vapid_subject():
+    """Who the push service can contact about this server: a mailto: address or an https:// site.
+
+    Taken from VAPID_SUBJECT. An empty or missing setting is not an error: fall back to this project's own Vercel address.
+    """
+    sub = os.environ.get("VAPID_SUBJECT", "").strip().strip('"').strip("'")
+    if sub and not sub.startswith(("mailto:", "http://", "https://")):
+        sub = ("mailto:" + sub) if "@" in sub else ("https://" + sub)
+    if sub:
+        return sub
+    host = os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", "").strip()
+    return f"https://{host}" if host else "mailto:admin@example.com"
+
+
 def send_push(subs, text, key, vapid_key):
     """Push one message to each of a user's phones. Returns (how many were sent, endpoints that no longer exist, error notes)."""
     from pywebpush import WebPushException, webpush  # imported here so the rest of the app never depends on it
@@ -262,7 +276,7 @@ def send_push(subs, text, key, vapid_key):
                 subscription_info={"endpoint": s["endpoint"], "keys": {"p256dh": s["p256dh"], "auth": s["auth"]}},
                 data=json.dumps({"title": "ReceiptSafe", "body": text, "tag": key, "url": "./"}),
                 vapid_private_key=vapid_key,
-                vapid_claims={"sub": os.environ.get("VAPID_SUBJECT", "mailto:admin@example.com").strip()},
+                vapid_claims={"sub": vapid_subject()},
                 content_encoding="aes128gcm",  # the only encoding Apple's push service accepts
                 ttl=86400,
             )
