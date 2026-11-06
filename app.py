@@ -36,36 +36,40 @@ def index():
     return send_from_directory(app.static_folder, "index.html")
 
 
-def vapid_public_key():
-    """The public key the phones must subscribe with.
+def vapid_state():
+    """Returns (public key the phones must subscribe with, status).
 
-    It is worked out from VAPID_PRIVATE_KEY itself, so it can never be a different pair from the one used to send
-    (a mismatched pair is the most common reason phones get no push while the app is closed). If that fails,
-    fall back to VAPID_PUBLIC_KEY. Returns "" when push is not set up.
+    The key is worked out from VAPID_PRIVATE_KEY itself, so it can never be a different pair from the one used to send
+    (a mismatched pair is the most common reason phones get no push while the app is closed).
+    status: ok | no_private_key | lib_missing | bad_private_key. The last two fall back to VAPID_PUBLIC_KEY.
     """
-    priv = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
+    env = os.environ.get("VAPID_PUBLIC_KEY", "").strip()
+    priv = os.environ.get("VAPID_PRIVATE_KEY", "").strip().strip('"').strip("'")
     if not priv:
-        return ""
+        return "", "no_private_key"
     try:
         from cryptography.hazmat.primitives import serialization
         from py_vapid import Vapid
-
+    except ImportError as e:
+        app.logger.warning("pywebpush is not installed (%s): add pywebpush to requirements.txt", e)
+        return env, "lib_missing"
+    try:
         v = Vapid.from_string(private_key=priv)
         raw = v.public_key.public_bytes(serialization.Encoding.X962, serialization.PublicFormat.UncompressedPoint)
         derived = base64.urlsafe_b64encode(raw).decode().rstrip("=")
-        env = os.environ.get("VAPID_PUBLIC_KEY", "").strip()
         if env and env != derived:
             app.logger.warning("VAPID_PUBLIC_KEY does not match VAPID_PRIVATE_KEY; using the key derived from the private key")
-        return derived
+        return derived, "ok"
     except Exception as e:
-        app.logger.warning("could not read VAPID_PRIVATE_KEY (%s); falling back to VAPID_PUBLIC_KEY", e)
-        return os.environ.get("VAPID_PUBLIC_KEY", "").strip()
+        app.logger.warning("could not read VAPID_PRIVATE_KEY: %s", e)
+        return env, "bad_private_key"
 
 
 @app.get("/api/config")
 def config():
     # The anon key is meant to be public. Row Level Security protects the data.
-    resp = jsonify(url=SUPABASE_URL, anonKey=ANON_KEY, vapidPublicKey=vapid_public_key())
+    key, state = vapid_state()
+    resp = jsonify(url=SUPABASE_URL, anonKey=ANON_KEY, vapidPublicKey=key, pushStatus=state)
     resp.headers["Cache-Control"] = "no-store"
     return resp
 
@@ -288,7 +292,7 @@ _last_test = {}  # one test every 10 seconds per user, so the button cannot be s
 def push_test():
     """The signed-in student asks for one test push to their own phones."""
     uid = auth_user()
-    vapid_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
+    vapid_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip().strip('"').strip("'")
     if not vapid_key:
         return jsonify(error="Push is not set up on the server yet."), 500
     now = datetime.now().timestamp()
@@ -317,7 +321,7 @@ def cron_push():
     secret = os.environ.get("CRON_SECRET", "")
     if not secret or not hmac.compare_digest(request.headers.get("Authorization", ""), f"Bearer {secret}"):
         abort(401)
-    vapid_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
+    vapid_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip().strip('"').strip("'")
     if not vapid_key:
         return jsonify(error="VAPID_PRIVATE_KEY is not set"), 500
     today = datetime.now(PH).date()
