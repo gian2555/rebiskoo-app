@@ -41,6 +41,7 @@ const DICT = {
     'auth.exists': 'This email already has an account. Log in instead, or tap "Forgot password?" if you forgot it.',
     'auth.checkTitle': 'Check your email', 'auth.checkBody': 'We sent a confirmation link to {e}. Open it, then come back and log in.',
     'auth.checkSpam': 'Nothing yet? Look in Spam or Promotions. It can take a few minutes.',
+    'auth.linkExpired': 'That email link has expired or was already used. Tap "Forgot password?" to get a new one.', 'auth.continue': 'Continue', 'auth.tokenBody': 'Tap Continue to finish.',
     'auth.resend': 'Resend email', 'auth.resendIn': 'Resend in {s}s', 'auth.resent': 'Confirmation email sent again.', 'auth.back': 'Back to log in',
     'auth.showPw': 'Show password', 'auth.hidePw': 'Hide password', 'auth.newPwTitle': 'Choose a new password',
     'auth.newPw': 'New password', 'auth.savePw': 'Save password', 'auth.pwUpdated': 'Password updated',
@@ -156,6 +157,7 @@ const DICT = {
     'auth.exists': 'May account na ang email na ito. Mag-log in na lang, o pindutin ang "Nakalimutan ang password?" kung nakalimutan mo.',
     'auth.checkTitle': 'Tingnan ang email mo', 'auth.checkBody': 'Nagpadala kami ng confirmation link sa {e}. Buksan ito, tapos bumalik at mag-log in.',
     'auth.checkSpam': 'Wala pa? Tingnan ang Spam o Promotions. Maaaring abutin ng ilang minuto.',
+    'auth.linkExpired': 'Expired na o nagamit na ang link sa email. Pindutin ang "Nakalimutan ang password?" para makakuha ng bago.', 'auth.continue': 'Magpatuloy', 'auth.tokenBody': 'Pindutin ang Magpatuloy para tapusin.',
     'auth.resend': 'Ipadala ulit', 'auth.resendIn': 'Ipadala ulit sa {s}s', 'auth.resent': 'Naipadala ulit ang confirmation email.', 'auth.back': 'Bumalik sa log in',
     'auth.showPw': 'Ipakita ang password', 'auth.hidePw': 'Itago ang password', 'auth.newPwTitle': 'Pumili ng bagong password',
     'auth.newPw': 'Bagong password', 'auth.savePw': 'I-save ang password', 'auth.pwUpdated': 'Na-update ang password',
@@ -807,7 +809,7 @@ function loadTesseract() {
 if (window.__RS_TEST) window.__rs = { parseReceiptText, adjustCanvas, rotateCanvas, DICT };
 
 /* ---------- Supabase ---------- */
-let sb, session = null, offlineUser = null, profile = null, recovery = false;
+let sb, session = null, offlineUser = null, profile = null, recovery = false, authNote = '';
 const curUser = () => (session && session.user) || offlineUser;
 const urlCache = new Map();
 
@@ -825,8 +827,14 @@ async function boot() {
   let cfg;
   try { cfg = await loadConfig(); if (!window.supabase) throw new Error('lib'); }
   catch { view.innerHTML = `<div class="card empty">${esc(t('net.cantReach'))}</div>`; return; }
+  /* Read what the email link brought BEFORE the Supabase client clears it from the address */
+  const hp = new URLSearchParams(location.hash.replace(/^#/, '')), qp = new URLSearchParams(location.search);
+  if (hp.get('type') === 'recovery') recovery = true;
+  if (hp.get('error_code') || hp.get('error')) { authNote = t('auth.linkExpired'); history.replaceState(null, '', location.pathname); }
+  const linkHash = qp.get('token_hash'), linkType = qp.get('type');
   sb = window.supabase.createClient(cfg.url, cfg.anonKey);
   try { const { data } = await sb.auth.getSession(); session = data.session; } catch { session = null; }
+  if (recovery && !session) { recovery = false; authNote = authNote || t('auth.linkExpired'); } /* the link had no usable login in it */
   if (session) lsSet('rs-last-user', JSON.stringify({ id: session.user.id, email: session.user.email }));
   else if (!navigator.onLine) { const u = lsJSON('rs-last-user'); if (u && u.id) offlineUser = u; }
   sb.auth.onAuthStateChange((event, s) => {
@@ -838,7 +846,7 @@ async function boot() {
     const now = curUser() && curUser().id;
     if (was !== now || event === 'PASSWORD_RECOVERY') { profile = null; setTimeout(() => { render(); syncQueue(); }, 0); }
   });
-  render(); syncQueue();
+  if (linkHash && linkType) tokenView(linkHash, linkType); else { render(); syncQueue(); }
 }
 
 async function loadProfile() {
@@ -984,6 +992,7 @@ window.addEventListener('hashchange', render);
 
 /* ---------- auth ---------- */
 function authView(mode = 'login') {
+  const note = authNote; authNote = '';
   view.innerHTML = `
   <div class="auth">
     <div class="seg" role="tablist">
@@ -996,7 +1005,7 @@ function authView(mode = 'login') {
       <label for="em">${esc(t('auth.email'))}</label><input id="em" type="email" autocomplete="email" required>
       <label for="pw">${esc(t('auth.password'))}</label>${pwField('pw', mode === 'login' ? 'current-password' : 'new-password')}
       ${mode === 'register' ? `${pwMeter('pw')}<div class="note">${esc(t('auth.pwHint'))}</div>` : ''}
-      <div id="err" class="err" role="alert">${navigator.onLine ? '' : esc(t('auth.offline'))}</div>
+      <div id="err" class="err" role="alert">${note ? esc(note) : navigator.onLine ? '' : esc(t('auth.offline'))}</div>
       <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${esc(mode === 'login' ? t('auth.login') : t('auth.create'))}</button></div>
       ${mode === 'login' ? `<p style="margin:12px 0 0"><button type="button" class="linkbtn" id="forgot">${esc(t('auth.forgot'))}</button></p>` : ''}
     </form>
@@ -1058,6 +1067,21 @@ function confirmView(email) {
     toast(t('auth.resent')); cool(60);
   };
   $('#bk').onclick = () => { clearInterval(timer); authView('login'); $('#em').value = email; };
+}
+/* For email links like https://app/?token_hash=...&type=recovery. Opening the link does nothing by itself, so mail apps that
+   pre-open links cannot use it up; the token is only spent when the person taps Continue. */
+function tokenView(hash, type) {
+  bareShell();
+  view.innerHTML = `<div class="auth"><div class="card"><p>${esc(t('auth.tokenBody'))}</p><div id="err" class="err" role="alert"></div>
+    <div class="row" style="margin-top:14px"><button class="btn" type="button" id="tk" style="flex:1">${esc(t('auth.continue'))}</button></div></div></div>`;
+  $('#tk').onclick = async () => {
+    setLoading($('#tk'), true, t('auth.continue'));
+    const { error } = await sb.auth.verifyOtp({ token_hash: hash, type });
+    history.replaceState(null, '', location.pathname + '#/');
+    if (error) { authNote = isNetErr(error) ? t('auth.offline') : t('auth.linkExpired'); return authView(); }
+    if (type === 'recovery') recovery = true;
+    render(); syncQueue();
+  };
 }
 function recoveryView() {
   bareShell();
