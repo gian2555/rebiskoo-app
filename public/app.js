@@ -33,6 +33,8 @@ const DICT = {
     'auth.privacy': 'Your receipts are private. Only you can see them.',
     'auth.needEmail': 'Enter your email first, then tap "Forgot password?".',
     'auth.resetSent': 'If that email has an account, a reset link is on its way.',
+    'auth.magic': 'Email me a login link instead', 'auth.magicSent': 'If that email has an account, a login link is on its way. Open it on this phone.',
+    'auth.magicNeedEmail': 'Enter your email first, then tap "Email me a login link instead".',
     'auth.enterBoth': 'Enter your email and password.', 'auth.wrong': 'Wrong email or password.',
     'auth.confirm': 'Confirm your email first. Check your inbox for the link.',
     'auth.needNameId': 'Enter your full name.', 'auth.pwShort': 'Use a password with at least 8 characters.',
@@ -152,6 +154,8 @@ const DICT = {
     'auth.privacy': 'Pribado ang mga resibo mo. Ikaw lang ang makakakita.',
     'auth.needEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Nakalimutan ang password?".',
     'auth.resetSent': 'Kung may account ang email na iyon, may ipapadala kaming link para i-reset ang password.',
+    'auth.magic': 'Padalhan ako ng login link sa email', 'auth.magicSent': 'Kung may account ang email na iyon, may ipapadala kaming login link. Buksan ito sa phone na ito.',
+    'auth.magicNeedEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Padalhan ako ng login link sa email".',
     'auth.enterBoth': 'Ilagay ang email at password mo.', 'auth.wrong': 'Mali ang email o password.',
     'auth.confirm': 'Kumpirmahin muna ang email mo. Tingnan ang inbox para sa link.',
     'auth.needNameId': 'Ilagay ang buong pangalan mo.', 'auth.pwShort': 'Gumamit ng password na may hindi bababa sa 8 character.',
@@ -1013,7 +1017,8 @@ function authView(mode = 'login') {
       ${mode === 'register' ? `${pwMeter('pw')}<div class="note">${esc(t('auth.pwHint'))}</div>` : ''}
       <div id="err" class="err" role="alert">${note ? esc(note) : navigator.onLine ? '' : esc(t('auth.offline'))}</div>
       <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${esc(mode === 'login' ? t('auth.login') : t('auth.create'))}</button></div>
-      ${mode === 'login' ? `<p style="margin:12px 0 0"><button type="button" class="linkbtn" id="forgot">${esc(t('auth.forgot'))}</button></p>` : ''}
+      ${mode === 'login' ? `<p style="margin:12px 0 0"><button type="button" class="linkbtn" id="forgot">${esc(t('auth.forgot'))}</button></p>
+      <p style="margin:8px 0 0"><button type="button" class="linkbtn" id="magic">${esc(t('auth.magic'))}</button></p>` : ''}
     </form>
     <p class="note" style="text-align:center">${esc(t('auth.privacy'))}</p>
   </div>`;
@@ -1021,6 +1026,14 @@ function authView(mode = 'login') {
   bindPw();
   const err = m => { $('#err').textContent = m; };
   const busy = v => setLoading($('#go'), v, t(mode === 'login' ? 'auth.loggingIn' : 'auth.creating'));
+  if (mode === 'login') $('#magic').onclick = async () => {
+    const email = $('#em').value.trim();
+    if (!email) return err(t('auth.magicNeedEmail'));
+    if (!navigator.onLine) return err(t('auth.offline'));
+    /* shouldCreateUser:false so this can only log in people who already registered */
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/' } });
+    err(''); toast(error && !/signups? not allowed|not found/i.test(error.message) ? errText(error) : t('auth.magicSent'));
+  };
   if (mode === 'login') $('#forgot').onclick = async () => {
     const email = $('#em').value.trim();
     if (!email) return err(t('auth.needEmail'));
