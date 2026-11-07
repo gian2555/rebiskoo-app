@@ -329,3 +329,15 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 input.otp{font:600 1.8rem/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.45em;text-align:center;padding:12px 8px 12px calc(8px + .45em)}
 input.otp::placeholder{color:var(--line);opacity:1}
 #cv label{text-align:center}
+
+/* "email confirmed" screen */
+.donecard{text-align:center;padding:26px 18px}
+.doneico{width:72px;height:72px;margin:0 auto 12px;display:grid;place-items:center;border-radius:50%;background:var(--ok-bg);color:var(--ok);animation:pop .35s ease-out both}
+.donecard h2{margin:0 0 6px}
+.donecard p{margin:0;color:var(--muted)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* waiting for the email to be confirmed */
+.waiting{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 12px;border-radius:10px;background:var(--brand-l);color:var(--brand-d);font-size:.9rem}
+.pulse{flex:none;width:10px;height:10px;border-radius:50%;background:var(--brand);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.15);opacity:1}}
