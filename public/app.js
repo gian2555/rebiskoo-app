@@ -42,6 +42,9 @@ const DICT = {
     'auth.checkTitle': 'Check your email', 'auth.checkBody': 'We sent a confirmation link to {e}. Open it, then come back and log in.',
     'auth.checkSpam': 'Nothing yet? Look in Spam or Promotions. It can take a few minutes.',
     'auth.linkExpired': 'That email link has expired or was already used. Tap "Forgot password?" to get a new one.', 'auth.continue': 'Continue', 'auth.tokenBody': 'Tap Continue to finish.',
+    'auth.confirmedBtn': "I've confirmed my email", 'auth.notYet': 'Not confirmed yet. Open the link in the email first.',
+    'auth.doneTitle': 'Email confirmed', 'auth.doneBody': 'Go back to the ReceiptSafe app on your Home Screen. It will log you in on its own, or just log in with your email and password.',
+    'auth.doneBodyPw': 'Password updated. Go back to the ReceiptSafe app on your Home Screen and log in with your new password.', 'auth.stayHere': 'Continue here instead',
     'auth.resend': 'Resend email', 'auth.resendIn': 'Resend in {s}s', 'auth.resent': 'Confirmation email sent again.', 'auth.back': 'Back to log in',
     'auth.showPw': 'Show password', 'auth.hidePw': 'Hide password', 'auth.newPwTitle': 'Choose a new password',
     'auth.newPw': 'New password', 'auth.savePw': 'Save password', 'auth.pwUpdated': 'Password updated',
@@ -158,6 +161,9 @@ const DICT = {
     'auth.checkTitle': 'Tingnan ang email mo', 'auth.checkBody': 'Nagpadala kami ng confirmation link sa {e}. Buksan ito, tapos bumalik at mag-log in.',
     'auth.checkSpam': 'Wala pa? Tingnan ang Spam o Promotions. Maaaring abutin ng ilang minuto.',
     'auth.linkExpired': 'Expired na o nagamit na ang link sa email. Pindutin ang "Nakalimutan ang password?" para makakuha ng bago.', 'auth.continue': 'Magpatuloy', 'auth.tokenBody': 'Pindutin ang Magpatuloy para tapusin.',
+    'auth.confirmedBtn': 'Nakumpirma ko na ang email ko', 'auth.notYet': 'Hindi pa nakukumpirma. Buksan muna ang link sa email.',
+    'auth.doneTitle': 'Nakumpirma na ang email', 'auth.doneBody': 'Bumalik sa ReceiptSafe app sa Home Screen mo. Awtomatiko kang mala-log in, o mag-log in lang gamit ang email at password mo.',
+    'auth.doneBodyPw': 'Na-update na ang password. Bumalik sa ReceiptSafe app sa Home Screen mo at mag-log in gamit ang bagong password.', 'auth.stayHere': 'Dito na lang magpatuloy',
     'auth.resend': 'Ipadala ulit', 'auth.resendIn': 'Ipadala ulit sa {s}s', 'auth.resent': 'Naipadala ulit ang confirmation email.', 'auth.back': 'Bumalik sa log in',
     'auth.showPw': 'Ipakita ang password', 'auth.hidePw': 'Itago ang password', 'auth.newPwTitle': 'Pumili ng bagong password',
     'auth.newPw': 'Bagong password', 'auth.savePw': 'I-save ang password', 'auth.pwUpdated': 'Na-update ang password',
@@ -1029,7 +1035,7 @@ function authView(mode = 'login') {
     try {
       if (mode === 'login') {
         const { data: sd, error } = await sb.auth.signInWithPassword({ email, password });
-        if (error && !isNetErr(error) && /confirm/i.test(error.message)) { confirmView(email); toast(t('auth.confirm')); return; }
+        if (error && !isNetErr(error) && /confirm/i.test(error.message)) { confirmView(email, password); toast(t('auth.confirm')); return; }
         if (error) throw new Error(isNetErr(error) ? t('auth.offline') : t('auth.wrong'));
         logLogin(sd.user);
       } else {
@@ -1042,20 +1048,36 @@ function authView(mode = 'login') {
           (!error && data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0);
         if (taken) { authView('login'); $('#em').value = email; $('#err').textContent = t('auth.exists'); return; }
         if (error) throw new Error(isNetErr(error) ? t('auth.offline') : error.message);
-        if (!data.session) { confirmView(email); return; }
+        if (!data.session) { confirmView(email, password); return; }
         logLogin(data.user);
       }
     } catch (x) { err(errText(x)); busy(false); }
   });
 }
-function confirmView(email) {
+function confirmView(email, password) {
   view.innerHTML = `<div class="auth"><div class="card">
     <h2 style="margin-top:0">${esc(t('auth.checkTitle'))}</h2>
     <p>${esc(t('auth.checkBody', { e: email }))}</p>
     <p class="note">${esc(t('auth.checkSpam'))}</p>
     <div id="err" class="err" role="alert"></div>
-    <div class="row" style="margin-top:14px"><button class="btn sec" type="button" id="rsd">${esc(t('auth.resend'))}</button><button class="btn ghost" type="button" id="bk">${esc(t('auth.back'))}</button></div>
+    ${password ? `<div class="row" style="margin-top:14px"><button class="btn" type="button" id="cf" style="flex:1">${esc(t('auth.confirmedBtn'))}</button></div>` : ''}
+    <div class="row" style="margin-top:10px"><button class="btn sec" type="button" id="rsd">${esc(t('auth.resend'))}</button><button class="btn ghost" type="button" id="bk">${esc(t('auth.back'))}</button></div>
   </div></div>`;
+  /* The link in the email opens in the phone's browser, which cannot hand over to the Home Screen app. So when the person comes
+     back to this screen, try to log in with what they typed (kept only in memory, only while this screen is open). */
+  let trying = false;
+  const tryLogin = async manual => {
+    if (!$('#rsd')) { document.removeEventListener('visibilitychange', onVis); return; } /* this screen is gone */
+    if (!password || trying) return;
+    trying = true;
+    const { data: sd, error } = await sb.auth.signInWithPassword({ email, password });
+    trying = false;
+    if (!error) { document.removeEventListener('visibilitychange', onVis); logLogin(sd.user); return; }
+    if (manual && $('#err')) $('#err').textContent = isNetErr(error) ? t('auth.offline') : /confirm/i.test(error.message) ? t('auth.notYet') : t('auth.wrong');
+  };
+  const onVis = () => { if (document.visibilityState === 'visible') tryLogin(false); };
+  document.addEventListener('visibilitychange', onVis);
+  if ($('#cf')) $('#cf').onclick = () => tryLogin(true);
   const b = $('#rsd'); let left = 0, timer = 0;
   const tick = () => { b.disabled = left > 0; b.textContent = left > 0 ? t('auth.resendIn', { s: left }) : t('auth.resend'); };
   const cool = n => { left = n; tick(); clearInterval(timer); timer = setInterval(() => { left--; tick(); if (left <= 0) clearInterval(timer); }, 1000); };
@@ -1066,10 +1088,16 @@ function confirmView(email) {
     if (error) { $('#err').textContent = isNetErr(error) ? t('auth.offline') : errText(error); return cool(60); }
     toast(t('auth.resent')); cool(60);
   };
-  $('#bk').onclick = () => { clearInterval(timer); authView('login'); $('#em').value = email; };
+  $('#bk').onclick = () => { clearInterval(timer); document.removeEventListener('visibilitychange', onVis); authView('login'); $('#em').value = email; };
 }
 /* For email links like https://app/?token_hash=...&type=recovery. Opening the link does nothing by itself, so mail apps that
    pre-open links cannot use it up; the token is only spent when the person taps Continue. */
+function doneView(title, body) {
+  bareShell();
+  view.innerHTML = `<div class="auth"><div class="card"><h2 style="margin-top:0">${esc(title)}</h2><p>${esc(body)}</p>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" type="button" id="stay">${esc(t('auth.stayHere'))}</button></div></div></div>`;
+  $('#stay').onclick = () => { render(); syncQueue(); };
+}
 function tokenView(hash, type) {
   bareShell();
   view.innerHTML = `<div class="auth"><div class="card"><p>${esc(t('auth.tokenBody'))}</p><div id="err" class="err" role="alert"></div>
@@ -1079,7 +1107,8 @@ function tokenView(hash, type) {
     const { error } = await sb.auth.verifyOtp({ token_hash: hash, type });
     history.replaceState(null, '', location.pathname + '#/');
     if (error) { authNote = isNetErr(error) ? t('auth.offline') : t('auth.linkExpired'); return authView(); }
-    if (type === 'recovery') recovery = true;
+    if (type === 'recovery') { recovery = true; render(); syncQueue(); return; }
+    if (isIOS && !isStandalone()) return doneView(t('auth.doneTitle'), t('auth.doneBody')); /* a browser tab on iPhone: point back to the Home Screen app */
     render(); syncQueue();
   };
 }
@@ -1097,7 +1126,9 @@ function recoveryView() {
     if (pw.length < 8) return ($('#err').textContent = t('auth.pwShort'));
     const { error } = await sb.auth.updateUser({ password: pw });
     if (error) return ($('#err').textContent = errText(error));
-    recovery = false; toast(t('auth.pwUpdated')); render();
+    recovery = false; toast(t('auth.pwUpdated'));
+    if (isIOS && !isStandalone()) return doneView(t('auth.pwUpdated'), t('auth.doneBodyPw'));
+    render();
   });
 }
 
