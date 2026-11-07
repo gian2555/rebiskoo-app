@@ -43,7 +43,7 @@ const DICT = {
    
     'auth.created': 'Account created. Check your email to confirm it, then log in.',
     'auth.exists': 'This email already has an account. Log in instead, or tap "Forgot password?" if you forgot it.',
-    'auth.checkTitle': 'Check your email', 'auth.checkBody': 'We sent a confirmation link to {e}. Open it, then come back and log in.',
+    'auth.checkTitle': 'Check your email', 'auth.checkBody': 'We sent a confirmation link to {e}. Open it, then come back to this page.',
     'auth.checkSpam': 'Nothing yet? Look in Spam or Promotions. It can take a few minutes.',
     'auth.linkExpired': 'That email link has expired or was already used. Tap "Forgot password?" to get a new one.', 'auth.continue': 'Continue', 'auth.tokenBody': 'Tap Continue to finish.',
     'auth.confirmedBtn': "I've confirmed my email", 'auth.notYet': 'Not confirmed yet. Open the link in the email first.',
@@ -166,7 +166,7 @@ const DICT = {
    
     'auth.created': 'Nagawa na ang account. Kumpirmahin ang email mo, tapos mag-log in.',
     'auth.exists': 'May account na ang email na ito. Mag-log in na lang, o pindutin ang "Nakalimutan ang password?" kung nakalimutan mo.',
-    'auth.checkTitle': 'Tingnan ang email mo', 'auth.checkBody': 'Nagpadala kami ng confirmation link sa {e}. Buksan ito, tapos bumalik at mag-log in.',
+    'auth.checkTitle': 'Tingnan ang email mo', 'auth.checkBody': 'Nagpadala kami ng confirmation link sa {e}. Buksan ito, tapos bumalik sa page na ito.',
     'auth.checkSpam': 'Wala pa? Tingnan ang Spam o Promotions. Maaaring abutin ng ilang minuto.',
     'auth.linkExpired': 'Expired na o nagamit na ang link sa email. Pindutin ang "Nakalimutan ang password?" para makakuha ng bago.', 'auth.continue': 'Magpatuloy', 'auth.tokenBody': 'Pindutin ang Magpatuloy para tapusin.',
     'auth.confirmedBtn': 'Nakumpirma ko na ang email ko', 'auth.notYet': 'Hindi pa nakukumpirma. Buksan muna ang link sa email.',
