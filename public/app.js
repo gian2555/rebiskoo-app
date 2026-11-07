@@ -33,8 +33,10 @@ const DICT = {
     'auth.privacy': 'Your receipts are private. Only you can see them.',
     'auth.needEmail': 'Enter your email first, then tap "Forgot password?".',
     'auth.resetSent': 'If that email has an account, a reset link is on its way.',
-    'auth.magic': 'Email me a login link instead', 'auth.magicSent': 'If that email has an account, a login link is on its way. Open it on this phone.',
-    'auth.magicNeedEmail': 'Enter your email first, then tap "Email me a login link instead".',
+    'auth.codeTitle': 'Enter your code', 'auth.codeBody': 'We sent a code to {e}. Type it here to log in. You stay in this app.', 'auth.codeLabel': 'Code from your email',
+    'auth.codeBtn': 'Log in', 'auth.codeBad': 'That code is wrong or has expired. Check it or ask for a new one.', 'auth.codeResent': 'If that email has an account, a new code is on its way.',
+    'auth.magic': 'Email me a login code instead', 'auth.magicSent': 'If that email has an account, a login link is on its way. Open it on this phone.',
+    'auth.magicNeedEmail': 'Enter your email first, then tap "Email me a login code instead".',
     'auth.enterBoth': 'Enter your email and password.', 'auth.wrong': 'Wrong email or password.',
     'auth.confirm': 'Confirm your email first. Check your inbox for the link.',
     'auth.needNameId': 'Enter your full name.', 'auth.pwShort': 'Use a password with at least 8 characters.',
@@ -154,8 +156,10 @@ const DICT = {
     'auth.privacy': 'Pribado ang mga resibo mo. Ikaw lang ang makakakita.',
     'auth.needEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Nakalimutan ang password?".',
     'auth.resetSent': 'Kung may account ang email na iyon, may ipapadala kaming link para i-reset ang password.',
-    'auth.magic': 'Padalhan ako ng login link sa email', 'auth.magicSent': 'Kung may account ang email na iyon, may ipapadala kaming login link. Buksan ito sa phone na ito.',
-    'auth.magicNeedEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Padalhan ako ng login link sa email".',
+    'auth.codeTitle': 'Ilagay ang code', 'auth.codeBody': 'Nagpadala kami ng code sa {e}. I-type ito dito para mag-log in. Mananatili ka sa app na ito.', 'auth.codeLabel': 'Code mula sa email mo',
+    'auth.codeBtn': 'Mag-log in', 'auth.codeBad': 'Mali o expired na ang code. Suriin ito o humingi ng bago.', 'auth.codeResent': 'Kung may account ang email na iyon, may ipapadala kaming bagong code.',
+    'auth.magic': 'Padalhan ako ng login code sa email', 'auth.magicSent': 'Kung may account ang email na iyon, may ipapadala kaming login link. Buksan ito sa phone na ito.',
+    'auth.magicNeedEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Padalhan ako ng login code sa email".',
     'auth.enterBoth': 'Ilagay ang email at password mo.', 'auth.wrong': 'Mali ang email o password.',
     'auth.confirm': 'Kumpirmahin muna ang email mo. Tingnan ang inbox para sa link.',
     'auth.needNameId': 'Ilagay ang buong pangalan mo.', 'auth.pwShort': 'Gumamit ng password na may hindi bababa sa 8 character.',
@@ -1032,7 +1036,9 @@ function authView(mode = 'login') {
     if (!navigator.onLine) return err(t('auth.offline'));
     /* shouldCreateUser:false so this can only log in people who already registered */
     const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/' } });
-    err(''); toast(error && !/signups? not allowed|not found/i.test(error.message) ? errText(error) : t('auth.magicSent'));
+    if (error && isNetErr(error)) return err(t('auth.offline'));
+    if (error && /rate|too many|seconds/i.test(error.message)) return err(errText(error));
+    codeView(email); /* same screen whether or not the email has an account */
   };
   if (mode === 'login') $('#forgot').onclick = async () => {
     const email = $('#em').value.trim();
@@ -1065,6 +1071,32 @@ function authView(mode = 'login') {
         logLogin(data.user);
       }
     } catch (x) { err(errText(x)); busy(false); }
+  });
+}
+function codeView(email) {
+  view.innerHTML = `<div class="auth"><form id="cv" class="card" novalidate>
+    <h2 style="margin-top:0">${esc(t('auth.codeTitle'))}</h2>
+    <p>${esc(t('auth.codeBody', { e: email }))}</p>
+    <label for="otp">${esc(t('auth.codeLabel'))}</label>
+    <input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*" required style="font-size:1.4rem;letter-spacing:.2em;text-align:center">
+    <div id="err" class="err" role="alert"></div>
+    <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${esc(t('auth.codeBtn'))}</button></div>
+    <div class="row" style="margin-top:10px"><button class="btn sec" type="button" id="rsd">${esc(t('auth.resend'))}</button><button class="btn ghost" type="button" id="bk">${esc(t('auth.back'))}</button></div>
+  </form></div>`;
+  $('#otp').focus();
+  $('#bk').onclick = () => authView('login');
+  $('#rsd').onclick = async () => {
+    await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/' } }).catch(() => {});
+    toast(t('auth.codeResent'));
+  };
+  $('#cv').addEventListener('submit', async e => {
+    e.preventDefault();
+    const token = $('#otp').value.replace(/\D/g, '');
+    if (token.length < 6) return ($('#err').textContent = t('auth.codeBad'));
+    $('#go').disabled = true;
+    const { data, error } = await sb.auth.verifyOtp({ email, token, type: 'email' });
+    if (error) { $('#err').textContent = isNetErr(error) ? t('auth.offline') : t('auth.codeBad'); $('#go').disabled = false; return; }
+    if (data && data.user) logLogin(data.user);
   });
 }
 function confirmView(email, password) {
