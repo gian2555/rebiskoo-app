@@ -38,10 +38,6 @@ const DICT = {
     'auth.needNameId': 'Enter your full name.', 'auth.pwShort': 'Use a password with at least 8 characters.',
    
     'auth.created': 'Account created. Check your email to confirm it, then log in.',
-    'auth.exists': 'This email already has an account. Log in instead, or tap "Forgot password?" if you forgot it.',
-    'auth.checkTitle': 'Check your email', 'auth.checkBody': 'We sent a confirmation link to {e}. Open it, then come back and log in.',
-    'auth.checkSpam': 'Nothing yet? Look in Spam or Promotions. It can take a few minutes.',
-    'auth.resend': 'Resend email', 'auth.resendIn': 'Resend in {s}s', 'auth.resent': 'Confirmation email sent again.', 'auth.back': 'Back to log in',
     'auth.showPw': 'Show password', 'auth.hidePw': 'Hide password', 'auth.newPwTitle': 'Choose a new password',
     'auth.newPw': 'New password', 'auth.savePw': 'Save password', 'auth.pwUpdated': 'Password updated',
     'auth.offline': "You're offline. Connect to the internet to log in.",
@@ -153,10 +149,6 @@ const DICT = {
     'auth.needNameId': 'Ilagay ang buong pangalan mo.', 'auth.pwShort': 'Gumamit ng password na may hindi bababa sa 8 character.',
    
     'auth.created': 'Nagawa na ang account. Kumpirmahin ang email mo, tapos mag-log in.',
-    'auth.exists': 'May account na ang email na ito. Mag-log in na lang, o pindutin ang "Nakalimutan ang password?" kung nakalimutan mo.',
-    'auth.checkTitle': 'Tingnan ang email mo', 'auth.checkBody': 'Nagpadala kami ng confirmation link sa {e}. Buksan ito, tapos bumalik at mag-log in.',
-    'auth.checkSpam': 'Wala pa? Tingnan ang Spam o Promotions. Maaaring abutin ng ilang minuto.',
-    'auth.resend': 'Ipadala ulit', 'auth.resendIn': 'Ipadala ulit sa {s}s', 'auth.resent': 'Naipadala ulit ang confirmation email.', 'auth.back': 'Bumalik sa log in',
     'auth.showPw': 'Ipakita ang password', 'auth.hidePw': 'Itago ang password', 'auth.newPwTitle': 'Pumili ng bagong password',
     'auth.newPw': 'Bagong password', 'auth.savePw': 'I-save ang password', 'auth.pwUpdated': 'Na-update ang password',
     'auth.offline': 'Offline ka. Kailangan ng internet para mag-log in.',
@@ -1020,44 +1012,19 @@ function authView(mode = 'login') {
     try {
       if (mode === 'login') {
         const { data: sd, error } = await sb.auth.signInWithPassword({ email, password });
-        if (error && !isNetErr(error) && /confirm/i.test(error.message)) { confirmView(email); toast(t('auth.confirm')); return; }
-        if (error) throw new Error(isNetErr(error) ? t('auth.offline') : t('auth.wrong'));
+        if (error) throw new Error(isNetErr(error) ? t('auth.offline') : /confirm/i.test(error.message) ? t('auth.confirm') : t('auth.wrong'));
         logLogin(sd.user);
       } else {
         const full_name = $('#fn').value.trim();
         if (!full_name) throw new Error(t('auth.needNameId'));
         if (password.length < 8) throw new Error(t('auth.pwShort'));
         const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name }, emailRedirectTo: location.origin + '/' } });
-        /* Supabase hides whether an email is taken: for an existing account it answers "success" with no identities (and sends nothing) */
-        const taken = (error && (error.code === 'user_already_exists' || /already (been )?registered/i.test(error.message))) ||
-          (!error && data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0);
-        if (taken) { authView('login'); $('#em').value = email; $('#err').textContent = t('auth.exists'); return; }
-        if (error) throw new Error(isNetErr(error) ? t('auth.offline') : error.message);
-        if (!data.session) { confirmView(email); return; }
+        if (error) throw new Error(error.message);
+        if (!data.session) { authView('login'); toast(t('auth.created')); return; }
         logLogin(data.user);
       }
     } catch (x) { err(errText(x)); busy(false); }
   });
-}
-function confirmView(email) {
-  view.innerHTML = `<div class="auth"><div class="card">
-    <h2 style="margin-top:0">${esc(t('auth.checkTitle'))}</h2>
-    <p>${esc(t('auth.checkBody', { e: email }))}</p>
-    <p class="note">${esc(t('auth.checkSpam'))}</p>
-    <div id="err" class="err" role="alert"></div>
-    <div class="row" style="margin-top:14px"><button class="btn sec" type="button" id="rsd">${esc(t('auth.resend'))}</button><button class="btn ghost" type="button" id="bk">${esc(t('auth.back'))}</button></div>
-  </div></div>`;
-  const b = $('#rsd'); let left = 0, timer = 0;
-  const tick = () => { b.disabled = left > 0; b.textContent = left > 0 ? t('auth.resendIn', { s: left }) : t('auth.resend'); };
-  const cool = n => { left = n; tick(); clearInterval(timer); timer = setInterval(() => { left--; tick(); if (left <= 0) clearInterval(timer); }, 1000); };
-  cool(30);
-  b.onclick = async () => {
-    $('#err').textContent = '';
-    const { error } = await sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: location.origin + '/' } });
-    if (error) { $('#err').textContent = isNetErr(error) ? t('auth.offline') : errText(error); return cool(60); }
-    toast(t('auth.resent')); cool(60);
-  };
-  $('#bk').onclick = () => { clearInterval(timer); authView('login'); $('#em').value = email; };
 }
 function recoveryView() {
   bareShell();
