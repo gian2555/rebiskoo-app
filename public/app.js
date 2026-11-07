@@ -35,8 +35,8 @@ const DICT = {
     'auth.resetSent': 'If that email has an account, a reset link is on its way.',
     'auth.codeTitle': 'Enter your code', 'auth.codeBody': 'We sent a code to {e}. Type it here to log in. You stay in this app.', 'auth.codeLabel': 'Code from your email',
     'auth.codeBtn': 'Log in', 'auth.codeBad': 'That code is wrong or has expired. Check it or ask for a new one.', 'auth.codeResent': 'If that email has an account, a new code is on its way.',
-    'auth.magic': 'Email me a login code instead', 'auth.magicSent': 'If that email has an account, a login link is on its way. Open it on this phone.',
-    'auth.magicNeedEmail': 'Enter your email first, then tap "Email me a login code instead".',
+    'auth.magic': 'Email me a login code', 'auth.magicSub': 'No password needed', 'auth.forgotSub': 'Get a reset link by email', 'auth.or': 'or', 'auth.magicSent': 'If that email has an account, a login link is on its way. Open it on this phone.',
+    'auth.magicNeedEmail': 'Enter your email first, then tap "Email me a login code".',
     'auth.enterBoth': 'Enter your email and password.', 'auth.wrong': 'Wrong email or password.',
     'auth.confirm': 'Confirm your email first. Check your inbox for the link.',
     'auth.needNameId': 'Enter your full name.', 'auth.pwShort': 'Use a password with at least 8 characters.',
@@ -158,8 +158,8 @@ const DICT = {
     'auth.resetSent': 'Kung may account ang email na iyon, may ipapadala kaming link para i-reset ang password.',
     'auth.codeTitle': 'Ilagay ang code', 'auth.codeBody': 'Nagpadala kami ng code sa {e}. I-type ito dito para mag-log in. Mananatili ka sa app na ito.', 'auth.codeLabel': 'Code mula sa email mo',
     'auth.codeBtn': 'Mag-log in', 'auth.codeBad': 'Mali o expired na ang code. Suriin ito o humingi ng bago.', 'auth.codeResent': 'Kung may account ang email na iyon, may ipapadala kaming bagong code.',
-    'auth.magic': 'Padalhan ako ng login code sa email', 'auth.magicSent': 'Kung may account ang email na iyon, may ipapadala kaming login link. Buksan ito sa phone na ito.',
-    'auth.magicNeedEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Padalhan ako ng login code sa email".',
+    'auth.magic': 'Padalhan ako ng login code', 'auth.magicSub': 'Hindi kailangan ng password', 'auth.forgotSub': 'Magpadala ng reset link sa email', 'auth.or': 'o', 'auth.magicSent': 'Kung may account ang email na iyon, may ipapadala kaming login link. Buksan ito sa phone na ito.',
+    'auth.magicNeedEmail': 'Ilagay muna ang email mo, tapos pindutin ang "Padalhan ako ng login code".',
     'auth.enterBoth': 'Ilagay ang email at password mo.', 'auth.wrong': 'Mali ang email o password.',
     'auth.confirm': 'Kumpirmahin muna ang email mo. Tingnan ang inbox para sa link.',
     'auth.needNameId': 'Ilagay ang buong pangalan mo.', 'auth.pwShort': 'Gumamit ng password na may hindi bababa sa 8 character.',
@@ -1021,8 +1021,9 @@ function authView(mode = 'login') {
       ${mode === 'register' ? `${pwMeter('pw')}<div class="note">${esc(t('auth.pwHint'))}</div>` : ''}
       <div id="err" class="err" role="alert">${note ? esc(note) : navigator.onLine ? '' : esc(t('auth.offline'))}</div>
       <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${esc(mode === 'login' ? t('auth.login') : t('auth.create'))}</button></div>
-      ${mode === 'login' ? `<p style="margin:12px 0 0"><button type="button" class="linkbtn" id="forgot">${esc(t('auth.forgot'))}</button></p>
-      <p style="margin:8px 0 0"><button type="button" class="linkbtn" id="magic">${esc(t('auth.magic'))}</button></p>` : ''}
+      ${mode === 'login' ? `<div class="altauth"><div class="or"><span>${esc(t('auth.or'))}</span></div>
+        <button type="button" class="altbtn" id="magic"><i aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 6.2L5.6 7H5v.9l7 4.6 7-4.6V7h-.6L12 11.2Z"/></svg></i><span><b>${esc(t('auth.magic'))}</b><small>${esc(t('auth.magicSub'))}</small></span></button>
+        <button type="button" class="altbtn" id="forgot"><i aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M7.5 14a3.5 3.5 0 1 1 3.4-4.3H21v3h-2v2h-3v-2h-5.1A3.5 3.5 0 0 1 7.5 14Zm0-5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></svg></i><span><b>${esc(t('auth.forgot'))}</b><small>${esc(t('auth.forgotSub'))}</small></span></button></div>` : ''}
     </form>
     <p class="note" style="text-align:center">${esc(t('auth.privacy'))}</p>
   </div>`;
@@ -1075,10 +1076,11 @@ function authView(mode = 'login') {
 }
 function codeView(email) {
   view.innerHTML = `<div class="auth"><form id="cv" class="card" novalidate>
-    <h2 style="margin-top:0">${esc(t('auth.codeTitle'))}</h2>
-    <p>${esc(t('auth.codeBody', { e: email }))}</p>
+    <div class="codeico" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30"><path fill="currentColor" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 6.2L5.6 7H5v.9l7 4.6 7-4.6V7h-.6L12 11.2Z"/></svg></div>
+    <h2 style="margin:12px 0 4px;text-align:center">${esc(t('auth.codeTitle'))}</h2>
+    <p class="codebody">${esc(t('auth.codeBody', { e: email }))}</p>
     <label for="otp">${esc(t('auth.codeLabel'))}</label>
-    <input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*" required style="font-size:1.4rem;letter-spacing:.2em;text-align:center">
+    <input id="otp" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*" placeholder="······" required>
     <div id="err" class="err" role="alert"></div>
     <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="go" style="flex:1">${esc(t('auth.codeBtn'))}</button></div>
     <div class="row" style="margin-top:10px"><button class="btn sec" type="button" id="rsd">${esc(t('auth.resend'))}</button><button class="btn ghost" type="button" id="bk">${esc(t('auth.back'))}</button></div>

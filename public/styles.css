@@ -312,3 +312,20 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .pp .row{margin-top:10px}
 .pill.none{background:var(--line);color:var(--muted)}
 .lbl .pill{margin-left:6px;vertical-align:middle}
+/* sign-in alternatives: code and password reset */
+.altauth{margin-top:18px}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.8rem;margin-bottom:12px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.altbtn{display:flex;align-items:center;gap:12px;width:100%;margin-top:8px;padding:10px 12px;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:border-color .15s,background .15s}
+.altbtn:hover{border-color:var(--brand);background:var(--brand-l)}
+.altbtn:active{transform:scale(.99)}
+.altbtn i{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:var(--brand-l);color:var(--brand-d)}
+.altbtn:hover i{background:var(--card)}
+.altbtn span{display:flex;flex-direction:column;min-width:0}
+.altbtn b{font-weight:600;font-size:.95rem}
+.altbtn small{color:var(--muted);font-size:.78rem}
+.codeico{width:56px;height:56px;margin:4px auto 0;display:grid;place-items:center;border-radius:50%;background:var(--brand-l);color:var(--brand-d)}
+.codebody{text-align:center;color:var(--muted);font-size:.9rem;margin:0 0 6px;overflow-wrap:anywhere}
+input.otp{font:600 1.8rem/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.45em;text-align:center;padding:12px 8px 12px calc(8px + .45em)}
+input.otp::placeholder{color:var(--line);opacity:1}
+#cv label{text-align:center}
